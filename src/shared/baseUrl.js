@@ -1,0 +1,1 @@
+export const baseUrl = "https://uditsolutions.in/lead/leadsmanagement/public/api/";
