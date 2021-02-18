@@ -69,6 +69,7 @@ function Home(props) {
 
   console.log("question", question);
   console.log("cetorgy", Category);
+  console.log("options", option);
   // console.log("usertoken", props.login?.login?.data?.token);
 
   async function handleLogout() {
@@ -78,24 +79,14 @@ function Home(props) {
     setRedirect(true);
   }
 
+  const [viewCount, setViewCount] = useState(1);
+
+  const handleViewMore = () => {
+    setViewCount(viewCount + 1);
+  };
+
   return (
     <Fragment>
-      {Category?.data?.map((Category) => (
-        <div className="main-field">
-          <Card className="question-card">
-            <CardHeader>
-              <strong>{Category.name}</strong>
-            </CardHeader>
-            <CardBody>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
-              sit amet suscipit erat, id auctor ipsum. Maecenas hendrerit sed
-              odio a cursus. Aliquam elementum tempus sapien ut molestie. Nam
-              non venenatis sapien. Sed vitae mattis ex, et pulvinar felis.
-              Quisque vitae diam non felis facilisis iaculis aliquet quis nibh.
-            </CardBody>
-          </Card>
-        </div>
-      ))}
       <div className="main-field">
         <Card className="question-card">
           <CardHeader>
@@ -110,8 +101,55 @@ function Home(props) {
           </CardBody>
         </Card>
       </div>
+      {Category?.data?.slice(0, viewCount).map((Category, ind) => (
+        <div key={ind} className="main-field">
+          <Card className="question-card">
+            <CardHeader>
+              <strong>{Category.name}</strong>
+            </CardHeader>
+            <CardBody key={ind}>
+              {question?.data?.slice(0, viewCount).map((question, ind) => {
+                // console.log("category id", question.category_id);
+                if (Category.id == question.category_id)
+                  return (
+                    <div className="mb-2">
+                      {" "}
+                      {question.question_text} ?
+                      {option?.data?.map((opt, ind) => {
+                        if (question.id == opt.question_id)
+                          return (
+                            <div>
+                              <input
+                                type="radio"
+                                className="mr-2"
+                                key={opt.question_id}
+                                name="option_text"
+                                value={opt.id}
+                              />
+                              {opt.option_text}
+                            </div>
+                          );
+                      })}
+                    </div>
+                  );
+              })}
+            </CardBody>
+          </Card>
+        </div>
+      ))}
 
-      <div className="main-field">
+      {viewCount < Category?.data?.length && (
+        <button
+          className="projects-view-button"
+          variant="contained"
+          color="primary"
+          onClick={handleViewMore}
+        >
+          VIEW MORE
+        </button>
+      )}
+
+      {/* <div className="main-field">
         <Card className="question-card">
           <CardHeader>
             <span> Category | Sub Category</span>
@@ -125,7 +163,7 @@ function Home(props) {
             vitae diam non felis facilisis iaculis aliquet quis nibh.
           </CardBody>
         </Card>
-      </div>
+      </div> */}
       {/* <button onClick={() => handleLogout()}> logout</button> */}
     </Fragment>
   );
