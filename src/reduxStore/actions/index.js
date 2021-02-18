@@ -1,3 +1,1 @@
-export {
-    postLogin
-}  from "./LoginCreators"
+export { postLogin, removeLogin } from "./LoginCreators";

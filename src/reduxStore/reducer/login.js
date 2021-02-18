@@ -1,41 +1,44 @@
 import * as ActionTypes from "../actions/ActionTypes";
 
-const Login = (state={isLoading: false, errMess: null, login: []}, action) => {
-    switch (action.type){
-        case ActionTypes.ADD_LOGIN:
-            return{
-                ...state,
-                isLoading: false,
-                errMess: null,
-                login: action.payload
-            }
+const Login = (
+  state = { isLoading: false, errMess: null, login: [] },
+  action
+) => {
+  switch (action.type) {
+    case ActionTypes.ADD_LOGIN:
+      return {
+        ...state,
+        isLoading: false,
+        errMess: null,
+        login: action.payload,
+      };
 
-        case ActionTypes.LOGIN_LOADING:
-            return{
-                ...state,
-                isLoading: true,
-                errMess: null
-            }
+    case ActionTypes.LOGIN_LOADING:
+      return {
+        ...state,
+        isLoading: true,
+        errMess: null,
+      };
 
-        case ActionTypes.LOGIN_FAILED:
-            return{
-                ...state,
-                isLoading: false,
-                errMess: action.payload,
-                login: []
-            }
+    case ActionTypes.LOGIN_FAILED:
+      return {
+        ...state,
+        isLoading: false,
+        errMess: action.payload,
+        login: [],
+      };
 
-        case ActionTypes.REMOVE_LOGIN:
-            return{
-                ...state,
-                isLoading: false,
-                errMess: null,
-                login: action.payload
-            }
+    case ActionTypes.REMOVE_LOGIN:
+      return {
+        ...state,
+        isLoading: false,
+        errMess: null,
+        login: action.payload,
+      };
 
-        default:
-            return state;
-    }
-}
+    default:
+      return state;
+  }
+};
 
 export default Login;
