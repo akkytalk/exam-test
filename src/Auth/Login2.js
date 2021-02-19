@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import {
   Card,
   Button,
@@ -8,13 +8,13 @@ import {
   InputGroupText,
   CardBody,
 } from "reactstrap";
-import * as actions from "../reduxStore/actions/index";
+import { postLogin } from "../reduxStore/actions/LoginCreators"
 
 import { Formik, Form, Field } from "formik";
 
 import CustomInput from "../views/Custom/CustomInput";
 import FA from "react-fontawesome";
-import { Redirect, useHistory } from "react-router";
+import { Redirect } from "react-router";
 import { connect } from "react-redux";
 const mapStateToProps = (state) => {
   return {
@@ -24,18 +24,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   postLogin: (data) => {
-    dispatch(actions.postLogin(data));
+    dispatch(postLogin(data));
   },
 });
 
 function Login2(props) {
-  const history = useHistory();
-  const [redirect, setRedirect] = useState(false);
-
-  console.log("login data", props.login.login);
-
-  const handleSubmit = (values, { setSubmitting }) => {
-    setRedirect(true);
+ const handleSubmit = (values,  setSubmitting ) => {
     let data = {
       email: values.email,
       password: values.password,
@@ -43,45 +37,31 @@ function Login2(props) {
     console.log(data);
     props.postLogin(data);
     setSubmitting(false);
-    localStorage.setItem("usertoken", props.login.login.data.token);
-
     return;
   };
 
-  // if (props.login?.login?.data?.token == null) {
-  //   return <Redirect from="/home" to="/" />;
-  // } else if (props.login?.login?.data?.token !== null) {
-  //   return <Redirect to="/home" />;
-  // }
-  // if (usertoken !== "") {
-  //   return <Redirect to="/home" />;
-  // }
-  // if (usertoken == "") {
-  //   return <Redirect from="/home" to="/" />;
-  // }
-  if (props.login?.isLoading) {
+console.log("login data", props.login?.login)
+
+  if (props.login?.login.length !== 0) {
+    return <Redirect to={'/home'} />;
+  } else if (props.login?.isLoading) {
     //Spinner when service data sending under processing
     return (
       <div
         className="col-xs-12 col-sm-12 col-md-5 col-lg-4"
-        style={{
-          position: "absolute",
-          left: "50%",
-          top: "50%",
-          transform: "translate(-50%, -50%)",
-        }}
+        style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }}
       >
         <Card className="p-5">
           <CardBody>
             <div
               className="spinner-grow text-success col-xs-12 col-sm-12 col-md-5 col-lg-4"
               style={{
-                width: "3rem",
-                height: "3rem",
-                position: "absolute",
-                left: "50%",
-                top: "50%",
-                transform: "translate(-50%, -50%)",
+                width: '3rem',
+                height: '3rem',
+                position: 'absolute',
+                left: '50%',
+                top: '50%',
+                transform: 'translate(-50%, -50%)',
               }}
               role="status"
             >
@@ -93,9 +73,10 @@ function Login2(props) {
     );
   }
 
+
   return (
     <Fragment>
-      {redirect && <Redirect to="/home" />}
+      
       <div
         className="col-xs-12 col-sm-12 col-md-5 col-lg-4"
         style={{

@@ -10,7 +10,7 @@ const Login = (
         ...state,
         isLoading: false,
         errMess: null,
-        login: action.payload,
+        login: action.login,
       };
 
     case ActionTypes.LOGIN_LOADING:
@@ -33,7 +33,7 @@ const Login = (
         ...state,
         isLoading: false,
         errMess: null,
-        login: action.payload,
+        login: [],
       };
 
     default:

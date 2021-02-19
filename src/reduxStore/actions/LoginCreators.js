@@ -44,7 +44,7 @@ export const postLogin = data => dispatch => {
 
 export const addLogin = login => ({
     type: ActionTypes.ADD_LOGIN,
-    payload: login
+    login: login
 });
 
 export const loginLoading = () => ({
@@ -58,5 +58,5 @@ export const loginFailed = errMess => ({
 
 export const removeLogin = () => ({
     type: ActionTypes.REMOVE_LOGIN,
-    payload: []
+    login: []
 });

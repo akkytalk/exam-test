@@ -1,33 +1,26 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Redirect, useHistory } from "react-router";
-import { Card, CardBody, CardHeader } from "reactstrap";
+import { Card, CardBody, CardFooter, CardHeader, Form, Button } from "reactstrap";
 import { removeLogin } from "../reduxStore/actions/LoginCreators";
 import { withRouter } from "react-router-dom";
 
 import "./Home.css";
 import axios from "axios";
+import { baseUrl } from "../shared/baseUrl";
+import { Formik } from "formik";
+import Question from "./Form/Question";
 
-// const accessToken =
-//   "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiOTIzZjE0ZTQ5NTgyMTVkYzgxY2MyOWI4OTJkYjA3MWQwMDMyOGQ3ZjFiZWQ5ZjVmNmI5NDJkNmQxNzM5NjdkOTkzZjFkYjIzYmQxODliYjYiLCJpYXQiOiIxNjEzNjcxMjAyLjUwMTIwNSIsIm5iZiI6IjE2MTM2NzEyMDIuNTAxMjExIiwiZXhwIjoiMTY0NTIwNzIwMi40NzczNDQiLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.HQ9XBPnoGr4z5HE6fyNPXGw8C9Kq-OT63ZyCaxHhq4Cf2ApRsnem7eUOFvIDJbErNNX2BvT9-tYooJv_RNdRPYcAmM14XhLCy7Su4g1INP7EyT-rOvObh2kOfz6ttwncRsnGyH5sora1-qVUDTSOZ_46e8MkCmkfJ-1PcNnfKXbFYC9waOgOoMTAT6Z59k3y80heE16FpucmDlYzkYbGvCue03QwZYI58yqAD8yr0_TWwcdQRjvxcNW7Wo_PZWz_2AdjUaUuLWmMA_koYGy-RTko18ok4z-7DM0U8-ZX43NkLbU3p3D0W6ce8JbJGmuXD47x6kYbXSYpVJfAuJUSJMuUtKgpvwM9QieioDdmMI6A-nyUc_jjzbhYG6ahNZkHqYU3BOi5KaV79B_uYkS2HKUBABxCX6K2cnEw7_oh4hXnWVMH7QyJXMZOTLnxiCplmS11RDak5t087XhXofIXjB8MhqH5ab75Y93G_m7tHoAfraLnjqKXYlPY070sBoyDPPnotDeryCoh89QQBx0AW5MvTJ764RB1u5ngddBM7Vc1ggJLVJcKvYsSs7vAKwOvjRUE0dLWvKU7TjalRNUdC7TjULgKpnMTpq_AvNYby3H5LUbCSKy2dcBtFceL5_7a3jtSOG88S2fNQkgPd3ZyL0RfcHLbbQtA32YvRIBKWdg";
 
-// const apiUrl = "https://uditsolutions.in/testify/public/api/";
-
-// const authAxios = axios.create({
-//   baseURL: apiUrl,
-//   headers: {
-//     Authorization: `Bearer ${accessToken}`,
-//   },
-// });
 
 function Home(props) {
   const accessToken = `${props.login?.login?.data?.token}`;
 
-  const apiUrl = "https://uditsolutions.in/testify/public/api/";
-
   const authAxios = axios.create({
-    baseURL: apiUrl,
+    baseURL: baseUrl,
     headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`,
     },
   });
@@ -37,12 +30,20 @@ function Home(props) {
   const [option, setOption] = useState([]);
   const [Category, setCategory] = useState([]);
 
+  const [categoryPage, setCategoryPage] = useState([]);
+  const [questionPage, setQuestionPage] = useState([]);
+  const [index, setIndex] = useState(1);
+
+  const [page, setPage] = useState(0)
+
   useEffect(() => {
     authAxios
       .get("/questions")
       .then((res) => {
         console.log("questions response data", res.data);
         setQuestion(res.data);
+        // setPage(res.data);
+
       })
       .catch((err) => console.log(err));
   }, []);
@@ -57,99 +58,113 @@ function Home(props) {
       .catch((err) => console.log(err));
   }, []);
 
-  useEffect(() => {
-    authAxios
-      .get("/categories")
-      .then((res) => {
-        console.log("categories response data", res.data);
-        setCategory(res.data);
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
   console.log("question", question);
   console.log("cetorgy", Category);
   console.log("options", option);
+  // const current = Category?.data;
+  // console.log("current", current);
+
+
+  // console.log("categorty page", page?.data?.length);
+
+
   // console.log("usertoken", props.login?.login?.data?.token);
 
   async function handleLogout() {
-    localStorage.removeItem("usertoken");
+
     await props.removeLogin();
 
     setRedirect(true);
   }
 
   const [viewCount, setViewCount] = useState(1);
+  const [viewCount2, setViewCount2] = useState(1);
 
   const handleViewMore = () => {
     setViewCount(viewCount + 1);
+
   };
 
-  return (
-    <Fragment>
-      <div className="main-field">
-        <Card className="question-card">
-          <CardHeader>
-            <strong>Instructions</strong>
-          </CardHeader>
-          <CardBody>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
-            sit amet suscipit erat, id auctor ipsum. Maecenas hendrerit sed odio
-            a cursus. Aliquam elementum tempus sapien ut molestie. Nam non
-            venenatis sapien. Sed vitae mattis ex, et pulvinar felis. Quisque
-            vitae diam non felis facilisis iaculis aliquet quis nibh.
-          </CardBody>
-        </Card>
-      </div>
-      {Category?.data?.slice(0, viewCount).map((Category, ind) => (
-        <div key={ind} className="main-field">
+  const renderRedirect = () => {
+    if (redirect) {
+      return <Redirect to={'/login'} />;
+    }
+  };
+
+  console.log(page);
+
+  let initialValues;
+
+  if (question?.data?.length !== 0) {
+    initialValues = {
+      form1: ''
+    }
+  }
+
+  const currentYear = new Date().getFullYear();
+  if (props.login?.login.length === 0) {
+    return <Redirect to={'/login'} />;
+  }
+  else if (!props.login?.login.access_token) {
+    return (
+      <Fragment>
+        {renderRedirect()}
+        <div className="main-field">
           <Card className="question-card">
             <CardHeader>
-              <strong>{Category.name}</strong>
+              <strong>Instructions</strong>
+              <Button className="float-right btn-danger" onClick={() => handleLogout()}>Logout</Button>
             </CardHeader>
-            <CardBody key={ind}>
-              {question?.data?.slice(0, viewCount).map((question, ind) => {
-                // console.log("category id", question.category_id);
-                if (Category.id == question.category_id)
-                  return (
-                    <div className="mb-2">
-                      {" "}
-                      {question.question_text} ?
-                      {option?.data?.map((opt, ind) => {
-                        if (question.id == opt.question_id)
-                          return (
-                            <div>
-                              <input
-                                type="radio"
-                                className="mr-2"
-                                key={opt.question_id}
-                                name="option_text"
-                                value={opt.id}
-                              />
-                              {opt.option_text}
-                            </div>
-                          );
-                      })}
-                    </div>
-                  );
-              })}
-            </CardBody>
+            <CardBody>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
+              sit amet suscipit erat, id auctor ipsum. Maecenas hendrerit sed odio
+              a cursus. Aliquam elementum tempus sapien ut molestie. Nam non
+              venenatis sapien. Sed vitae mattis ex, et pulvinar felis. Quisque
+              vitae diam non felis facilisis iaculis aliquet quis nibh.
+          </CardBody>
           </Card>
         </div>
-      ))}
 
-      {viewCount < Category?.data?.length && (
+        <Formik initialValues={{ initialValues }}
+          render={formProps => {
+            return (
+              <Form>
+                {
+                  question.length !== 0 ?
+                    <>
+                      <Question question={question?.data[page]} option={option} />
+                      {
+                        page === question?.data.length - 1 ?
+                          (<Button block className="float-right btn-success text-white mt-5">
+                            Submit
+                          </Button>)
+                          :
+                          (<Button block className="float-right btn-warning text-white mt-5" onClick={() => setPage(page + 1)}>
+                            Next
+                          </Button>)
+                      }
+                    </>
+                    : null
+                }
+
+
+              </Form>
+            )
+          }}
+        />
+
+        {/* {viewCount < Category?.data?.length && (
         <button
           className="projects-view-button"
           variant="contained"
           color="primary"
           onClick={handleViewMore}
         >
-          VIEW MORE
+          next
         </button>
-      )}
+      )} */}
 
-      {/* <div className="main-field">
+        {/* <div className="main-field">
         <Card className="question-card">
           <CardHeader>
             <span> Category | Sub Category</span>
@@ -164,11 +179,14 @@ function Home(props) {
           </CardBody>
         </Card>
       </div> */}
-      {/* <button onClick={() => handleLogout()}> logout</button> */}
-    </Fragment>
-  );
-}
 
+      </Fragment>
+    );
+
+  } else {
+    return <div>hello</div>;
+  }
+}
 const mapStateToProps = (state) => {
   return {
     login: state.login,
