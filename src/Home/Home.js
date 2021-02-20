@@ -62,26 +62,26 @@ function Home(props) {
       .catch((err) => console.log(err));
   }, []);
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setPage(page + 1);
-  //   }, 10000);
-  // }, [page]);
+  useEffect(() => {
+    setTimeout(() => {
+      setPage(page + 1);
+    }, 10000);
+  }, [page]);
 
-  // const [timer, setTimer] = useState(10);
-  // useEffect(() => {
-  //   if (timer !== -1) {
-  //     setTimeout(() => {
-  //       setTimer((timer) => timer - 1);
-  //     }, 1000);
-  //   }
-  // }, [timer]);
+  const [timer, setTimer] = useState(10);
+  useEffect(() => {
+    if (timer !== -1) {
+      setTimeout(() => {
+        setTimer((timer) => timer - 1);
+      }, 1000);
+    }
+  }, [timer]);
 
-  // useEffect(() => {
-  //   if (timer === -1) {
-  //     setTimer(10);
-  //   }
-  // }, [timer]);
+  useEffect(() => {
+    if (timer === -1) {
+      setTimer(10);
+    }
+  }, [timer]);
 
   // console.log("timer", timer);
   // setInterval(function () {
@@ -110,7 +110,7 @@ function Home(props) {
 
   const nextPage = () => {
     setPage(page + 1);
-    // setTimer(10);
+    setTimer(10);
   };
 
   console.log(page);
@@ -161,7 +161,7 @@ function Home(props) {
                       question={question?.data[page]}
                       option={option}
                       category={category}
-                      // timer={timer}
+                      timer={timer}
                     />
                     {page === question?.data.length - 1 ? (
                       <Button

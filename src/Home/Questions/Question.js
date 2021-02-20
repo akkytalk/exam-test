@@ -55,9 +55,7 @@ export default function Question(props) {
       <CardBody>
         Question
         <div className="mb-2">
-          {props.question?.category?.id === props.question?.category_id ? (
-            <h6>{props.question?.question_text} ?</h6>
-          ) : null}
+          <h6>{props.question?.question_text} ?</h6>
 
           {props.option?.data?.map((opt, ind) => {
             if (props.question?.id == opt.question_id)
