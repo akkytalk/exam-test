@@ -2,6 +2,8 @@ import React from "react";
 import Timer from "react-compound-timer/build";
 import { Card, CardHeader, CardBody } from "reactstrap";
 import $ from "jquery";
+import Moment from 'react-moment';
+import moment from 'moment';
 
 import "./Question.scss";
 
@@ -10,6 +12,8 @@ export default function Question(props) {
   //   $("#resetbutton").click();
   // }, 10000);
 
+  const start = moment().subtract(-10, "seconds")
+
   return (
     <Card className="question">
       <CardHeader>
@@ -17,7 +21,10 @@ export default function Question(props) {
           {props.question?.category?.name}
         </strong>
         <p className="float-right" style={{ color: "#f00" }}>
-          {props.timer} Seconds
+          <Moment interval={1000} date={start} format="mm:ss" durationFromNow>
+
+          </Moment>
+          {/* {props.timer} Seconds */}
           {/* <Timer
             initialTime={10000}
             direction="backward"
@@ -65,8 +72,8 @@ export default function Question(props) {
                     type="radio"
                     className="mr-2"
                     key={opt.question_id}
-                    name="option_text"
-                    value={opt.id}
+                    name="total_points"
+                    value={opt.id && opt.points}
                   />
                   {opt.option_text}
                 </div>

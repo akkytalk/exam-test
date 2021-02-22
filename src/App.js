@@ -7,6 +7,8 @@ import { PersistGate } from "redux-persist/es/integration/react";
 
 import Login2 from "./Auth/Login2";
 import Home from "./Home/Home";
+import Sidebar from "./Home/Sidebar/Sidebar";
+import DashboardLayout from "./Home/Sidebar/DashboardLayout";
 
 const { persistor, store } = configureStore();
 
@@ -18,7 +20,8 @@ function App() {
           <Switch>
             <Route exact path="/login" name="Login" component={Login2} />
 
-            <Route path="/" name="Home" component={Home} />
+            {/* <Route path="/" name="Home" component={Home} /> */}
+            <Route path="/" component={DashboardLayout} />
           </Switch>
         </HashRouter>
       </PersistGate>
