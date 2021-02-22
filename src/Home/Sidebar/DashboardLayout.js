@@ -37,7 +37,7 @@ function DashboardLayout() {
                 <div class="content-wrapper">
                     <section className="content">
                         <div className="container-fluid">
-                            <Home />
+                            {/* <Home /> */}
                         </div>
                     </section>
                 </div>

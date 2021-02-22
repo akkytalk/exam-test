@@ -49,8 +49,8 @@ function Sidebar() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/enquires" className="nav-link">
-                  <p>Enquires</p>
+                <Link to="/questions" className="nav-link">
+                  <p>Questions</p>
                 </Link>
               </li>
 
@@ -65,13 +65,13 @@ function Sidebar() {
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
                     <Link
-                      to="customer"
+                      to="/sub-category"
                       className="nav-link d-flex justify-content-between"
                     >
-                      <p>Customer</p>
+                      <p>Sub Category</p>
                     </Link>
                   </li>
-                  <li className="nav-item">
+                  {/* <li className="nav-item">
                     <Link
                       to="/vendor"
                       className="nav-link d-flex justify-content-between"
@@ -95,39 +95,76 @@ function Sidebar() {
                     <Link to="/lc-master" className="nav-link">
                       <p>LC Master</p>
                     </Link>
-                  </li>
+                  </li> */}
                 </ul>
               </li>
 
               <li className="nav-item">
-                <Link to="/consignment" className="nav-link">
-                  <p>Consignment</p>
+                <Link to="/level" className="nav-link d-flex justify-content-between">
+                  <p>Level</p>
+                  <ArrowDropDownIcon fontSize="small" />
+                  <ul className="nav nav-treeview">
+                    <li className="nav-item">
+                      <Link
+                        to="customer"
+                        className="nav-link d-flex justify-content-between"
+                      >
+                        <p>Sub Category</p>
+                      </Link>
+                    </li>
+                    {/* <li className="nav-item">
+                    <Link
+                      to="/vendor"
+                      className="nav-link d-flex justify-content-between"
+                    >
+                      <p>Vendor</p>
+                    </Link>
+                  </li>
+
+                  <li className="nav-item">
+                    <Link to="/product" exact className="nav-link">
+                      <p>Product</p>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to="/logistics" className="nav-link">
+                      <p>Logistics</p>
+                    </Link>
+                  </li>
+
+                  <li className="nav-item">
+                    <Link to="/lc-master" className="nav-link">
+                      <p>LC Master</p>
+                    </Link>
+                  </li> */}
+                  </ul>
+                </Link>
+
+              </li>
+
+              <li className="nav-item">
+                <Link to="/final-score" className="nav-link">
+                  <p>Final Score</p>
                 </Link>
               </li>
 
               <li className="nav-item">
-                <Link to="/performa-invoice" className="nav-link">
-                  <p>Performa Invoice</p>
+                <Link to="/user" className="nav-link">
+                  <p>User</p>
                 </Link>
               </li>
 
               <li className="nav-item">
-                <Link to="/purchase-order" className="nav-link">
-                  <p>Purchase Order</p>
+                <Link to="/face-to-face-interview" className="nav-link">
+                  <p>Face to Face Interview</p>
                 </Link>
               </li>
 
-              <li className="nav-item">
-                <Link to="/payment-detail" className="nav-link">
-                  <p>Payment Detail</p>
-                </Link>
-              </li>
-
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link to="/statistics" className="nav-link">
                   <p>Statistics</p>
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </nav>
         </div>
