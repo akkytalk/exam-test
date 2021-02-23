@@ -59,6 +59,56 @@ function Sidebar() {
                   to="#"
                   className="nav-link d-flex justify-content-between"
                 >
+                  <p>Level</p>
+                  <ArrowDropDownIcon fontSize="small" />
+                </Link>
+                <ul className="nav nav-treeview">
+                  <li className="nav-item">
+                    <Link
+                      to="/level-a1"
+                      className="nav-link d-flex justify-content-between"
+                    >
+                      <p>Level A1</p>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link
+                      to="/level-a2"
+                      className="nav-link d-flex justify-content-between"
+                    >
+                      <p>Level A2</p>
+                    </Link>
+                  </li>
+
+                  <li className="nav-item">
+                    <Link to="/level-b1" exact className="nav-link">
+                      <p>Level B1</p>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to="/level-b2" className="nav-link">
+                      <p>Level B2</p>
+                    </Link>
+                  </li>
+
+                  <li className="nav-item">
+                    <Link to="/level-c1" className="nav-link">
+                      <p>Level C1</p>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to="/level-c2" className="nav-link">
+                      <p>Level C2</p>
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+
+              <li className="nav-item">
+                <Link
+                  to="#"
+                  className="nav-link d-flex justify-content-between"
+                >
                   <p>Category</p>
                   <ArrowDropDownIcon fontSize="small" />
                 </Link>
@@ -99,64 +149,21 @@ function Sidebar() {
                 </ul>
               </li>
 
-              <li className="nav-item">
-                <Link to="/level" className="nav-link d-flex justify-content-between">
-                  <p>Level</p>
-                  <ArrowDropDownIcon fontSize="small" />
-                  <ul className="nav nav-treeview">
-                    <li className="nav-item">
-                      <Link
-                        to="customer"
-                        className="nav-link d-flex justify-content-between"
-                      >
-                        <p>Sub Category</p>
-                      </Link>
-                    </li>
-                    {/* <li className="nav-item">
-                    <Link
-                      to="/vendor"
-                      className="nav-link d-flex justify-content-between"
-                    >
-                      <p>Vendor</p>
-                    </Link>
-                  </li>
-
-                  <li className="nav-item">
-                    <Link to="/product" exact className="nav-link">
-                      <p>Product</p>
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link to="/logistics" className="nav-link">
-                      <p>Logistics</p>
-                    </Link>
-                  </li>
-
-                  <li className="nav-item">
-                    <Link to="/lc-master" className="nav-link">
-                      <p>LC Master</p>
-                    </Link>
-                  </li> */}
-                  </ul>
+              {/* <li className="nav-item">
+                <Link to="/marking" className="nav-link">
+                  <p>Marking</p>
                 </Link>
-
-              </li>
+              </li> */}
 
               <li className="nav-item">
-                <Link to="/final-score" className="nav-link">
-                  <p>Final Score</p>
+                <Link to="/results" className="nav-link">
+                  <p>Results</p>
                 </Link>
               </li>
 
               <li className="nav-item">
                 <Link to="/user" className="nav-link">
                   <p>User</p>
-                </Link>
-              </li>
-
-              <li className="nav-item">
-                <Link to="/face-to-face-interview" className="nav-link">
-                  <p>Face to Face Interview</p>
                 </Link>
               </li>
 

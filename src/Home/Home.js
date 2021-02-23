@@ -1,11 +1,17 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
-import { Card, CardBody, CardHeader, CardFooter, Form, Button } from "reactstrap";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  CardFooter,
+  Form,
+  Button,
+} from "reactstrap";
 import { removeLogin } from "../reduxStore/actions/LoginCreators";
 import { withRouter } from "react-router-dom";
 import $ from "jquery";
-
 
 import "./Home.css";
 import axios from "axios";
@@ -13,9 +19,14 @@ import { baseUrl } from "../shared/baseUrl";
 import { Formik } from "formik";
 import Question from "./Questions/Question";
 
-
 function Home(props) {
   const accessToken = `${props.login?.login?.data?.token}`;
+
+  let data = {
+    token: accessToken,
+  };
+
+  console.log("data", data);
 
   const authAxios = axios.create({
     baseURL: baseUrl,
@@ -89,7 +100,7 @@ function Home(props) {
     //     setTimer((timer) => timer - 1);
     //   }, 1000);
     // }
-  }
+  };
 
   const stopTestHandle = () => {
     // if (timer !== -1) {
@@ -97,7 +108,7 @@ function Home(props) {
     //     setTimer((timer) => timer - 1);
     //   }, 1000);
     // }
-  }
+  };
   // useEffect(() => {
   //   if (timer !== -1) {
   //     setTimeout(() => {
@@ -155,14 +166,12 @@ function Home(props) {
   let initialValues;
 
   if (question?.data?.length !== 0) {
-
     initialValues = {
       user_id: user?.data?.id,
-      total_points: ""
+      total_points: "",
     };
   }
   console.log("initialValues", initialValues);
-
 
   async function sumbitHandle(e) {
     e.preventDefault();
@@ -171,12 +180,9 @@ function Home(props) {
       .post("/results", initialValues)
       .then((res) => {
         console.log("intial value is submited to results");
-
       })
       .catch((err) => console.log(err));
   }
-
-
 
   if (props.login?.login.length === 0) {
     return <Redirect to={"/login"} />;
@@ -206,7 +212,8 @@ function Home(props) {
                 onClick={startTestHandle}
               >
                 Start Test
-              </Button><Button
+              </Button>
+              <Button
                 className="float-right btn-danger"
                 onClick={stopTestHandle}
               >
@@ -228,29 +235,28 @@ function Home(props) {
                       question={question?.data[page]}
                       option={option}
                       category={category}
-                    // timer={timer}
-
+                      // timer={timer}
                     />
                     {page === question?.data.length - 1 ? (
                       <Button
                         block
                         className="btn-success text-white mt-2 question-card ml-auto mr-auto"
                         id="myButtonId"
-                      // type="submit"
+                        // type="submit"
                       >
                         Submit
                       </Button>
                     ) : (
-                        <Button
-                          block
-                          className="btn-warning text-white mt-2 question-card ml-auto mr-auto"
-                          onClick={nextPage}
-                          id="myButtonId"
-                          onClick={sumbitHandle}
-                        >
-                          Next
-                        </Button>
-                      )}
+                      <Button
+                        block
+                        className="btn-warning text-white mt-2 question-card ml-auto mr-auto"
+                        // onClick={nextPage}
+                        id="myButtonId"
+                        onClick={sumbitHandle}
+                      >
+                        Next
+                      </Button>
+                    )}
                   </>
                 ) : null}
               </Form>
