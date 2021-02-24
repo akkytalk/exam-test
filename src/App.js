@@ -20,7 +20,8 @@ import B1 from "./Components/Level/B1";
 import B2 from "./Components/Level/B2";
 import C1 from "./Components/Level/C1";
 import C2 from "./Components/Level/C2";
-import SubCategory from "./Components/Category/SubCategory/SubCategory";
+import SubCategory from "./Components/Category/SubCategory/SubCats";
+import MajorCats from "./Components/Category/MajorCats";
 
 const { persistor, store } = configureStore();
 
@@ -38,6 +39,7 @@ function App() {
             <Route path="/level-b1" name="Users" component={B1} />
             <Route path="/level-a2" name="Users" component={A2} />
             <Route path="/level-a1" name="Users" component={A1} />
+            <Route path="/category" name="Category" component={MajorCats} />
             <Route
               path="/sub-category"
               name="Sub-Category"

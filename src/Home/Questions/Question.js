@@ -2,8 +2,8 @@ import React from "react";
 import Timer from "react-compound-timer/build";
 import { Card, CardHeader, CardBody } from "reactstrap";
 import $ from "jquery";
-import Moment from 'react-moment';
-import moment from 'moment';
+import Moment from "react-moment";
+import moment from "moment";
 
 import "./Question.scss";
 
@@ -12,18 +12,21 @@ export default function Question(props) {
   //   $("#resetbutton").click();
   // }, 10000);
 
-  const start = moment().subtract(-10, "seconds")
+  const start = moment().subtract(-10, "seconds");
 
   return (
     <Card className="question">
       <CardHeader>
         <strong style={{ textTransform: "capitalize" }}>
-          {props.question?.category?.name}
+          {props.question?.major_category?.name}
         </strong>
         <p className="float-right" style={{ color: "#f00" }}>
-          <Moment interval={1000} date={start} format="mm:ss" durationFromNow>
-
-          </Moment>
+          <Moment
+            interval={1000}
+            date={start}
+            format="mm:ss"
+            durationFromNow
+          ></Moment>
           {/* {props.timer} Seconds */}
           {/* <Timer
             initialTime={10000}
@@ -58,6 +61,16 @@ export default function Question(props) {
             )}
           </Timer> */}
         </p>
+      </CardHeader>
+      <CardHeader
+        style={{
+          display: "flex",
+
+          fontSize: "12px",
+        }}
+      >
+        {/* <h6>Instructions:</h6> */}
+        <span className="ml-4">{props.question?.instructions}</span>
       </CardHeader>
       <CardBody>
         Question

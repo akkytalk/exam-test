@@ -193,7 +193,7 @@ function Home(props) {
         <div className="main-field">
           <Card className="question-card mt-2">
             <CardHeader>
-              <strong>Instructions</strong>
+              {/* <strong>Instructions</strong> */}
               <Button
                 className="float-right btn-danger"
                 onClick={() => handleLogout()}
@@ -201,12 +201,12 @@ function Home(props) {
                 Logout
               </Button>
             </CardHeader>
-            <CardBody>
+            {/* <CardBody>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
               sit amet suscipit erat, id auctor ipsum. Maecenas hendrerit sed
               odio a cursus.
-            </CardBody>
-            <CardFooter>
+            </CardBody> */}
+            {/* <CardFooter>
               <Button
                 className="float-left btn-success"
                 onClick={startTestHandle}
@@ -219,7 +219,7 @@ function Home(props) {
               >
                 Stop Test
               </Button>
-            </CardFooter>
+            </CardFooter> */}
           </Card>
         </div>
 

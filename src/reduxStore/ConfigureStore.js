@@ -8,6 +8,8 @@ import accountGroupReducer from "./reducer/RAccountGroup";
 import questionsReducer from "./reducer/RQuestions";
 import usersReducer from "./reducer/RUser";
 import markingReducer from "./reducer/RMarkings";
+import majorcatsReducer from "./reducer/RMajorcats";
+import subcatsReducer from "./reducer/RSubcats";
 
 const config = {
   key: "root",
@@ -23,6 +25,8 @@ export const configureStore = () => {
       questions: questionsReducer,
       userstest: usersReducer,
       markings: markingReducer,
+      majorcats: majorcatsReducer,
+      subcats: subcatsReducer,
     }),
     applyMiddleware(thunk, logger)
   );

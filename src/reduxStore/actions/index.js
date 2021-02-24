@@ -31,3 +31,19 @@ export {
   editMarkingsRow,
   updateMarkingsData,
 } from "./MarkingCreators.js";
+
+export {
+  majorcatsGetData,
+  deleteMajorcats,
+  postMajorcatsData,
+  editMajorcatsRow,
+  updateMajorcatsData,
+} from "./MajorCatsCreators";
+
+export {
+  subcatsGetData,
+  deleteSubcats,
+  postSubcatsData,
+  editSubcatsRow,
+  updateSubcatsData,
+} from "./SubCatsCreators";

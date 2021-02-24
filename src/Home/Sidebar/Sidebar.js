@@ -106,7 +106,7 @@ function Sidebar() {
 
               <li className="nav-item">
                 <Link
-                  to="#"
+                  to="/category"
                   className="nav-link d-flex justify-content-between"
                 >
                   <p>Category</p>
