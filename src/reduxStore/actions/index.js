@@ -17,6 +17,14 @@ export {
 } from "./QuestionsCreators";
 
 export {
+  optionsGetData,
+  deleteOptions,
+  postOptionsData,
+  editOptionsRow,
+  updateOptionsData,
+} from "./optionsCreators";
+
+export {
   usersGetData,
   deleteUsers,
   postUsersData,

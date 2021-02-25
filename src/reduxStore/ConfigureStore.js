@@ -10,6 +10,7 @@ import usersReducer from "./reducer/RUser";
 import markingReducer from "./reducer/RMarkings";
 import majorcatsReducer from "./reducer/RMajorcats";
 import subcatsReducer from "./reducer/RSubcats";
+import optionsReducer from "./reducer/ROptions";
 
 const config = {
   key: "root",
@@ -23,7 +24,8 @@ export const configureStore = () => {
       login: Login,
       accountGroup: accountGroupReducer,
       questions: questionsReducer,
-      userstest: usersReducer,
+      options: optionsReducer,
+      users: usersReducer,
       markings: markingReducer,
       majorcats: majorcatsReducer,
       subcats: subcatsReducer,

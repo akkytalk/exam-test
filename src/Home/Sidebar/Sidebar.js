@@ -53,6 +53,11 @@ function Sidebar() {
                   <p>Questions</p>
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link to="/options" className="nav-link">
+                  <p>Options</p>
+                </Link>
+              </li>
 
               <li className="nav-item">
                 <Link

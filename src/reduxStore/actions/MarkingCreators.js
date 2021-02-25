@@ -43,7 +43,7 @@ export const deleteMarkingsFail = () => {
   };
 };
 
-export const deleteMarkings = (id, data) => {
+export const deleteMarkings = (data, id) => {
   return (dispatch) => {
     if (id) {
       axios
@@ -77,23 +77,19 @@ export const postMarkingsDataFail = () => {
   };
 };
 
-export const postMarkingsData = (user, data) => {
+export const postMarkingsData = (data, user) => {
   return (dispatch) => {
     if (!user.name) return;
     // console.log(data);
     dispatch(postMarkingsDataStart());
     axios
-      .post(
-        baseUrl + "marks",
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + data.token,
-          },
+      .post(baseUrl + "marks", user, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + data.token,
         },
-        user
-      )
+      })
       .then(() => {
         console.log("swal");
         swal("Successfully Created user!").then(() => {
@@ -122,12 +118,12 @@ export const failEditMarkings = () => {
 };
 
 export const editMarkingsRow = (
+  data,
   id,
   editing,
   setEditing,
   currentUser,
-  setCurrentUser,
-  data
+  setCurrentUser
 ) => {
   return (dispatch) => {
     dispatch(editMarkingsRowStart());
@@ -145,9 +141,16 @@ export const editMarkingsRow = (
         setEditing(res.data);
         setCurrentUser({
           id: res.data.id,
-          name: res.data.name,
-          password: res.data.password,
+          name: res.data.user?.name,
+          email: res.data.user?.email,
+          weekly_result: res.data.weekly_result,
+          BL: res.data.BL,
+          biodata: res.data.biodata,
+          mock_interview: res.data.mock_interview,
+          final_score: res.data.final_score,
+          exam_result: res.data.exam_result,
         });
+        console.log("res data from editMarkingsRow", res.data);
       })
       .catch((error) => dispatch(failEditMarkings()));
   };
@@ -160,32 +163,28 @@ export const updateMarkingsDataStart = () => {
 };
 
 export const updateMarkingsData = (
+  data,
   id,
   editing,
   setEditing,
   currentUser,
-  setCurrentUser,
-  data
+  setCurrentUser
 ) => {
   return (dispatch) => {
     dispatch(updateMarkingsDataStart());
     setEditing(false);
 
     axios
-      .put(
-        baseUrl + `marks/${id}`,
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + data.token,
-          },
+      .put(baseUrl + `marks/${id}`, currentUser, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + data.token,
         },
-        currentUser
-      )
+      })
       .then(() => {
         console.log("swal");
-        swal("Successfully Updated User!").then(() => {
+        swal("Successfully Updated Result!").then(() => {
           window.location.reload();
         });
       })

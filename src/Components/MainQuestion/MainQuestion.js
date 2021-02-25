@@ -32,7 +32,7 @@ function MainQuestion(props) {
   useEffect(() => {
     //console.log("currentUser data from redux ", currentUser);
     props.onQuestionsGetData(data);
-  }, [data]);
+  }, []);
 
   // useEffect(() => {
   //   axios
@@ -52,11 +52,10 @@ function MainQuestion(props) {
   console.log("questions from main question ", props.questions);
 
   const [user, setUser] = useState({
-    major_category_id: "",
-    sub_category_id: "",
-    category_id: "",
+    major_category_name: "",
+    sub_category_name: "",
+    category_name: "",
     question_text: "",
-    question_options: [],
     instructions: "",
   });
 
@@ -64,16 +63,14 @@ function MainQuestion(props) {
 
   const initialFormState = {
     id: "",
-    major_category_id: "",
-    sub_category_id: "",
-    category_id: "",
+    major_category_name: "",
+    sub_category_name: "",
+    category_name: "",
     question_text: "",
-    question_options: [],
     instructions: "",
   };
 
   const [currentUser, setCurrentUser] = useState(initialFormState);
-
   const currentUserInputChange = (event) => {
     const { name, value } = event.target;
     setCurrentUser({ ...currentUser, [name]: value });
@@ -88,7 +85,23 @@ function MainQuestion(props) {
 
   const toggle = () => {
     setModal(!modal);
+    setEditing(false);
   };
+
+  console.log("user from main question page", user);
+  console.log("Currentuser from main question page", currentUser);
+
+  // let Currentdata = JSON.stringify({
+  //   id: currentUser.id,
+  //   major_category_name: currentUser.major_category_name,
+  //   sub_category_name: currentUser.sub_category_name,
+  //   category_name: currentUser.category_name,
+  //   question_text: currentUser.question_text,
+  //   instructions: currentUser.instructions,
+  // });
+
+  // console.log("currentdata", Currentdata);
+
   return (
     <React.Fragment>
       <div className="wrapper">
@@ -149,6 +162,106 @@ function MainQuestion(props) {
                         }}
                       >
                         <div className="form-row" style={{ fontSize: "12px" }}>
+                          <div className="form-group col-md-6">
+                            <label htmlFor="inputPassword4">Level </label>
+                            <select
+                              type="text"
+                              className="form-control"
+                              id="inputPassword4"
+                              name="category_name"
+                              value={
+                                editing
+                                  ? currentUser.category_name
+                                  : user.category_name
+                              }
+                              onChange={
+                                editing
+                                  ? currentUserInputChange
+                                  : handleInputChange
+                              }
+                            >
+                              <option value="">select</option>
+                              <option value="A1">Level A1</option>
+                              <option value="A2">Level A2</option>
+                              <option value="B1">Level B1</option>
+                              <option value="B2">Level B2</option>
+                              <option value="C1">Level C1</option>
+                              <option value="C2">Level C2</option>
+                            </select>
+                          </div>
+
+                          <div className="form-group col-md-6">
+                            <label htmlFor="inputPassword4">Category </label>
+                            <select
+                              type="text"
+                              className="form-control"
+                              id="inputPassword4"
+                              name="major_category_name"
+                              value={
+                                editing
+                                  ? currentUser.major_category_name
+                                  : user.major_category_name
+                              }
+                              onChange={
+                                editing
+                                  ? currentUserInputChange
+                                  : handleInputChange
+                              }
+                            >
+                              <option>select</option> &&
+                              {props.majorcats?.map((dep) => {
+                                return (
+                                  <option key={dep.id} value={dep.name}>
+                                    {dep.name}
+                                  </option>
+                                );
+                              })}
+                            </select>
+                          </div>
+                          <div className="form-group col-md-12">
+                            <label htmlFor="inputPassword4">
+                              Sub Category{" "}
+                            </label>
+                            <select
+                              type="text"
+                              className="form-control"
+                              id="inputPassword4"
+                              name="sub_category_name"
+                              value={
+                                editing
+                                  ? currentUser.sub_category_name
+                                  : user.sub_category_name
+                              }
+                              onChange={
+                                editing
+                                  ? currentUserInputChange
+                                  : handleInputChange
+                              }
+                            >
+                              <option>select</option> &&
+                              {props.subcats?.map((sub) => {
+                                if (
+                                  user.major_category_name ===
+                                    sub.major_category?.name ||
+                                  currentUser.major_category_name ===
+                                    sub.major_category?.name
+                                ) {
+                                  // console.log(
+                                  //   "Sub Category",
+                                  //   user.major_category_name
+                                  // );
+
+                                  return (
+                                    <option key={sub.id} value={sub.name}>
+                                      {sub.name}
+                                    </option>
+                                  );
+                                }
+                                return <div></div>;
+                              })}
+                            </select>
+                          </div>
+
                           <div className="form-group col-md-12">
                             <label htmlFor="inputPassword4"> Question </label>
                             <input
@@ -162,90 +275,6 @@ function MainQuestion(props) {
                                   : currentUser.question_text
                               }
                               name="question_text"
-                              onChange={
-                                editing
-                                  ? currentUserInputChange
-                                  : handleInputChange
-                              }
-                            />
-                          </div>
-
-                          <div className="form-group col-md-6">
-                            <label htmlFor="inputPassword4"> Opition 1 </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="inputPassword4"
-                              placeholder=""
-                              value={
-                                !editing
-                                  ? user.question_options
-                                  : currentUser.question_options
-                              }
-                              name="question_options"
-                              onChange={
-                                editing
-                                  ? currentUserInputChange
-                                  : handleInputChange
-                              }
-                            />
-                          </div>
-
-                          <div className="form-group col-md-6">
-                            <label htmlFor="inputPassword4"> Opition 2</label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="inputPassword4"
-                              placeholder=""
-                              value={
-                                !editing
-                                  ? user.question_options
-                                  : currentUser.question_options
-                              }
-                              name="option[1]"
-                              onChange={
-                                editing
-                                  ? currentUserInputChange
-                                  : handleInputChange
-                              }
-                            />
-                          </div>
-
-                          <div className="form-group col-md-6">
-                            <label htmlFor="inputPassword4"> Opition 3 </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="inputPassword4"
-                              placeholder=""
-                              value={
-                                !editing
-                                  ? user.question_options
-                                  : currentUser.question_options
-                              }
-                              name="question_options"
-                              onChange={
-                                editing
-                                  ? currentUserInputChange
-                                  : handleInputChange
-                              }
-                            />
-                          </div>
-
-                          <div className="form-group col-md-6">
-                            <label htmlFor="inputPassword4"> Opition 4 </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="inputPassword4"
-                              placeholder=""
-                              value={
-                                !editing
-                                  ? user.question_options
-                                  : currentUser.question_options
-                              }
-                              name="question_options"
                               onChange={
                                 editing
                                   ? currentUserInputChange
@@ -277,6 +306,90 @@ function MainQuestion(props) {
                               }
                             />
                           </div>
+
+                          {/* <div className="form-group col-md-6">
+                            <label htmlFor="inputPassword4"> Opition 1 </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="inputPassword4"
+                              placeholder=""
+                              value={
+                                !editing
+                                  ? user.question_options?.option1
+                                  : currentUser.question_options[1]
+                              }
+                              name="question_options?.option1"
+                              onChange={
+                                editing
+                                  ? currentUserInputChange
+                                  : handleInputChange
+                              }
+                            />
+                          </div>
+
+                          <div className="form-group col-md-6">
+                            <label htmlFor="inputPassword4"> Opition 2</label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="inputPassword4"
+                              placeholder=""
+                              value={
+                                !editing
+                                  ? user.question_options[2]
+                                  : currentUser.question_options[2]
+                              }
+                              name="question_options[2]"
+                              onChange={
+                                editing
+                                  ? currentUserInputChange
+                                  : handleInputChange
+                              }
+                            />
+                          </div>
+
+                          <div className="form-group col-md-6">
+                            <label htmlFor="inputPassword4"> Opition 3 </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="inputPassword4"
+                              placeholder=""
+                              value={
+                                !editing
+                                  ? user.question_options[3]
+                                  : currentUser.question_options[3]
+                              }
+                              name="question_options[3]"
+                              onChange={
+                                editing
+                                  ? currentUserInputChange
+                                  : handleInputChange
+                              }
+                            />
+                          </div>
+
+                          <div className="form-group col-md-6">
+                            <label htmlFor="inputPassword4"> Opition 4 </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="inputPassword4"
+                              placeholder=""
+                              value={
+                                !editing
+                                  ? user.question_options[4]
+                                  : currentUser.question_options[4]
+                              }
+                              name="question_options[3]"
+                              onChange={
+                                editing
+                                  ? currentUserInputChange
+                                  : handleInputChange
+                              }
+                            />
+                          </div> */}
 
                           {/* <div className="form-group col-md-6">
                             <label htmlFor="inputPassword4"> pincode </label>
@@ -336,22 +449,28 @@ function MainQuestion(props) {
                                 <button
                                   className="btn btn-success"
                                   type="button"
-                                  onClick={() =>
+                                  onClick={() => {
                                     props.onUpdateQuestionsData(
+                                      data,
                                       currentUser.id,
                                       editing,
                                       setEditing,
                                       currentUser,
                                       setCurrentUser
-                                    )
-                                  }
+                                    );
+                                    // setEditing(false);
+                                    toggle();
+                                  }}
                                 >
                                   Update
                                 </button>
                                 <button
                                   className="btn btn-primary ml-3"
                                   type="button"
-                                  onClick={() => setEditing(false)}
+                                  onClick={() => {
+                                    setEditing(false);
+                                    toggle();
+                                  }}
                                 >
                                   Cancel
                                 </button>
@@ -371,7 +490,7 @@ function MainQuestion(props) {
                     <thead>
                       <tr>
                         {/* <th>ID</th> */}
-                        <th scope="col">Q No.</th>
+                        <th scope="col">Q Id.</th>
                         <th scope="col">Questions</th>
                         <th scope="col">Option 1</th>
                         <th scope="col">Option 2</th>
@@ -388,48 +507,51 @@ function MainQuestion(props) {
                           <tr key={user.id}>
                             <td>{user.id}</td>
                             <td>{user.question_text}</td>
-                            {user?.question_options?.map((opt) => (
-                              <td key={opt.id}>{opt.option_text}</td>
-                            ))}
+                            {user?.question_options.length > 0
+                              ? user?.question_options?.map((opt) => (
+                                  <td key={opt.id}>{opt.option_text}</td>
+                                ))
+                              : "options are not added yet"}
                             <td>{user?.instructions}</td>
 
                             <td className="d-flex">
-                              <button
-                                className="p-1"
-                                // onClick={() =>
-                                //   props.onEditQuestionsRow(
-                                //     data,
-                                //     user.id,
-                                //     editing,
-                                //     setEditing,
-                                //     currentUser,
-                                //     setCurrentUser
-                                //   )
-                                // }
+                              <Button
+                                className="btn-warning p-1"
+                                onClick={() => {
+                                  props.onEditQuestionsRow(
+                                    data,
+                                    user.id,
+                                    editing,
+                                    setEditing,
+                                    currentUser,
+                                    setCurrentUser
+                                  );
+                                  toggle();
+                                }}
                               >
                                 <i
                                   className="fa fa-edit"
                                   aria-hidden="true"
                                 ></i>
-                              </button>
+                              </Button>
 
-                              <button
-                                className="ml-3 p-1"
-                                // onClick={() => {
-                                //   if (
-                                //     window.confirm(
-                                //       "Are you sure you wish to delete this Questions?"
-                                //     )
-                                //   )
-                                //     props.onDeleteQuestions(data, user.id);
-                                // }}
+                              <Button
+                                className="btn-danger ml-3 p-1"
+                                onClick={() => {
+                                  if (
+                                    window.confirm(
+                                      "Are you sure you wish to delete this Questions?"
+                                    )
+                                  )
+                                    props.onDeleteQuestions(data, user.id);
+                                }}
                               >
                                 <i
                                   className="fa fa-trash-alt "
                                   value={user.id}
                                   aria-hidden="true"
                                 ></i>
-                              </button>
+                              </Button>
                             </td>
                           </tr>
                         ))
@@ -453,13 +575,16 @@ function MainQuestion(props) {
 const mapStateToProps = (state) => {
   return {
     login: state.login,
-
+    majorcats: state.majorcats.majorcats,
+    subcats: state.subcats.subcats,
     questions: state.questions.questions,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    onMajorcatsGetData: (data) => dispatch(actions.majorcatsGetData(data)),
+    onSubcatsGetData: (data) => dispatch(actions.subcatsGetData(data)),
     onQuestionsGetData: (data) => dispatch(actions.questionsGetData(data)),
     onDeleteQuestions: (data, id) =>
       dispatch(actions.deleteQuestions(data, id)),

@@ -3,24 +3,24 @@ import axios from "axios";
 import swal from "sweetalert";
 import { baseUrl } from "../../shared/baseUrl";
 
-export const usersSetData = (users) => {
+export const optionsSetData = (options) => {
   return {
-    type: actionType.USERS_SET_DATA,
-    users: users,
+    type: actionType.OPTIONS_SET_DATA,
+    options: options,
   };
 };
 
-export const usersFailData = () => {
+export const optionsFailData = () => {
   return {
-    type: actionType.USERS_FAIL_DATA,
+    type: actionType.OPTIONS_FAIL_DATA,
   };
 };
 
-export const usersGetData = (data) => {
+export const optionsGetData = (data) => {
   return (dispatch) => {
     console.log(data);
     axios
-      .get(baseUrl + "users", {
+      .get(baseUrl + "options", {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -28,26 +28,26 @@ export const usersGetData = (data) => {
         },
       })
       .then((res) => {
-        dispatch(usersSetData(res.data));
+        dispatch(optionsSetData(res.data));
 
         console.log("response data", res.data);
       })
       .catch((err) => console.log(err));
-    //   .catch((error) => dispatch(usersFailData()));
+    //   .catch((error) => dispatch(optionsFailData()));
   };
 };
 
-export const deleteUsersFail = () => {
+export const deleteOptionsFail = () => {
   return {
-    type: actionType.DELETE_USERS_FAIL,
+    type: actionType.DELETE_OPTIONS_FAIL,
   };
 };
 
-export const deleteUsers = (data, id) => {
+export const deleteOptions = (data, id) => {
   return (dispatch) => {
     if (id) {
       axios
-        .delete(baseUrl + `users/${id}`, {
+        .delete(baseUrl + `options/${id}`, {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
@@ -56,69 +56,68 @@ export const deleteUsers = (data, id) => {
         })
         .then(() => {
           console.log("swal");
-          swal("Successfully Deleted Category!").then(() => {
+          swal("Successfully Deleted Question!").then(() => {
             window.location.reload();
           });
         })
-        .catch((error) => dispatch(deleteUsersFail()));
+        .catch((error) => dispatch(deleteOptionsFail()));
     }
   };
 };
 
-export const postUsersDataStart = () => {
+export const postOptionsDataStart = () => {
   return {
-    type: actionType.POST_USERS_DATA_START,
+    type: actionType.POST_OPTIONS_DATA_START,
   };
 };
 
-export const postUsersDataFail = () => {
+export const postOptionsDataFail = () => {
   return {
-    type: actionType.POST_USERS_DATA_FAIL,
+    type: actionType.POST_OPTIONS_DATA_FAIL,
   };
 };
 
-export const postUsersData = (data, user) => {
+export const postOptionsData = (data, user) => {
   return (dispatch) => {
-    if (!user.name) return;
-    console.log("data postUsersData", data);
-    dispatch(postUsersDataStart());
-
+    // if (!user.name) return;
+    // console.log(data);
+    dispatch(postOptionsDataStart());
     axios
-      .post(baseUrl + "users", user, {
+      .post(baseUrl + "options", user, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: "Bearer " + data?.token,
+          Authorization: "Bearer " + data.token,
         },
       })
       .then(() => {
         console.log("swal");
-        swal("Successfully Created Category!").then(() => {
+        swal("Successfully Added Question!").then(() => {
           window.location.reload();
         });
       })
       .catch((error) => {
         console.log(error);
-        dispatch(postUsersDataFail());
+        dispatch(postOptionsDataFail());
       });
     // props.addUser(user);
     // setUser(initialFormState);
   };
 };
 
-export const editUsersRowStart = () => {
+export const editOptionsRowStart = () => {
   return {
-    type: actionType.EDIT_USERS_ROW_START,
+    type: actionType.EDIT_OPTIONS_ROW_START,
   };
 };
 
-export const failEditUsers = () => {
+export const failEditOptions = () => {
   return {
-    type: actionType.FAIL_EDIT_USERS,
+    type: actionType.FAIL_EDIT_OPTIONS,
   };
 };
 
-export const editUsersRow = (
+export const editOptionsRow = (
   data,
   id,
   editing,
@@ -127,11 +126,10 @@ export const editUsersRow = (
   setCurrentUser
 ) => {
   return (dispatch) => {
-    console.log("data editUsersRow", data);
-    dispatch(editUsersRowStart());
+    dispatch(editOptionsRowStart());
     setEditing(true);
     axios
-      .get(baseUrl + `users/${id}`, {
+      .get(baseUrl + `options/${id}`, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -143,22 +141,22 @@ export const editUsersRow = (
         setEditing(res.data);
         setCurrentUser({
           id: res.data.id,
-          name: res.data.name,
-          email: res.data.email,
-          password: res.data.password,
+          question_id: res.data.question_id,
+          question_text: res.data.question.question_text,
+          option_text: res.data.option_text,
         });
       })
-      .catch((error) => dispatch(failEditUsers()));
+      .catch((error) => dispatch(failEditOptions()));
   };
 };
 
-export const updateUsersDataStart = () => {
+export const updateOptionsDataStart = () => {
   return {
-    type: actionType.UPDATE_USERS_DATA_START,
+    type: actionType.UPDATE_OPTIONS_DATA_START,
   };
 };
 
-export const updateUsersData = (
+export const updateOptionsData = (
   data,
   id,
   editing,
@@ -167,11 +165,11 @@ export const updateUsersData = (
   setCurrentUser
 ) => {
   return (dispatch) => {
-    dispatch(updateUsersDataStart());
+    dispatch(updateOptionsDataStart());
     setEditing(false);
 
     axios
-      .put(baseUrl + `users/${id}`, currentUser, {
+      .put(baseUrl + `options/${id}`, currentUser, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -180,12 +178,12 @@ export const updateUsersData = (
       })
       .then(() => {
         console.log("swal");
-        swal("Successfully Updated Category!").then(() => {
+        swal("Successfully Updated question!").then(() => {
           window.location.reload();
         });
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response.data);
       });
   };
 };

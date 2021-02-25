@@ -44,12 +44,12 @@ function Results(props) {
   const [user, setUser] = useState({
     name: "",
     email: "",
-    contact: "",
-    address: "",
-    city: "",
-    state: "",
-    pincode: "",
-    status: "",
+    weekly_result: "",
+    BL: "",
+    biodata: "",
+    mock_interview: "",
+    final_score: "",
+    exam_result: "",
   });
 
   const [editing, setEditing] = useState(false);
@@ -58,12 +58,12 @@ function Results(props) {
     id: "",
     name: "",
     email: "",
-    contact: "",
-    address: "",
-    city: "",
-    state: "",
-    pincode: "",
-    status: "",
+    weekly_result: "",
+    BL: "",
+    biodata: "",
+    mock_interview: "",
+    final_score: "",
+    exam_result: "",
   };
 
   const [currentUser, setCurrentUser] = useState(initialFormState);
@@ -84,10 +84,7 @@ function Results(props) {
     setModal(!modal);
   };
 
-  const EditHandle = () => {
-    setModal(!modal);
-  };
-
+  console.log("data from currentUser", currentUser);
   return (
     <React.Fragment>
       <div className="wrapper">
@@ -193,9 +190,11 @@ function Results(props) {
                               id="inputPassword4"
                               placeholder=""
                               value={
-                                !editing ? user.contact : currentUser.contact
+                                !editing
+                                  ? user.weekly_result
+                                  : currentUser.weekly_result
                               }
-                              name="contact"
+                              name="weekly_result"
                               onChange={
                                 editing
                                   ? currentUserInputChange
@@ -214,10 +213,8 @@ function Results(props) {
                               className="form-control"
                               id="inputPassword4"
                               placeholder=""
-                              value={
-                                !editing ? user.address : currentUser.address
-                              }
-                              name="address"
+                              value={!editing ? user.BL : currentUser.BL}
+                              name="BL"
                               onChange={
                                 editing
                                   ? currentUserInputChange
@@ -236,8 +233,10 @@ function Results(props) {
                               className="form-control"
                               id="inputPassword4"
                               placeholder=""
-                              value={!editing ? user.city : currentUser.city}
-                              name="city"
+                              value={
+                                !editing ? user.biodata : currentUser.biodata
+                              }
+                              name="biodata"
                               onChange={
                                 editing
                                   ? currentUserInputChange
@@ -256,8 +255,12 @@ function Results(props) {
                               className="form-control"
                               id="inputPassword4"
                               placeholder=""
-                              value={!editing ? user.state : currentUser.state}
-                              name="state"
+                              value={
+                                !editing
+                                  ? user.mock_interview
+                                  : currentUser.mock_interview
+                              }
+                              name="mock_interview"
                               onChange={
                                 editing
                                   ? currentUserInputChange
@@ -277,9 +280,11 @@ function Results(props) {
                               id="inputPassword4"
                               placeholder=""
                               value={
-                                !editing ? user.pincode : currentUser.pincode
+                                !editing
+                                  ? user.final_score
+                                  : currentUser.final_score
                               }
-                              name="pincode"
+                              name="final_score"
                               onChange={
                                 editing
                                   ? currentUserInputChange
@@ -297,18 +302,18 @@ function Results(props) {
                               type="text"
                               className="form-control"
                               id="inputPassword4"
-                              name="status"
-                              value={editing ? currentUser.status : user.status}
+                              name="exam_result"
+                              value={
+                                editing
+                                  ? currentUser.exam_result
+                                  : user.exam_result
+                              }
                               onChange={
                                 editing
                                   ? currentUserInputChange
                                   : handleInputChange
                               }
                             />
-                            {/* <option>select</option>
-                              <option value="1">active</option>
-                              <option value="0">inactive</option>
-                            </select> */}
                           </div>
 
                           <div className="form-group col-md-12 mt-4">
@@ -330,23 +335,27 @@ function Results(props) {
                                 <button
                                   className="btn btn-success"
                                   type="button"
-                                  // onClick={() =>
-                                  //   props.onUpdateMarkingsData(
-                                  //     data,
-                                  //     currentUser.id,
-                                  //     editing,
-                                  //     setEditing,
-                                  //     currentUser,
-                                  //     setCurrentUser
-                                  //   )
-                                  // }
+                                  onClick={() => {
+                                    props.onUpdateMarkingsData(
+                                      data,
+                                      currentUser.id,
+                                      editing,
+                                      setEditing,
+                                      currentUser,
+                                      setCurrentUser
+                                    );
+                                    toggle();
+                                  }}
                                 >
                                   Update
                                 </button>
                                 <button
                                   className="btn btn-primary ml-3"
                                   type="button"
-                                  onClick={() => setEditing(false)}
+                                  onClick={() => {
+                                    setEditing(false);
+                                    toggle();
+                                  }}
                                 >
                                   Cancel
                                 </button>
@@ -395,17 +404,17 @@ function Results(props) {
                             <td className="d-flex">
                               <Button
                                 className="btn-warning p-1"
-                                onClick={EditHandle}
-                                // onClick={() =>
-                                //   props.onEditMarkingsRow(
-                                //     data,
-                                //     user.id,
-                                //     editing,
-                                //     setEditing,
-                                //     currentUser,
-                                //     setCurrentUser
-                                //   )
-                                // }
+                                onClick={() => {
+                                  props.onEditMarkingsRow(
+                                    data,
+                                    user.id,
+                                    editing,
+                                    setEditing,
+                                    currentUser,
+                                    setCurrentUser
+                                  );
+                                  toggle();
+                                }}
                               >
                                 <i
                                   className="fa fa-edit"

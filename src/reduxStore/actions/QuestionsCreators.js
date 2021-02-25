@@ -79,24 +79,20 @@ export const postQuestionsDataFail = () => {
 
 export const postQuestionsData = (data, user) => {
   return (dispatch) => {
-    if (!user.name) return;
+    // if (!user.name) return;
     // console.log(data);
     dispatch(postQuestionsDataStart());
     axios
-      .post(
-        baseUrl + "questions",
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + data.token,
-          },
+      .post(baseUrl + "questions", user, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + data.token,
         },
-        user
-      )
+      })
       .then(() => {
         console.log("swal");
-        swal("Successfully Created user!").then(() => {
+        swal("Successfully Added Question!").then(() => {
           window.location.reload();
         });
       })
@@ -122,12 +118,12 @@ export const failEditQuestions = () => {
 };
 
 export const editQuestionsRow = (
+  data,
   id,
   editing,
   setEditing,
   currentUser,
-  setCurrentUser,
-  data
+  setCurrentUser
 ) => {
   return (dispatch) => {
     dispatch(editQuestionsRowStart());
@@ -145,8 +141,11 @@ export const editQuestionsRow = (
         setEditing(res.data);
         setCurrentUser({
           id: res.data.id,
-          name: res.data.name,
-          password: res.data.password,
+          major_category_name: res.data.major_category?.name,
+          sub_category_name: res.data.sub_category?.name,
+          category_name: res.data.category.name,
+          question_text: res.data.question_text,
+          instructions: res.data.instructions,
         });
       })
       .catch((error) => dispatch(failEditQuestions()));
@@ -160,37 +159,33 @@ export const updateQuestionsDataStart = () => {
 };
 
 export const updateQuestionsData = (
+  data,
   id,
   editing,
   setEditing,
   currentUser,
-  setCurrentUser,
-  data
+  setCurrentUser
 ) => {
   return (dispatch) => {
     dispatch(updateQuestionsDataStart());
     setEditing(false);
 
     axios
-      .put(
-        baseUrl + `questions/${id}`,
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + data.token,
-          },
+      .put(baseUrl + `questions/${id}`, currentUser, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + data.token,
         },
-        currentUser
-      )
+      })
       .then(() => {
         console.log("swal");
-        swal("Successfully Updated User!").then(() => {
+        swal("Successfully Updated question!").then(() => {
           window.location.reload();
         });
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response.data);
       });
   };
 };

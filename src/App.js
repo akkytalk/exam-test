@@ -22,6 +22,7 @@ import C1 from "./Components/Level/C1";
 import C2 from "./Components/Level/C2";
 import SubCategory from "./Components/Category/SubCategory/SubCats";
 import MajorCats from "./Components/Category/MajorCats";
+import Options from "./Components/Options/Options";
 
 const { persistor, store } = configureStore();
 
@@ -46,6 +47,7 @@ function App() {
               component={SubCategory}
             />
             <Route path="/results" name="Results" component={Results} />
+            <Route path="/options" name="Options" component={Options} />
             <Route path="/user" name="Users" component={Users} />
             <Route path="/marking" name="Marking" component={Marking} />
             <Route path="/run" name="Marking" component={Home} />

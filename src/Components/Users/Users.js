@@ -27,20 +27,18 @@ function Users(props) {
     token: accessToken,
   };
 
-  const [userstest, setUserTest] = useState([]);
-
   console.log("data from user page", data);
 
   useEffect(() => {
     console.log("currentUser data from redux ", currentUser);
 
-    props.onUsersGetData(data, userstest, setUserTest);
+    props.onUsersGetData(data);
 
     props.onDeleteUsers(data);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log("user data", userstest);
+  console.log("user data", props.users);
 
   const [user, setUser] = useState({
     name: "",
@@ -73,7 +71,9 @@ function Users(props) {
 
   const toggle = () => {
     setModal(!modal);
+    setEditing(false);
   };
+  console.log("user from user", user);
   return (
     <React.Fragment>
       <div className="wrapper">
@@ -130,7 +130,7 @@ function Users(props) {
                       <form
                         onSubmit={(event) => {
                           event.preventDefault();
-                          props.onPostUsersData(user, data);
+                          props.onPostUsersData(data, user);
                         }}
                       >
                         <div
@@ -350,40 +350,43 @@ function Users(props) {
                       </tr>
                     </thead>
                     <tbody>
-                      {userstest?.data?.length > 0 ? (
-                        userstest?.data?.map((user) => (
+                      {props.users?.data?.length > 0 ? (
+                        props.users?.data?.map((user) => (
                           <tr key={user.id}>
                             {/* <td>{user.id}</td> */}
                             <td>{user.name}</td>
                             <td>{user.email}</td>
 
                             <td className="d-flex">
-                              <button
-                                onClick={() =>
+                              <Button
+                                className="btn-warning p-1"
+                                onClick={() => {
                                   props.onEditUsersRow(
+                                    data,
                                     user.id,
                                     editing,
                                     setEditing,
                                     currentUser,
                                     setCurrentUser
-                                  )
-                                }
+                                  );
+                                  toggle();
+                                }}
                               >
                                 <i
                                   className="fa fa-edit"
                                   aria-hidden="true"
                                 ></i>
-                              </button>
+                              </Button>
 
-                              <button
-                                className="ml-3"
+                              <Button
+                                className="btn-danger ml-3 p-1"
                                 onClick={() => {
                                   if (
                                     window.confirm(
                                       "Are you sure you wish to delete this Account Group?"
                                     )
                                   )
-                                    props.onDeleteUsers(user.id);
+                                    props.onDeleteUsers(data, user.id);
                                 }}
                               >
                                 <i
@@ -391,7 +394,7 @@ function Users(props) {
                                   value={user.id}
                                   aria-hidden="true"
                                 ></i>
-                              </button>
+                              </Button>
                             </td>
                           </tr>
                         ))
@@ -415,7 +418,7 @@ function Users(props) {
 const mapStateToProps = (state) => {
   return {
     login: state.login,
-    userstest: state.userstest,
+    users: state.users.users,
 
     // form: state.form.form,
   };
@@ -423,46 +426,44 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onUsersGetData: (data, userstest, setUserTest) =>
-      dispatch(actions.usersGetData(data, userstest, setUserTest)),
-
-    onDeleteUsers: (id, data) => dispatch(actions.deleteUsers(id, data)),
-    onPostUsersData: (user, data) =>
-      dispatch(actions.postUsersData(user, data)),
+    onUsersGetData: (data) => dispatch(actions.usersGetData(data)),
+    onDeleteUsers: (data, id) => dispatch(actions.deleteUsers(data, id)),
+    onPostUsersData: (data, user) =>
+      dispatch(actions.postUsersData(data, user)),
     onUpdateUsersData: (
+      data,
       id,
       editing,
       setEditing,
       currentUser,
-      setCurrentUser,
-      data
+      setCurrentUser
     ) =>
       dispatch(
         actions.updateUsersData(
+          data,
           id,
           editing,
           setEditing,
           currentUser,
-          setCurrentUser,
-          data
+          setCurrentUser
         )
       ),
     onEditUsersRow: (
+      data,
       id,
       editing,
       setEditing,
       currentUser,
-      setCurrentUser,
-      data
+      setCurrentUser
     ) =>
       dispatch(
         actions.editUsersRow(
+          data,
           id,
           editing,
           setEditing,
           currentUser,
-          setCurrentUser,
-          data
+          setCurrentUser
         )
       ),
   };
