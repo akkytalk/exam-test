@@ -42,7 +42,7 @@ function Results(props) {
   console.log("markings", props.markings);
 
   const [user, setUser] = useState({
-    name: "",
+    user_name: "",
     email: "",
     weekly_result: "",
     BL: "",
@@ -56,7 +56,7 @@ function Results(props) {
 
   const initialFormState = {
     id: "",
-    name: "",
+    user_name: "",
     email: "",
     weekly_result: "",
     BL: "",
@@ -150,10 +150,15 @@ function Results(props) {
                             <input
                               type="text"
                               className="form-control"
+                              disabled
                               id="inputPassword4"
                               placeholder=""
-                              value={!editing ? user.name : currentUser.name}
-                              name="name"
+                              value={
+                                !editing
+                                  ? user.user_name
+                                  : currentUser.user_name
+                              }
+                              name="user_name"
                               onChange={
                                 editing
                                   ? currentUserInputChange
@@ -168,6 +173,7 @@ function Results(props) {
                               type="email"
                               className="form-control"
                               id="inputPassword4"
+                              disabled
                               placeholder=""
                               value={!editing ? user.email : currentUser.email}
                               name="email"

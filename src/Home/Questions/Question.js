@@ -1,9 +1,10 @@
 import React from "react";
-import Timer from "react-compound-timer/build";
-import { Card, CardHeader, CardBody } from "reactstrap";
-import $ from "jquery";
+//import Timer from "react-compound-timer/build";
+import { Card, CardHeader, CardBody, CardFooter, Button } from "reactstrap";
+
 import Moment from "react-moment";
 import moment from "moment";
+import Countdown from "react-countdown";
 
 import "./Question.scss";
 
@@ -12,8 +13,42 @@ export default function Question(props) {
   //   $("#resetbutton").click();
   // }, 10000);
 
+  const [counter, setCounter] = React.useState(10);
+  const [value, setValue] = React.useState();
+  let result = {};
+
+  React.useEffect(() => {
+    const timer =
+      counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
+    if (counter == 0) {
+      props.nextPage();
+    }
+    return () => {
+      if (counter == 0) {
+        console.log(counter);
+        setCounter(10);
+      }
+      clearInterval(timer);
+    };
+  }, [counter]);
+
   const start = moment().subtract(-10, "seconds");
 
+  // const onComplete = () => {
+  //   props.nextPage();
+  //   Countdown.start();
+  // };
+
+  console.log(value);
+  const submitAnswer = (data) => {
+    result[props.question.id] = value;
+    console.log(result);
+    props.setFieldValue("result", result);
+    setValue();
+    props.nextPage();
+  };
+  console.log(result);
+  console.log(props);
   return (
     <Card className="question">
       <CardHeader>
@@ -21,12 +56,14 @@ export default function Question(props) {
           {props.question?.major_category?.name}
         </strong>
         <p className="float-right" style={{ color: "#f00" }}>
-          <Moment
+          {/* <Countdown date={Date.now() + 10000} onComplete={props.nextPage} /> */}
+          {counter}
+          {/* <Moment
             interval={1000}
             date={start}
             format="mm:ss"
             durationFromNow
-          ></Moment>
+          ></Moment> */}
           {/* {props.timer} Seconds */}
           {/* <Timer
             initialTime={10000}
@@ -86,6 +123,7 @@ export default function Question(props) {
                     className="mr-2"
                     key={opt.question_id}
                     name="total_points"
+                    onChange={() => setValue(opt.id)}
                     value={opt.id && opt.points}
                   />
                   {opt.option_text}
@@ -94,6 +132,28 @@ export default function Question(props) {
           })}
         </div>
       </CardBody>
+      <CardFooter>
+        {props.page === props.questionLength - 1 ? (
+          <Button
+            // disabled={timer >= 9000 ? true : false}
+            block
+            className="btn-success text-white mt-2 question-card ml-auto mr-auto"
+            id="myButtonId"
+            // type="submit"
+          >
+            Submit
+          </Button>
+        ) : (
+          <Button
+            block
+            className="btn-warning text-white mt-2 question-card ml-auto mr-auto"
+            onClick={submitAnswer}
+            id="myButtonId"
+          >
+            Next
+          </Button>
+        )}
+      </CardFooter>
     </Card>
   );
 }

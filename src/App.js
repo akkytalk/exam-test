@@ -23,6 +23,8 @@ import C2 from "./Components/Level/C2";
 import SubCategory from "./Components/Category/SubCategory/SubCats";
 import MajorCats from "./Components/Category/MajorCats";
 import Options from "./Components/Options/Options";
+import Options2 from "./Components/Options/Options2";
+import Student from "./Home/Student/Student";
 
 const { persistor, store } = configureStore();
 
@@ -34,6 +36,7 @@ function App() {
           <Switch>
             <Route exact path="/login" name="Login" component={Login2} />
 
+            <Route path="/student" name="Users" component={Student} />
             <Route path="/level-c2" name="Users" component={C2} />
             <Route path="/level-c1" name="Users" component={C1} />
             <Route path="/level-b2" name="Users" component={B2} />
@@ -47,10 +50,10 @@ function App() {
               component={SubCategory}
             />
             <Route path="/results" name="Results" component={Results} />
-            <Route path="/options" name="Options" component={Options} />
+            <Route path="/options" name="Options" component={Options2} />
             <Route path="/user" name="Users" component={Users} />
             <Route path="/marking" name="Marking" component={Marking} />
-            <Route path="/run" name="Marking" component={Home} />
+            <Route path="/run" name="Run" component={Home} />
             <Route
               path="/questions"
               name="Questions"

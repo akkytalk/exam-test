@@ -141,7 +141,7 @@ export const editMarkingsRow = (
         setEditing(res.data);
         setCurrentUser({
           id: res.data.id,
-          name: res.data.user?.name,
+          user_name: res.data.user?.name,
           email: res.data.user?.email,
           weekly_result: res.data.weekly_result,
           BL: res.data.BL,

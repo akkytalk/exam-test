@@ -243,10 +243,10 @@ function Options(props) {
                               placeholder=""
                               value={
                                 !editing
-                                  ? user.option_text
+                                  ? user.option1?.option_text
                                   : currentUser.option_text
                               }
-                              name="option_text"
+                              name="option1?.option_text"
                               onChange={
                                 editing
                                   ? currentUserInputChange
@@ -264,10 +264,10 @@ function Options(props) {
                               placeholder=""
                               value={
                                 !editing
-                                  ? user.question_options
+                                  ? user.option2?.option_text
                                   : currentUser.question_options
                               }
-                              name="question_options"
+                              name="option2?.option_text"
                               onChange={
                                 editing
                                   ? currentUserInputChange

@@ -77,13 +77,13 @@ export const postOptionsDataFail = () => {
   };
 };
 
-export const postOptionsData = (data, user) => {
+export const postOptionsData = (data, values) => {
   return (dispatch) => {
     // if (!user.name) return;
     // console.log(data);
     dispatch(postOptionsDataStart());
     axios
-      .post(baseUrl + "options", user, {
+      .post(baseUrl + "options", values, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",

@@ -10864,6 +10864,13 @@
   "resolved" "https://registry.npmjs.org/react-compound-timer/-/react-compound-timer-1.2.0.tgz"
   "version" "1.2.0"
 
+"react-countdown@^2.3.1":
+  "integrity" "sha512-h66prF+Wwj3Ru4tDeqvXsW8iqaCyC54pjwTAlUUmUQ11EUqIO34xV4pO4q8MGT6917ep47ntKmBW99ZVN1ozdQ=="
+  "resolved" "https://registry.npmjs.org/react-countdown/-/react-countdown-2.3.1.tgz"
+  "version" "2.3.1"
+  dependencies:
+    "prop-types" "^15.7.2"
+
 "react-dev-utils@^11.0.2":
   "integrity" "sha512-xG7GlMoYkrgc2M1kDCHKRywXMDbFnjOB+/VzpytQyYBusEzR8NlGTMmUbvN86k94yyKu5XReHB8eZC2JZrNchQ=="
   "resolved" "https://registry.npmjs.org/react-dev-utils/-/react-dev-utils-11.0.2.tgz"
@@ -10894,7 +10901,7 @@
     "strip-ansi" "6.0.0"
     "text-table" "0.2.0"
 
-"react-dom@^17.0.1":
+"react-dom@^17.0.1", "react-dom@>= 15":
   "integrity" "sha512-6eV150oJZ9U2t9svnsspTMrWNyHc6chX0KzDeAOXftRa8bNeOKTTfCJ7KorIwenkHd2xqVTBTCZd79yk/lx/Ug=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-17.0.1.tgz"
   "version" "17.0.1"
@@ -11098,7 +11105,7 @@
     "loose-envify" "^1.4.0"
     "prop-types" "^15.6.2"
 
-"react@^17.0.1":
+"react@^17.0.1", "react@>= 15":
   "integrity" "sha512-lG9c9UuMHdcAexXtigOZLX8exLWkW0Ku29qPRU8uhF2R9BN96dLCt0psvzPLlHc5OWkgymP3qwTRgbnw5BKx3w=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.1.tgz"
   "version" "17.0.1"
