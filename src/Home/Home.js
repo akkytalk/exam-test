@@ -2,7 +2,14 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
-import { Card, CardHeader, Form, Button } from "reactstrap";
+import {
+  Card,
+  CardHeader,
+  Form,
+  Button,
+  CardBody,
+  CardFooter,
+} from "reactstrap";
 import { removeLogin } from "../reduxStore/actions/LoginCreators";
 import { withRouter } from "react-router-dom";
 
@@ -10,16 +17,11 @@ import "./Home.css";
 import axios from "axios";
 import { baseUrl } from "../shared/baseUrl";
 import { Formik } from "formik";
-import Question from "./Questions/Question";
+
+var result = new Array();
 
 function Home(props) {
   const accessToken = `${props.login?.login?.data?.token}`;
-
-  let data = {
-    token: accessToken,
-  };
-
-  console.log("data", data);
 
   const authAxios = axios.create({
     baseURL: baseUrl,
@@ -37,7 +39,9 @@ function Home(props) {
   const [user, setUser] = useState([]);
 
   const [page, setPage] = useState(0);
-  const [counter, setCounter] = useState(10);
+
+  const [value, setValue] = React.useState();
+  const [counter, setCounter] = React.useState(0);
 
   useEffect(() => {
     authAxios
@@ -45,7 +49,6 @@ function Home(props) {
       .then((res) => {
         console.log("questions response data", res.data);
         setQuestion(res.data);
-        // setPage(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -56,6 +59,9 @@ function Home(props) {
       .then((res) => {
         console.log("options response data", res.data);
         setOption(res.data);
+        if (res) {
+          setCounter(10);
+        }
       })
       .catch((err) => console.log(err));
   }, []);
@@ -80,18 +86,6 @@ function Home(props) {
       .catch((err) => console.log(err));
   }, []);
 
-  // useEffect(() => {
-  //   counter > 0 &&
-  //     setTimeout(() => {
-  //       setCounter(counter - 1);
-  //     }, 1000);
-  // }, [counter]);
-
-  console.log("question", question);
-  console.log("cetorgy", category);
-  console.log("options", option);
-  console.log("user", user?.data?.id);
-
   async function handleLogout() {
     await props.removeLogin();
 
@@ -105,30 +99,33 @@ function Home(props) {
   };
 
   const nextPage = () => {
+    answer();
     setPage(page + 1);
+    setCounter(10);
+    setValue();
   };
 
-  console.log(page);
+  const answer = () => {
+    console.log(value);
+    var obj = {};
+    obj[question.data[page].id] = value;
+    console.log(obj);
+    result.push(obj);
 
-  let initialValues;
+    console.log(result);
+  };
 
-  // if (question?.data?.length !== 0) {
-  //   initialValues = {
-
-  //   };
-  // }
-  // console.log("initialValues", initialValues);
-
-  async function sumbitHandle(e) {
-    e.preventDefault();
-    // setPage(page + 1);
+  const handleSubmit = () => {
+    let data = {
+      result: result,
+    };
     authAxios
-      .post("/results", initialValues)
+      .post("/results", data)
       .then((res) => {
         console.log("intial value is submited to results");
       })
       .catch((err) => console.log(err));
-  }
+  };
 
   if (props.login?.login.length === 0) {
     return <Redirect to={"/login"} />;
@@ -139,7 +136,6 @@ function Home(props) {
         <div className="main-field">
           <Card className="question-card mt-2">
             <CardHeader>
-              {/* <strong>Instructions</strong> */}
               <Button
                 className="float-right btn-danger"
                 onClick={() => handleLogout()}
@@ -156,22 +152,75 @@ function Home(props) {
             total_points: "",
             result: {},
           }}
-          onSubmit={sumbitHandle}
+          onSubmit={handleSubmit}
           render={(formProps) => {
             return (
               <Form>
-                {counter}
                 {question.length !== 0 ? (
-                  <Question
-                    {...formProps}
-                    question={question?.data[page]}
-                    option={option}
-                    category={category}
-                    page={page}
-                    questionLength={question?.data.length}
-                    nextPage={nextPage}
-                    // timer={timer}
-                  />
+                  <Card className="question">
+                    <CardHeader>
+                      <strong style={{ textTransform: "capitalize" }}>
+                        {question?.data[page].major_category?.name}
+                      </strong>
+                      <p className="pull-right text-red">{counter}</p>
+                    </CardHeader>
+                    <CardHeader
+                      style={{
+                        display: "flex",
+
+                        fontSize: "12px",
+                      }}
+                    >
+                      {/* <h6>Instructions:</h6> */}
+                      <span className="ml-4">
+                        {question?.data[page].instructions}
+                      </span>
+                    </CardHeader>
+                    <CardBody>
+                      Question
+                      <div className="mb-2">
+                        <h6>{question?.data[page].question_text} ?</h6>
+
+                        {option?.data?.map((opt, ind) => {
+                          if (question?.data[page].id == opt.question_id)
+                            return (
+                              <div key={ind}>
+                                <input
+                                  type="radio"
+                                  className="mr-2"
+                                  key={opt.question_id}
+                                  name="total_points"
+                                  onChange={() => setValue(opt.id)}
+                                  value={opt.id && opt.points}
+                                />
+                                {opt.option_text}
+                              </div>
+                            );
+                        })}
+                      </div>
+                    </CardBody>
+                    <CardFooter>
+                      {page === question.length - 1 ? (
+                        <Button
+                          block
+                          className="btn-success text-white mt-2 question-card ml-auto mr-auto"
+                          id="myButtonId"
+                          type="submit"
+                        >
+                          Submit
+                        </Button>
+                      ) : (
+                        <Button
+                          block
+                          className="btn-warning text-white mt-2 question-card ml-auto mr-auto"
+                          onClick={nextPage}
+                          id="myButtonId"
+                        >
+                          Next
+                        </Button>
+                      )}
+                    </CardFooter>
+                  </Card>
                 ) : null}
               </Form>
             );

@@ -16,6 +16,7 @@ import CustomInput from "../views/Custom/CustomInput";
 import FA from "react-fontawesome";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
+
 const mapStateToProps = (state) => {
   return {
     login: state.login,
@@ -29,7 +30,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 function Login2(props) {
- const handleSubmit = (values,  setSubmitting ) => {
+  const handleSubmit = (values, setSubmitting) => {
     let data = {
       email: values.email,
       password: values.password,
@@ -40,7 +41,7 @@ function Login2(props) {
     return;
   };
 
-console.log("login data", props.login?.login)
+  console.log("login data", props.login?.login)
 
   if (props.login?.login.length !== 0) {
     return <Redirect to={'/home'} />;
@@ -76,7 +77,7 @@ console.log("login data", props.login?.login)
 
   return (
     <Fragment>
-      
+
       <div
         className="col-xs-12 col-sm-12 col-md-5 col-lg-4"
         style={{

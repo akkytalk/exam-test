@@ -13,7 +13,7 @@ import subcatsReducer from "./reducer/RSubcats";
 import optionsReducer from "./reducer/ROptions";
 
 const config = {
-  key: "root",
+  key: "exam",
   storage,
   debug: true,
 };
