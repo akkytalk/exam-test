@@ -2,21 +2,14 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
-import {
-  Card,
-  CardHeader,
-  Form,
-  Button,
-  CardBody,
-  CardFooter,
-} from "reactstrap";
+import { Card, CardHeader, Button, CardBody, CardFooter } from "reactstrap";
 import { removeLogin } from "../reduxStore/actions/LoginCreators";
 import { withRouter } from "react-router-dom";
 
 import "./Home.css";
 import axios from "axios";
 import { baseUrl } from "../shared/baseUrl";
-import { Formik } from "formik";
+import { Formik, Form } from "formik";
 
 var result = new Array();
 
@@ -38,7 +31,7 @@ function Home(props) {
   const [category, setCategory] = useState([]);
   const [user, setUser] = useState([]);
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(170);
 
   const [value, setValue] = React.useState();
   const [counter, setCounter] = React.useState(0);
@@ -86,11 +79,11 @@ function Home(props) {
       .catch((err) => console.log(err));
   }, []);
 
-  async function handleLogout() {
+  const handleLogout = async () => {
     await props.removeLogin();
 
     setRedirect(true);
-  }
+  };
 
   const renderRedirect = () => {
     if (redirect) {
@@ -115,13 +108,15 @@ function Home(props) {
     console.log(result);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (values) => {
     let data = {
       result: result,
     };
+    console.log(values);
     authAxios
-      .post("/results", data)
+      .post("/test", data)
       .then((res) => {
+        console.log(res);
         console.log("intial value is submited to results");
       })
       .catch((err) => console.log(err));
@@ -132,7 +127,7 @@ function Home(props) {
   } else if (!props.login?.login.access_token) {
     return (
       <Fragment>
-        {renderRedirect()}
+        {/* {renderRedirect()} */}
         <div className="main-field">
           <Card className="question-card mt-2">
             <CardHeader>
@@ -153,79 +148,77 @@ function Home(props) {
             result: {},
           }}
           onSubmit={handleSubmit}
-          render={(formProps) => {
-            return (
-              <Form>
-                {question.length !== 0 ? (
-                  <Card className="question">
-                    <CardHeader>
-                      <strong style={{ textTransform: "capitalize" }}>
-                        {question?.data[page].major_category?.name}
-                      </strong>
-                      <p className="pull-right text-red">{counter}</p>
-                    </CardHeader>
-                    <CardHeader
-                      style={{
-                        display: "flex",
+        >
+          {(formProps) => (
+            <Form>
+              {question.length !== 0 ? (
+                <Card className="question">
+                  <CardHeader>
+                    <strong style={{ textTransform: "capitalize" }}>
+                      {question?.data[page]?.major_category?.name}
+                    </strong>
+                    <p className="pull-right text-red">{counter}</p>
+                  </CardHeader>
+                  <CardHeader
+                    style={{
+                      display: "flex",
 
-                        fontSize: "12px",
-                      }}
-                    >
-                      {/* <h6>Instructions:</h6> */}
-                      <span className="ml-4">
-                        {question?.data[page].instructions}
-                      </span>
-                    </CardHeader>
-                    <CardBody>
-                      Question
-                      <div className="mb-2">
-                        <h6>{question?.data[page].question_text} ?</h6>
+                      fontSize: "12px",
+                    }}
+                  >
+                    {/* <h6>Instructions:</h6> */}
+                    <span className="ml-4">
+                      {question?.data[page]?.instructions}
+                    </span>
+                  </CardHeader>
+                  <CardBody>
+                    Question
+                    <div className="mb-2">
+                      <h6>{question?.data[page].question_text} ?</h6>
 
-                        {option?.data?.map((opt, ind) => {
-                          if (question?.data[page].id == opt.question_id)
-                            return (
-                              <div key={ind}>
-                                <input
-                                  type="radio"
-                                  className="mr-2"
-                                  key={opt.question_id}
-                                  name="total_points"
-                                  onChange={() => setValue(opt.id)}
-                                  value={opt.id && opt.points}
-                                />
-                                {opt.option_text}
-                              </div>
-                            );
-                        })}
-                      </div>
-                    </CardBody>
-                    <CardFooter>
-                      {page === question.length - 1 ? (
-                        <Button
-                          block
-                          className="btn-success text-white mt-2 question-card ml-auto mr-auto"
-                          id="myButtonId"
-                          type="submit"
-                        >
-                          Submit
-                        </Button>
-                      ) : (
-                        <Button
-                          block
-                          className="btn-warning text-white mt-2 question-card ml-auto mr-auto"
-                          onClick={nextPage}
-                          id="myButtonId"
-                        >
-                          Next
-                        </Button>
-                      )}
-                    </CardFooter>
-                  </Card>
-                ) : null}
-              </Form>
-            );
-          }}
-        />
+                      {option?.data?.map((opt, ind) => {
+                        if (question?.data[page].id == opt.question_id)
+                          return (
+                            <div key={ind}>
+                              <input
+                                type="radio"
+                                className="mr-2"
+                                key={opt.question_id}
+                                name="total_points"
+                                onChange={() => setValue(opt.id)}
+                                value={opt.id && opt.points}
+                              />
+                              {opt.option_text}
+                            </div>
+                          );
+                      })}
+                    </div>
+                  </CardBody>
+                  <CardFooter>
+                    {page === question.data.length - 1 ? (
+                      <Button
+                        block
+                        className="btn-success text-white mt-2 question-card ml-auto mr-auto"
+                        type="submit"
+                      >
+                        Submit
+                      </Button>
+                    ) : (
+                      <Button
+                        block
+                        className="btn-warning text-white mt-2 question-card ml-auto mr-auto"
+                        onClick={nextPage}
+                        id="myButtonId"
+                      >
+                        Next
+                      </Button>
+                    )}
+                  </CardFooter>
+                </Card>
+              ) : null}
+            </Form>
+          )}
+        </Formik>
       </Fragment>
     );
   } else {
