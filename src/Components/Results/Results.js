@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as actions from "../../reduxStore/actions";
 import { connect } from "react-redux";
+import axios from "axios";
 import {
   Card,
   CardHeader,
@@ -19,6 +20,7 @@ import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import Link from "@material-ui/core/Link";
 import Sidebar from "../../Home/Sidebar/Sidebar";
+import { baseUrl } from "../../shared/baseUrl";
 
 function Results(props) {
   const accessToken = `${props.login?.login?.data?.token}`;
@@ -79,10 +81,40 @@ function Results(props) {
   };
 
   const [modal, setModal] = useState(false);
+  const [modal2, setModal2] = useState(false);
+
 
   const toggle = () => {
     setModal(!modal);
   };
+
+  const toggle2 = () => {
+    setModal2(!modal2);
+  };
+
+
+
+
+  const authAxios = axios.create({
+    baseURL: baseUrl,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  const [testResult, setTestResult] = useState([]);
+
+  useEffect(() => {
+    authAxios
+      .get("/test")
+      .then((res) => {
+        console.log("test response data", res.data);
+        setTestResult(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   console.log("data from currentUser", currentUser);
   return (
@@ -337,36 +369,307 @@ function Results(props) {
                                 </Col>
                               </Row>
                             ) : (
-                              <div className="d-flex">
-                                <button
-                                  className="btn btn-success"
-                                  type="button"
-                                  onClick={() => {
-                                    props.onUpdateMarkingsData(
-                                      data,
-                                      currentUser.id,
-                                      editing,
-                                      setEditing,
-                                      currentUser,
-                                      setCurrentUser
-                                    );
-                                    toggle();
-                                  }}
-                                >
-                                  Update
+                                <div className="d-flex">
+                                  <button
+                                    className="btn btn-success"
+                                    type="button"
+                                    onClick={() => {
+                                      props.onUpdateMarkingsData(
+                                        data,
+                                        currentUser.id,
+                                        editing,
+                                        setEditing,
+                                        currentUser,
+                                        setCurrentUser
+                                      );
+                                      toggle();
+                                    }}
+                                  >
+                                    Update
                                 </button>
-                                <button
-                                  className="btn btn-primary ml-3"
-                                  type="button"
-                                  onClick={() => {
-                                    setEditing(false);
-                                    toggle();
-                                  }}
-                                >
-                                  Cancel
+                                  <button
+                                    className="btn btn-primary ml-3"
+                                    type="button"
+                                    onClick={() => {
+                                      setEditing(false);
+                                      toggle();
+                                    }}
+                                  >
+                                    Cancel
                                 </button>
-                              </div>
-                            )}
+                                </div>
+                              )}
+                          </div>
+                        </div>
+                      </form>
+                    </ModalBody>
+                  </Modal>
+
+
+                  <Modal
+                    className="modal-info modal-lg"
+                    isOpen={modal2}
+                    toggle={toggle2}
+                  >
+                    <ModalHeader toggle={toggle2}>Add New Marking</ModalHeader>
+                    <ModalBody>
+                      <form
+
+                      >
+                        <div className="form-row" style={{ fontSize: "12px" }}>
+                          <div className="form-group col-md-6">
+                            <label htmlFor="inputPassword4"> Name </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              disabled
+                              id="inputPassword4"
+                              placeholder=""
+                              value={
+                                !editing
+                                  ? user.user_name
+                                  : currentUser.user_name
+                              }
+                              name="user_name"
+                              onChange={
+                                editing
+                                  ? currentUserInputChange
+                                  : handleInputChange
+                              }
+                            />
+                          </div>
+
+                          <div className="form-group col-md-6">
+                            <label htmlFor="inputPassword4"> Email </label>
+                            <input
+                              type="email"
+                              className="form-control"
+                              id="inputPassword4"
+                              disabled
+                              placeholder=""
+                              value={!editing ? user.email : currentUser.email}
+                              name="email"
+                              onChange={
+                                editing
+                                  ? currentUserInputChange
+                                  : handleInputChange
+                              }
+                            />
+                          </div>
+
+                          <div className="form-group col-md-6">
+                            <label htmlFor="inputPassword4">
+                              {" "}
+                              Level A1 points
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              disabled
+                              id="inputPassword4"
+                              placeholder=""
+                              value={
+                                !editing
+                                  ? user.weekly_result
+                                  : currentUser.weekly_result
+                              }
+                              name="weekly_result"
+                              onChange={
+                                editing
+                                  ? currentUserInputChange
+                                  : handleInputChange
+                              }
+                            />
+                          </div>
+
+                          <div className="form-group col-md-6">
+                            <label htmlFor="inputPassword4">
+                              {" "}
+                              Level A2 points{" "}
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="inputPassword4"
+                              placeholder=""
+                              disabled
+                              value={!editing ? user.BL : currentUser.BL}
+                              name="BL"
+                              onChange={
+                                editing
+                                  ? currentUserInputChange
+                                  : handleInputChange
+                              }
+                            />
+                          </div>
+
+                          <div className="form-group col-md-6">
+                            <label htmlFor="inputPassword4">
+                              {" "}
+                              Level B1 points{" "}
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="inputPassword4"
+                              placeholder=""
+                              disabled
+                              value={
+                                !editing ? user.biodata : currentUser.biodata
+                              }
+                              name="biodata"
+                              onChange={
+                                editing
+                                  ? currentUserInputChange
+                                  : handleInputChange
+                              }
+                            />
+                          </div>
+
+                          <div className="form-group col-md-6">
+                            <label htmlFor="inputPassword4">
+                              {" "}
+                              Level B2 points{" "}
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="inputPassword4"
+                              placeholder=""
+                              disabled
+                              value={
+                                !editing
+                                  ? user.mock_interview
+                                  : currentUser.mock_interview
+                              }
+                              name="mock_interview"
+                              onChange={
+                                editing
+                                  ? currentUserInputChange
+                                  : handleInputChange
+                              }
+                            />
+                          </div>
+
+                          <div className="form-group col-md-6">
+                            <label htmlFor="inputPassword4">
+                              {" "}
+                              Level C1 points{" "}
+                            </label>
+                            <input
+                              type="number"
+                              className="form-control"
+                              id="inputPassword4"
+                              placeholder=""
+                              disabled
+                              value={
+                                !editing
+                                  ? user.final_score
+                                  : currentUser.final_score
+                              }
+                              name="final_score"
+                              onChange={
+                                editing
+                                  ? currentUserInputChange
+                                  : handleInputChange
+                              }
+                            />
+                          </div>
+
+                          <div className="form-group col-md-6">
+                            <label htmlFor="inputPassword4">
+                              {" "}
+                              Level C2 points{" "}
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="inputPassword4"
+                              name="exam_result"
+                              disabled
+                              value={
+                                editing
+                                  ? currentUser.exam_result
+                                  : user.exam_result
+                              }
+                              onChange={
+                                editing
+                                  ? currentUserInputChange
+                                  : handleInputChange
+                              }
+                            />
+                          </div>
+
+                          <div className="form-group col-md-6">
+                            <label htmlFor="inputPassword4">
+                              {" "}
+                              Total points{" "}
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="inputPassword4"
+                              name="exam_result"
+                              disabled
+                              value={
+                                editing
+                                  ? currentUser.exam_result
+                                  : user.exam_result
+                              }
+                              onChange={
+                                editing
+                                  ? currentUserInputChange
+                                  : handleInputChange
+                              }
+                            />
+                          </div>
+
+
+                          <div className="form-group col-md-12 mt-4">
+                            {!editing ? (
+                              <Row style={{ justifyContent: "center" }}>
+                                <Col md={4}>
+                                  <Button type="reset" color="danger" block>
+                                    <b>Reset</b>
+                                  </Button>
+                                </Col>
+                                <Col md={4}>
+                                  <Button type="button" color="primary" block>
+                                    Submit
+                                  </Button>
+                                </Col>
+                              </Row>
+                            ) : (
+                                <div className="d-flex">
+                                  <button
+                                    className="btn btn-success"
+                                    type="button"
+                                    onClick={() => {
+                                      props.onUpdateMarkingsData(
+                                        data,
+                                        currentUser.id,
+                                        editing,
+                                        setEditing,
+                                        currentUser,
+                                        setCurrentUser
+                                      );
+                                      toggle();
+                                    }}
+                                  >
+                                    Update
+                                </button>
+                                  <button
+                                    className="btn btn-primary ml-3"
+                                    type="button"
+                                    onClick={() => {
+                                      setEditing(false);
+                                      toggle();
+                                    }}
+                                  >
+                                    Cancel
+                                </button>
+                                </div>
+                              )}
                           </div>
                         </div>
                       </form>
@@ -405,7 +708,9 @@ function Results(props) {
                             <td>{user?.biodata}</td>
                             <td>{user?.mock_interview}</td>
                             <td>{user?.final_score}</td>
-                            <td>{user?.exam_result}</td>
+                            <td>
+                              <Button className="btn-success" onClick={toggle2}>View</Button>
+                            </td>
 
                             <td className="d-flex">
                               <Button
@@ -430,14 +735,14 @@ function Results(props) {
 
                               <Button
                                 className="btn-danger p-1 ml-3"
-                                // onClick={() => {
-                                //   if (
-                                //     window.confirm(
-                                //       "Are you sure you wish to delete this Account Group?"
-                                //     )
-                                //   )
-                                //     props.onDeleteMarkings(data, user.id);
-                                // }}
+                              // onClick={() => {
+                              //   if (
+                              //     window.confirm(
+                              //       "Are you sure you wish to delete this Account Group?"
+                              //     )
+                              //   )
+                              //     props.onDeleteMarkings(data, user.id);
+                              // }}
                               >
                                 <i
                                   className="fa fa-trash-alt "
@@ -449,10 +754,10 @@ function Results(props) {
                           </tr>
                         ))
                       ) : (
-                        <tr>
-                          <td colSpan={3}>No users</td>
-                        </tr>
-                      )}
+                          <tr>
+                            <td colSpan={3}>No users</td>
+                          </tr>
+                        )}
                     </tbody>
                   </table>
                 </CardBody>

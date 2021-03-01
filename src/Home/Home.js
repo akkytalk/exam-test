@@ -31,7 +31,7 @@ function Home(props) {
   const [category, setCategory] = useState([]);
   const [user, setUser] = useState([]);
 
-  const [page, setPage] = useState(170);
+  const [page, setPage] = useState(0);
 
   const [value, setValue] = React.useState();
   const [counter, setCounter] = React.useState(0);
@@ -204,15 +204,15 @@ function Home(props) {
                         Submit
                       </Button>
                     ) : (
-                      <Button
-                        block
-                        className="btn-warning text-white mt-2 question-card ml-auto mr-auto"
-                        onClick={nextPage}
-                        id="myButtonId"
-                      >
-                        Next
-                      </Button>
-                    )}
+                        <Button
+                          block
+                          className="btn-warning text-white mt-2 question-card ml-auto mr-auto"
+                          onClick={nextPage}
+                          id="myButtonId"
+                        >
+                          Next
+                        </Button>
+                      )}
                   </CardFooter>
                 </Card>
               ) : null}

@@ -214,7 +214,7 @@ function Options(props) {
                                   {props.questions?.data?.map((quest) => {
                                     return (
                                       <option key={quest.id} value={quest.id}>
-                                        {quest.id}
+                                        {quest.question_text}
                                       </option>
                                     );
                                   })}
@@ -226,35 +226,35 @@ function Options(props) {
                                 render={(arrayHelper) => (
                                   <div>
                                     {values.options &&
-                                    values.options.length > 0 ? (
-                                      values.options.map((option, index) => (
-                                        <div className="form-group col-md-12">
-                                          <label htmlFor="inputPassword4">
-                                            {" "}
-                                            {`options ${index + 1} `}
-                                          </label>
-                                          <input
-                                            type="text"
-                                            className="form-control"
-                                            id="inputPassword4"
-                                            placeholder=""
-                                            // value={
-                                            //   !editing
-                                            //     ? user.option_text
-                                            //     : currentUser.option_text
-                                            // }
-                                            name={`options.${index}`}
-                                            onChange={
-                                              editing
-                                                ? currentUserInputChange
-                                                : handleInputChange
-                                            }
-                                          />
-                                        </div>
-                                      ))
-                                    ) : (
-                                      <div></div>
-                                    )}
+                                      values.options.length > 0 ? (
+                                        values.options.map((option, index) => (
+                                          <div className="form-group col-md-12">
+                                            <label htmlFor="inputPassword4">
+                                              {" "}
+                                              {`options ${index + 1} `}
+                                            </label>
+                                            <input
+                                              type="text"
+                                              className="form-control"
+                                              id="inputPassword4"
+                                              placeholder=""
+                                              // value={
+                                              //   !editing
+                                              //     ? user.option_text
+                                              //     : currentUser.option_text
+                                              // }
+                                              name={`options.${index}`}
+                                              onChange={
+                                                editing
+                                                  ? currentUserInputChange
+                                                  : handleInputChange
+                                              }
+                                            />
+                                          </div>
+                                        ))
+                                      ) : (
+                                        <div></div>
+                                      )}
                                   </div>
                                 )}
                               />
@@ -305,37 +305,37 @@ function Options(props) {
                                     </Col>
                                   </Row>
                                 ) : (
-                                  <div className="d-flex">
-                                    <button
-                                      className="btn btn-success"
-                                      type="button"
-                                      onClick={() => {
-                                        props.onUpdateOptionsData(
-                                          data,
-                                          currentUser.id,
-                                          editing,
-                                          setEditing,
-                                          currentUser,
-                                          setCurrentUser
-                                        );
-                                        // setEditing(false);
-                                        toggle();
-                                      }}
-                                    >
-                                      Update
+                                    <div className="d-flex">
+                                      <button
+                                        className="btn btn-success"
+                                        type="button"
+                                        onClick={() => {
+                                          props.onUpdateOptionsData(
+                                            data,
+                                            currentUser.id,
+                                            editing,
+                                            setEditing,
+                                            currentUser,
+                                            setCurrentUser
+                                          );
+                                          // setEditing(false);
+                                          toggle();
+                                        }}
+                                      >
+                                        Update
                                     </button>
-                                    <button
-                                      className="btn btn-primary ml-3"
-                                      type="button"
-                                      onClick={() => {
-                                        setEditing(false);
-                                        toggle();
-                                      }}
-                                    >
-                                      Cancel
+                                      <button
+                                        className="btn btn-primary ml-3"
+                                        type="button"
+                                        onClick={() => {
+                                          setEditing(false);
+                                          toggle();
+                                        }}
+                                      >
+                                        Cancel
                                     </button>
-                                  </div>
-                                )}
+                                    </div>
+                                  )}
                               </div>
                             </div>
                           </Form>
@@ -416,10 +416,10 @@ function Options(props) {
                           </tr>
                         ))
                       ) : (
-                        <tr>
-                          <td colSpan={3}>No users</td>
-                        </tr>
-                      )}
+                          <tr>
+                            <td colSpan={3}>No users</td>
+                          </tr>
+                        )}
                     </tbody>
                   </table>
                 </CardBody>
