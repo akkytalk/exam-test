@@ -143,8 +143,7 @@ function Home(props) {
 
         <Formik
           initialValues={{
-            user_id: user?.data?.id,
-            total_points: "",
+
             result: {},
           }}
           onSubmit={handleSubmit}
@@ -157,7 +156,7 @@ function Home(props) {
                     <strong style={{ textTransform: "capitalize" }}>
                       {question?.data[page]?.major_category?.name}
                     </strong>
-                    <p className="pull-right text-red">{counter}</p>
+                    {/* <p className="pull-right text-red">{counter}</p> */}
                   </CardHeader>
                   <CardHeader
                     style={{
@@ -167,13 +166,15 @@ function Home(props) {
                     }}
                   >
                     {/* <h6>Instructions:</h6> */}
-                    <span className="ml-4">
+                    <span className="ml-1">
                       {question?.data[page]?.instructions}
                     </span>
                   </CardHeader>
                   <CardBody>
-                    Question
+                    <h6>Question No.{"  "}{page + 1}</h6>
+
                     <div className="mb-2">
+
                       <h6>{question?.data[page].question_text} ?</h6>
 
                       {option?.data?.map((opt, ind) => {

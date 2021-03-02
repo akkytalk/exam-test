@@ -74,6 +74,7 @@ function Users(props) {
     setEditing(false);
   };
   console.log("user from user", user);
+  console.log("CurrentUser from user", currentUser);
   return (
     <React.Fragment>
       <div className="wrapper">
@@ -300,31 +301,36 @@ function Users(props) {
                                 </Col>
                               </Row>
                             ) : (
-                              <div className="d-flex">
-                                <button
-                                  className="btn btn-success"
-                                  type="button"
-                                  onClick={() =>
-                                    props.onUpdateUsersData(
-                                      currentUser.id,
-                                      editing,
-                                      setEditing,
-                                      currentUser,
-                                      setCurrentUser
-                                    )
-                                  }
-                                >
-                                  Update
+                                <div className="d-flex">
+                                  <button
+                                    className="btn btn-success"
+                                    type="button"
+                                    onClick={() => {
+                                      props.onUpdateUsersData(
+                                        data,
+                                        currentUser.id,
+                                        editing,
+                                        setEditing,
+                                        currentUser,
+                                        setCurrentUser
+                                      );
+                                      toggle();
+                                    }}
+                                  >
+                                    Update
                                 </button>
-                                <button
-                                  className="btn btn-primary ml-3"
-                                  type="button"
-                                  onClick={() => setEditing(false)}
-                                >
-                                  Cancel
+                                  <button
+                                    className="btn btn-primary ml-3"
+                                    type="button"
+                                    onClick={() => {
+                                      setEditing(false);
+                                      toggle();
+                                    }}
+                                  >
+                                    Cancel
                                 </button>
-                              </div>
-                            )}
+                                </div>
+                              )}
                           </div>
                         </div>
                       </form>
@@ -399,10 +405,10 @@ function Users(props) {
                           </tr>
                         ))
                       ) : (
-                        <tr>
-                          <td colSpan={3}>No users</td>
-                        </tr>
-                      )}
+                          <tr>
+                            <td colSpan={3}>No users</td>
+                          </tr>
+                        )}
                     </tbody>
                   </table>
                 </CardBody>

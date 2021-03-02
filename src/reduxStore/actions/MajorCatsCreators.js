@@ -25,6 +25,7 @@ export const majorcatsGetData = (data) => {
           Accept: "application/json",
           "Content-Type": "application/json",
           Authorization: "Bearer " + data.token,
+
         },
       })
       .then((res) => {

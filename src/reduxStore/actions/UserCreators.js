@@ -93,7 +93,7 @@ export const postUsersData = (data, user) => {
       })
       .then(() => {
         console.log("swal");
-        swal("Successfully Created Category!").then(() => {
+        swal("Successfully Added User!").then(() => {
           window.location.reload();
         });
       })
@@ -142,10 +142,10 @@ export const editUsersRow = (
         console.log(res.data, "editing data res");
         setEditing(res.data);
         setCurrentUser({
-          id: res.data.id,
-          name: res.data.name,
-          email: res.data.email,
-          password: res.data.password,
+          id: res.data.data.id,
+          name: res.data.data.name,
+          email: res.data.data.email,
+          password: res.data.data.password,
         });
       })
       .catch((error) => dispatch(failEditUsers()));
@@ -180,7 +180,7 @@ export const updateUsersData = (
       })
       .then(() => {
         console.log("swal");
-        swal("Successfully Updated Category!").then(() => {
+        swal("Successfully Updated user!").then(() => {
           window.location.reload();
         });
       })

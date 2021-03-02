@@ -102,6 +102,8 @@ function MainQuestion(props) {
 
   // console.log("currentdata", Currentdata);
 
+
+
   return (
     <React.Fragment>
       <div className="wrapper">
@@ -242,9 +244,9 @@ function MainQuestion(props) {
                               {props.subcats?.map((sub) => {
                                 if (
                                   user.major_category_name ===
-                                    sub.major_category?.name ||
+                                  sub.major_category?.name ||
                                   currentUser.major_category_name ===
-                                    sub.major_category?.name
+                                  sub.major_category?.name
                                 ) {
                                   // console.log(
                                   //   "Sub Category",
@@ -445,37 +447,37 @@ function MainQuestion(props) {
                                 </Col>
                               </Row>
                             ) : (
-                              <div className="d-flex">
-                                <button
-                                  className="btn btn-success"
-                                  type="button"
-                                  onClick={() => {
-                                    props.onUpdateQuestionsData(
-                                      data,
-                                      currentUser.id,
-                                      editing,
-                                      setEditing,
-                                      currentUser,
-                                      setCurrentUser
-                                    );
-                                    // setEditing(false);
-                                    toggle();
-                                  }}
-                                >
-                                  Update
+                                <div className="d-flex">
+                                  <button
+                                    className="btn btn-success"
+                                    type="button"
+                                    onClick={() => {
+                                      props.onUpdateQuestionsData(
+                                        data,
+                                        currentUser.id,
+                                        editing,
+                                        setEditing,
+                                        currentUser,
+                                        setCurrentUser
+                                      );
+                                      // setEditing(false);
+                                      toggle();
+                                    }}
+                                  >
+                                    Update
                                 </button>
-                                <button
-                                  className="btn btn-primary ml-3"
-                                  type="button"
-                                  onClick={() => {
-                                    setEditing(false);
-                                    toggle();
-                                  }}
-                                >
-                                  Cancel
+                                  <button
+                                    className="btn btn-primary ml-3"
+                                    type="button"
+                                    onClick={() => {
+                                      setEditing(false);
+                                      toggle();
+                                    }}
+                                  >
+                                    Cancel
                                 </button>
-                              </div>
-                            )}
+                                </div>
+                              )}
                           </div>
                         </div>
                       </form>
@@ -490,6 +492,7 @@ function MainQuestion(props) {
                     <thead>
                       <tr>
                         {/* <th>ID</th> */}
+                        <th scope="col">Sr No.</th>
                         <th scope="col">Q Id.</th>
                         <th scope="col">Questions</th>
                         <th scope="col">Option 1</th>
@@ -503,16 +506,17 @@ function MainQuestion(props) {
                     </thead>
                     <tbody>
                       {props.questions?.data?.length > 0 ? (
-                        props.questions?.data?.map((user) => (
+                        props.questions?.data?.map((user, index) => (
                           <tr key={user.id}>
+                            <td>{index + 1}</td>
                             <td>{user.id}</td>
-                            <td>{user.question_text}</td>
+                            <td>{user.question_text ? user.question_text : "Question is not available"}</td>
                             {user?.question_options.length > 0
                               ? user?.question_options?.map((opt) => (
-                                  <td key={opt.id}>{opt.option_text}</td>
-                                ))
+                                <td key={opt.id}>{opt.option_text}</td>
+                              ))
                               : "options are not added yet"}
-                            <td>{user?.instructions}</td>
+                            <td>{user?.instructions ? user?.instructions : "Instructions are not available"}</td>
 
                             <td className="d-flex">
                               <Button
@@ -556,10 +560,10 @@ function MainQuestion(props) {
                           </tr>
                         ))
                       ) : (
-                        <tr>
-                          <td colSpan={3}>No users</td>
-                        </tr>
-                      )}
+                          <tr>
+                            <td colSpan={3}>No users</td>
+                          </tr>
+                        )}
                     </tbody>
                   </table>
                 </CardBody>

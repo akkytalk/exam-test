@@ -225,9 +225,9 @@ function C2(props) {
                               {props.subcats?.map((sub) => {
                                 if (
                                   user.major_category_name ===
-                                    sub.major_category?.name ||
+                                  sub.major_category?.name ||
                                   currentUser.major_category_name ===
-                                    sub.major_category?.name
+                                  sub.major_category?.name
                                 ) {
                                   // console.log(
                                   //   "Sub Category",
@@ -343,36 +343,36 @@ function C2(props) {
                                 </Col>
                               </Row>
                             ) : (
-                              <div className="d-flex">
-                                <Button
-                                  className="btn btn-success"
-                                  type="button"
-                                  onClick={() => {
-                                    props.onUpdateQuestionsData(
-                                      data,
-                                      currentUser.id,
-                                      editing,
-                                      setEditing,
-                                      currentUser,
-                                      setCurrentUser
-                                    );
-                                    toggle();
-                                  }}
-                                >
-                                  Update
+                                <div className="d-flex">
+                                  <Button
+                                    className="btn btn-success"
+                                    type="button"
+                                    onClick={() => {
+                                      props.onUpdateQuestionsData(
+                                        data,
+                                        currentUser.id,
+                                        editing,
+                                        setEditing,
+                                        currentUser,
+                                        setCurrentUser
+                                      );
+                                      toggle();
+                                    }}
+                                  >
+                                    Update
                                 </Button>
-                                <Button
-                                  className="btn btn-primary ml-3"
-                                  type="button"
-                                  onClick={() => {
-                                    setEditing(false);
-                                    toggle();
-                                  }}
-                                >
-                                  Cancel
+                                  <Button
+                                    className="btn btn-primary ml-3"
+                                    type="button"
+                                    onClick={() => {
+                                      setEditing(false);
+                                      toggle();
+                                    }}
+                                  >
+                                    Cancel
                                 </Button>
-                              </div>
-                            )}
+                                </div>
+                              )}
                           </div>
                         </div>
                       </form>
@@ -454,10 +454,10 @@ function C2(props) {
                             );
                         })
                       ) : (
-                        <tr>
-                          <td colSpan={3}>No users</td>
-                        </tr>
-                      )}
+                          <tr>
+                            <td colSpan={3}>No users</td>
+                          </tr>
+                        )}
                     </tbody>
                   </table>
                 </CardBody>

@@ -190,9 +190,9 @@ function Options(props) {
                               className="form-row"
                               style={{ fontSize: "12px" }}
                             >
-                              <div className="form-group col-md-6">
+                              <div className="form-group col-md-10">
                                 <label htmlFor="inputPassword4">
-                                  Question ID
+                                  Question
                                 </label>
                                 <select
                                   type="text"
@@ -224,11 +224,11 @@ function Options(props) {
                               <FieldArray
                                 name="options"
                                 render={(arrayHelper) => (
-                                  <div>
+                                  <div style={{ display: "flex", flexFlow: "column", width: "100%" }}>
                                     {values.options &&
                                       values.options.length > 0 ? (
                                         values.options.map((option, index) => (
-                                          <div className="form-group col-md-12">
+                                          <div key={index} className="form-group col-md-10" >
                                             <label htmlFor="inputPassword4">
                                               {" "}
                                               {`options ${index + 1} `}
@@ -352,6 +352,7 @@ function Options(props) {
                     <thead>
                       <tr>
                         {/* <th>ID</th> */}
+
                         <th scope="col">Q Id.</th>
                         <th scope="col">Questions</th>
                         <th scope="col">Option 1</th>
@@ -365,8 +366,9 @@ function Options(props) {
                     </thead>
                     <tbody>
                       {props.questions?.data?.length > 0 ? (
-                        props.questions?.data?.map((user) => (
+                        props.questions?.data?.map((user, index) => (
                           <tr key={user.id}>
+
                             <td>{user.id}</td>
                             <td>{user.question_text}</td>
                             {user?.question_options?.map((opt) => (
