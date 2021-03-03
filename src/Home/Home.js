@@ -10,13 +10,15 @@ import "./Home.css";
 import axios from "axios";
 import { baseUrl } from "../shared/baseUrl";
 import { Formik, Form } from "formik";
-import { makeStyles } from '@material-ui/core/styles';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import { makeStyles } from "@material-ui/core/styles";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
-import PropTypes from 'prop-types';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import PropTypes from "prop-types";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+
+import "./Questions/Question.css";
 
 function CircularProgressWithLabel(props) {
   return (
@@ -32,9 +34,11 @@ function CircularProgressWithLabel(props) {
         alignItems="center"
         justifyContent="center"
       >
-        <Typography variant="caption" component="div" color="textSecondary">{`${Math.round(
-          props.value,
-        )}%`}</Typography>
+        <Typography
+          variant="caption"
+          component="div"
+          color="textSecondary"
+        >{`${Math.round(props.value)}%`}</Typography>
       </Box>
     </Box>
   );
@@ -42,10 +46,9 @@ function CircularProgressWithLabel(props) {
 
 const useStyles = makeStyles({
   root: {
-    width: '100%',
+    width: "100%",
   },
 });
-
 
 CircularProgressWithLabel.propTypes = {
   /**
@@ -54,8 +57,6 @@ CircularProgressWithLabel.propTypes = {
    */
   value: 100,
 };
-
-
 
 var result = new Array();
 
@@ -68,14 +69,14 @@ function Home(props) {
     const timer = setInterval(() => {
       setProgress((prevProgress) => {
         if (prevProgress <= 0) {
-
-          setPage(page => page + 1)
+          setPage((page) => page + 1);
+          // setValue();
+          // answer();
           return 100;
-        }
-        else {
+        } else {
           return prevProgress - 10;
         }
-      })
+      });
 
       // (prevProgress <= 0 ? 100 : prevProgress - 10));
     }, 1000);
@@ -85,10 +86,7 @@ function Home(props) {
     };
   }, [page]);
 
-
-
   const classes = useStyles();
-
 
   const accessToken = `${props.login?.login?.data?.token}`;
 
@@ -106,8 +104,6 @@ function Home(props) {
   const [option, setOption] = useState([]);
   const [category, setCategory] = useState([]);
   const [user, setUser] = useState([]);
-
-
 
   const [value, setValue] = React.useState();
   const [counter, setCounter] = React.useState(0);
@@ -173,13 +169,13 @@ function Home(props) {
     setPage(page + 1);
     setCounter(10);
     setValue();
-    setProgress(100)
+    setProgress(100);
   };
 
   const answer = () => {
     console.log(value);
     var obj = {};
-    obj[question.data[page].id] = value;
+    obj[question?.data[page]?.id] = value;
     console.log(obj);
     result.push(obj);
 
@@ -231,7 +227,6 @@ function Home(props) {
 
         <Formik
           initialValues={{
-
             result: {},
           }}
           onSubmit={handleSubmit}
@@ -251,10 +246,14 @@ function Home(props) {
                     </strong>
                     <p className="pull-right text-red">{counter}</p>
                   </CardHeader> */}
-                  <CardHeader style={{ display: "flex", justifyContent: "space-between" }}>
-                    <h6 style={{ fontSize: "14px" }}>Question No.{"  "}{page + 1}</h6>
+                  <CardHeader
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <h6 style={{ fontSize: "14px" }}>
+                      Question No.{"  "}
+                      {page + 1}
+                    </h6>
                     <div className="float-right">
-
                       {/* <CircularProgressWithLabel value={progress} /> */}
                     </div>
                   </CardHeader>
@@ -271,10 +270,7 @@ function Home(props) {
                     </h6>
                   </CardHeader>
                   <CardBody style={{ textTransform: "uppercase" }}>
-
-
                     <div className="mb-2">
-
                       <h6>{question?.data[page]?.question_text} ?</h6>
 
                       {option?.data?.map((opt, ind) => {
@@ -306,15 +302,15 @@ function Home(props) {
                         Submit
                       </Button>
                     ) : (
-                        <Button
-                          block
-                          className="btn-warning text-white mt-2 question-card ml-auto mr-auto"
-                          onClick={nextPage}
-                          id="myButtonId"
-                        >
-                          Next
-                        </Button>
-                      )}
+                      <Button
+                        block
+                        className="btn-warning text-white mt-2 question-card ml-auto mr-auto"
+                        onClick={nextPage}
+                        id="myButtonId"
+                      >
+                        Next
+                      </Button>
+                    )}
                   </CardFooter>
                 </Card>
               ) : null}

@@ -11,6 +11,7 @@ import markingReducer from "./reducer/RMarkings";
 import majorcatsReducer from "./reducer/RMajorcats";
 import subcatsReducer from "./reducer/RSubcats";
 import optionsReducer from "./reducer/ROptions";
+import signupReducer from "./reducer/RSignup";
 
 const config = {
   key: "exam",
@@ -29,6 +30,7 @@ export const configureStore = () => {
       markings: markingReducer,
       majorcats: majorcatsReducer,
       subcats: subcatsReducer,
+      signup: signupReducer,
     }),
     applyMiddleware(thunk, logger)
   );

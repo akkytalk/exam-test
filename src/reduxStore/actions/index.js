@@ -1,5 +1,7 @@
 export { postLogin, removeLogin } from "./LoginCreators";
 
+export { postSignup, removeSignup } from "./SignupCreators";
+
 export {
   accountGroupGetData,
   deleteAccountGroup,

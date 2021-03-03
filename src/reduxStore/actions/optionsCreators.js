@@ -77,13 +77,14 @@ export const postOptionsDataFail = () => {
   };
 };
 
-export const postOptionsData = (data, values) => {
+export const postOptionsData = (data, user) => {
   return (dispatch) => {
     // if (!user.name) return;
     // console.log(data);
+    console.log("user from postOptionsData", user);
     dispatch(postOptionsDataStart());
     axios
-      .post(baseUrl + "options", values, {
+      .post(baseUrl + "options", user, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -92,12 +93,12 @@ export const postOptionsData = (data, values) => {
       })
       .then(() => {
         console.log("swal");
-        swal("Successfully Added Question!").then(() => {
+        swal("Successfully Added Options!").then(() => {
           window.location.reload();
         });
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response);
         dispatch(postOptionsDataFail());
       });
     // props.addUser(user);

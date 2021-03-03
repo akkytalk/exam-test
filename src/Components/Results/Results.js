@@ -83,17 +83,14 @@ function Results(props) {
   const [modal, setModal] = useState(false);
   const [modal2, setModal2] = useState(false);
 
-
   const toggle = () => {
     setModal(!modal);
   };
 
   const toggle2 = () => {
     setModal2(!modal2);
+    // setEditing(false);
   };
-
-
-
 
   const authAxios = axios.create({
     baseURL: baseUrl,
@@ -106,15 +103,24 @@ function Results(props) {
 
   const [testResult, setTestResult] = useState([]);
 
-  useEffect(() => {
+  const userid = props.markings.user_id;
+
+  console.log("props.markings.user_id", props.markings.user_id);
+
+  async function ViewandleId(id) {
+    console.log("User-id", id);
     authAxios
-      .get("/test")
+      .get(`/test/${id}`)
       .then((res) => {
         console.log("test response data", res.data);
         setTestResult(res.data);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }
+
+  useEffect(() => {}, []);
+
+  console.log("test result", testResult);
 
   console.log("data from currentUser", currentUser);
   return (
@@ -346,6 +352,7 @@ function Results(props) {
                                   ? currentUser.exam_result
                                   : user.exam_result
                               }
+                              disabled
                               onChange={
                                 editing
                                   ? currentUserInputChange
@@ -369,42 +376,41 @@ function Results(props) {
                                 </Col>
                               </Row>
                             ) : (
-                                <div className="d-flex">
-                                  <button
-                                    className="btn btn-success"
-                                    type="button"
-                                    onClick={() => {
-                                      props.onUpdateMarkingsData(
-                                        data,
-                                        currentUser.id,
-                                        editing,
-                                        setEditing,
-                                        currentUser,
-                                        setCurrentUser
-                                      );
-                                      toggle();
-                                    }}
-                                  >
-                                    Update
+                              <div className="d-flex">
+                                <button
+                                  className="btn btn-success"
+                                  type="button"
+                                  onClick={() => {
+                                    props.onUpdateMarkingsData(
+                                      data,
+                                      currentUser.id,
+                                      editing,
+                                      setEditing,
+                                      currentUser,
+                                      setCurrentUser
+                                    );
+                                    toggle();
+                                  }}
+                                >
+                                  Update
                                 </button>
-                                  <button
-                                    className="btn btn-primary ml-3"
-                                    type="button"
-                                    onClick={() => {
-                                      setEditing(false);
-                                      toggle();
-                                    }}
-                                  >
-                                    Cancel
+                                <button
+                                  className="btn btn-primary ml-3"
+                                  type="button"
+                                  onClick={() => {
+                                    setEditing(false);
+                                    toggle();
+                                  }}
+                                >
+                                  Cancel
                                 </button>
-                                </div>
-                              )}
+                              </div>
+                            )}
                           </div>
                         </div>
                       </form>
                     </ModalBody>
                   </Modal>
-
 
                   <Modal
                     className="modal-info modal-lg"
@@ -413,9 +419,7 @@ function Results(props) {
                   >
                     <ModalHeader toggle={toggle2}>Add New Marking</ModalHeader>
                     <ModalBody>
-                      <form
-
-                      >
+                      <form>
                         <div className="form-row" style={{ fontSize: "12px" }}>
                           <div className="form-group col-md-6">
                             <label htmlFor="inputPassword4"> Name </label>
@@ -425,11 +429,7 @@ function Results(props) {
                               disabled
                               id="inputPassword4"
                               placeholder=""
-                              value={
-                                !editing
-                                  ? user.user_name
-                                  : currentUser.user_name
-                              }
+                              value={testResult?.user?.name}
                               name="user_name"
                               onChange={
                                 editing
@@ -447,7 +447,7 @@ function Results(props) {
                               id="inputPassword4"
                               disabled
                               placeholder=""
-                              value={!editing ? user.email : currentUser.email}
+                              value={testResult?.user?.email}
                               name="email"
                               onChange={
                                 editing
@@ -465,15 +465,11 @@ function Results(props) {
                             <input
                               type="text"
                               className="form-control"
-                              disabled
                               id="inputPassword4"
                               placeholder=""
-                              value={
-                                !editing
-                                  ? user.weekly_result
-                                  : currentUser.weekly_result
-                              }
+                              value={testResult.$category_one}
                               name="weekly_result"
+                              disabled
                               onChange={
                                 editing
                                   ? currentUserInputChange
@@ -493,7 +489,7 @@ function Results(props) {
                               id="inputPassword4"
                               placeholder=""
                               disabled
-                              value={!editing ? user.BL : currentUser.BL}
+                              value={testResult.$category_two}
                               name="BL"
                               onChange={
                                 editing
@@ -514,9 +510,7 @@ function Results(props) {
                               id="inputPassword4"
                               placeholder=""
                               disabled
-                              value={
-                                !editing ? user.biodata : currentUser.biodata
-                              }
+                              value={testResult.$category_three}
                               name="biodata"
                               onChange={
                                 editing
@@ -537,11 +531,7 @@ function Results(props) {
                               id="inputPassword4"
                               placeholder=""
                               disabled
-                              value={
-                                !editing
-                                  ? user.mock_interview
-                                  : currentUser.mock_interview
-                              }
+                              value={testResult.$category_four}
                               name="mock_interview"
                               onChange={
                                 editing
@@ -562,11 +552,7 @@ function Results(props) {
                               id="inputPassword4"
                               placeholder=""
                               disabled
-                              value={
-                                !editing
-                                  ? user.final_score
-                                  : currentUser.final_score
-                              }
+                              value={testResult.$category_five}
                               name="final_score"
                               onChange={
                                 editing
@@ -587,11 +573,7 @@ function Results(props) {
                               id="inputPassword4"
                               name="exam_result"
                               disabled
-                              value={
-                                editing
-                                  ? currentUser.exam_result
-                                  : user.exam_result
-                              }
+                              value={testResult.$category_six}
                               onChange={
                                 editing
                                   ? currentUserInputChange
@@ -611,11 +593,7 @@ function Results(props) {
                               id="inputPassword4"
                               name="exam_result"
                               disabled
-                              value={
-                                editing
-                                  ? currentUser.exam_result
-                                  : user.exam_result
-                              }
+                              value={testResult.total}
                               onChange={
                                 editing
                                   ? currentUserInputChange
@@ -624,8 +602,7 @@ function Results(props) {
                             />
                           </div>
 
-
-                          <div className="form-group col-md-12 mt-4">
+                          {/* <div className="form-group col-md-12 mt-4">
                             {!editing ? (
                               <Row style={{ justifyContent: "center" }}>
                                 <Col md={4}>
@@ -670,7 +647,7 @@ function Results(props) {
                                 </button>
                                 </div>
                               )}
-                          </div>
+                          </div> */}
                         </div>
                       </form>
                     </ModalBody>
@@ -709,7 +686,15 @@ function Results(props) {
                             <td>{user?.mock_interview}</td>
                             <td>{user?.final_score}</td>
                             <td>
-                              <Button className="btn-success" onClick={toggle2}>View</Button>
+                              <Button
+                                className="btn-success"
+                                onClick={() => {
+                                  toggle2();
+                                  ViewandleId(user.user_id);
+                                }}
+                              >
+                                View
+                              </Button>
                             </td>
 
                             <td className="d-flex">
@@ -733,31 +718,31 @@ function Results(props) {
                                 ></i>
                               </Button>
 
-                              <Button
+                              {/* <Button
                                 className="btn-danger p-1 ml-3"
-                              // onClick={() => {
-                              //   if (
-                              //     window.confirm(
-                              //       "Are you sure you wish to delete this Account Group?"
-                              //     )
-                              //   )
-                              //     props.onDeleteMarkings(data, user.id);
-                              // }}
+                                // onClick={() => {
+                                //   if (
+                                //     window.confirm(
+                                //       "Are you sure you wish to delete this Account Group?"
+                                //     )
+                                //   )
+                                //     props.onDeleteMarkings(data, user.id);
+                                // }}
                               >
                                 <i
                                   className="fa fa-trash-alt "
                                   value={user.id}
                                   aria-hidden="true"
                                 ></i>
-                              </Button>
+                              </Button> */}
                             </td>
                           </tr>
                         ))
                       ) : (
-                          <tr>
-                            <td colSpan={3}>No users</td>
-                          </tr>
-                        )}
+                        <tr>
+                          <td colSpan={3}>No users</td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </CardBody>

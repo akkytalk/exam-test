@@ -4,6 +4,12 @@ export const LOGIN_LOADING = "LOGIN_LOADING";
 export const LOGIN_FAILED = "LOGIN_FAILED";
 export const REMOVE_LOGIN = "REMOVE_LOGIN";
 
+//Sign up
+export const ADD_SIGNUP = "ADD_SIGNUP";
+export const SIGNUP_LOADING = "SIGNUP_LOADING";
+export const SIGNUP_FAILED = "SIGNUP_FAILED";
+export const REMOVE_SIGNUP = "REMOVE_SIGNUP";
+
 // Account Group actionTypes
 
 export const ACCOUNT_GROUP_GET_DATA = "ACCOUNT_GROUP_GET_DATA";

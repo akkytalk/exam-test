@@ -8,7 +8,6 @@ import {
   InputGroupText,
   CardBody,
 } from "reactstrap";
-import { postLogin } from "../reduxStore/actions/LoginCreators";
 
 import { Formik, Form, Field } from "formik";
 
@@ -17,41 +16,39 @@ import FA from "react-fontawesome";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { removeSignup } from "../reduxStore/actions";
+import { postSignup } from "../reduxStore/actions";
 
 const mapStateToProps = (state) => {
   return {
-    login: state.login,
     signup: state.signup,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  postLogin: (data) => {
-    dispatch(postLogin(data));
-  },
-  removeSignup: () => {
-    dispatch(removeSignup());
+  postSignup: (data) => {
+    dispatch(postSignup(data));
   },
 });
 
-function Login2(props) {
+function Signup(props) {
   const handleSubmit = (values, setSubmitting) => {
     let data = {
+      name: values.name,
       email: values.email,
       password: values.password,
+      password_confirmation: values.password_confirmation,
     };
     console.log(data);
-    props.postLogin(data);
+    props.postSignup(data);
     setSubmitting(false);
     return;
   };
 
-  console.log("login data", props.login?.login);
+  console.log("signup data", props.signup?.signup);
 
-  if (props.login?.login.length !== 0) {
-    return <Redirect to={"/home"} />;
-  } else if (props.login?.isLoading) {
+  if (props.signup?.signup.length !== 0) {
+    return <Redirect to={"/student"} />;
+  } else if (props.signup?.isLoading) {
     //Spinner when service data sending under processing
     return (
       <div
@@ -98,18 +95,37 @@ function Login2(props) {
       >
         <Card>
           <h3 style={{ fontSize: "4em", textAlign: "center" }} className="p-2">
-            SignIn
+            Sign Up
           </h3>
 
           <Formik
             initialValues={{
+              name: "",
               email: "",
               password: "",
+              password_confirmation: "",
             }}
             onSubmit={handleSubmit}
           >
             {(formProps) => (
               <Form className="p-4">
+                <FormGroup>
+                  <InputGroup size="lg">
+                    <InputGroupAddon addonType="prepend">
+                      <InputGroupText>
+                        <FA name={"user-circle"} />
+                      </InputGroupText>
+                    </InputGroupAddon>
+                    <Field
+                      component={CustomInput}
+                      type="name"
+                      name="name"
+                      id="name"
+                      placeholder="Enter Name"
+                    />
+                  </InputGroup>
+                </FormGroup>
+
                 <FormGroup>
                   <InputGroup size="lg">
                     <InputGroupAddon addonType="prepend">
@@ -145,6 +161,23 @@ function Login2(props) {
                 </FormGroup>
 
                 <FormGroup>
+                  <InputGroup size="lg">
+                    <InputGroupAddon addonType="prepend">
+                      <InputGroupText>
+                        <FA name={"unlock-alt"} />
+                      </InputGroupText>
+                    </InputGroupAddon>
+                    <Field
+                      component={CustomInput}
+                      type="password"
+                      name="password_confirmation"
+                      id="password_confirmation"
+                      placeholder="Enter same Password as above"
+                    />
+                  </InputGroup>
+                </FormGroup>
+
+                <FormGroup>
                   <Button
                     color="primary"
                     type="submit"
@@ -152,27 +185,26 @@ function Login2(props) {
                     block
                     disabled={formProps.isSubmitting}
                   >
-                    Log In
+                    Sign Up
                   </Button>
                   <span className="text-danger pt-3 text-center">
-                    {props.login?.errMess
-                      ? props.login?.errMess?.message ===
+                    {props.signup?.errMess
+                      ? props.signup?.errMess?.message ===
                         "Error:401 Unauthorized"
-                        ? "Wrong Login credentials"
-                        : props.login?.errMess?.message
+                        ? "Wrong Signup credentials"
+                        : props.signup?.errMess?.message
                       : null}
                   </span>
 
-                  <Link to="/signup">
+                  <Link to="/login">
                     <Button
                       className="btn-warning mt-4"
                       type="button"
                       size="lg"
                       block
-                      onClick={() => props.removeSignup()}
                       // disabled={formProps.isSubmitting}
                     >
-                      Sign Up
+                      Login
                     </Button>
                   </Link>
                 </FormGroup>
@@ -185,6 +217,6 @@ function Login2(props) {
   );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login2);
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);
 
-// export default Login2;
+// export default Signup2;

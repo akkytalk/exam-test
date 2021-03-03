@@ -52,26 +52,9 @@ function Options(props) {
   console.log("options from main question ", props.options);
 
   const [user, setUser] = useState({
-    option1: {
-      question_id: "",
-      option_text: "",
-      points: "",
-    },
-    option2: {
-      question_id: "",
-      option_text: "",
-      points: "",
-    },
-    option3: {
-      question_id: "",
-      option_text: "",
-      points: "",
-    },
-    option4: {
-      question_id: "",
-      option_text: "",
-      points: "",
-    },
+    question_id: "",
+    options: ["option1", "option2", "option3", "option4"],
+    points: "",
   });
 
   const [editing, setEditing] = useState(false);
@@ -206,7 +189,7 @@ function Options(props) {
                           </div> */}
 
                           <div className="form-group col-md-6">
-                            <label htmlFor="inputPassword4">Question ID</label>
+                            <label htmlFor="inputPassword4">Question </label>
                             <select
                               type="text"
                               className="form-control"
@@ -243,7 +226,7 @@ function Options(props) {
                               placeholder=""
                               value={
                                 !editing
-                                  ? user.option1?.option_text
+                                  ? user.options.option1
                                   : currentUser.option_text
                               }
                               name="option1?.option_text"

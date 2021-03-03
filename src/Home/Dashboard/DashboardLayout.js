@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { removeLogin } from "../../reduxStore/actions/LoginCreators";
 import { withRouter } from "react-router-dom";
 import BookingSummary from "./booking-summary/booking-summary";
+import { removeSignup } from "../../reduxStore/actions";
 
 function DashboardLayout(props) {
   const [redirect, setRedirect] = useState(false);
@@ -14,6 +15,7 @@ function DashboardLayout(props) {
   async function handleLogout() {
     await props.removeLogin();
 
+    await props.removeSignup();
     setRedirect(true);
   }
 
@@ -23,9 +25,13 @@ function DashboardLayout(props) {
     }
   };
 
+  console.log("login token", props.login?.login);
+
   if (props.login?.login.length === 0) {
     return <Redirect to={"/login"} />;
-  } else if (!props.login?.login.access_token) {
+  } else if (props.login?.login.user_id > 1) {
+    return <Redirect to={"/student"} />;
+  } else if (props.login?.login.user_id === 1) {
     return (
       <Fragment>
         {renderRedirect()}
@@ -95,12 +101,16 @@ function DashboardLayout(props) {
 const mapStateToProps = (state) => {
   return {
     login: state.login,
+    signup: state.signup,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   removeLogin: () => {
     dispatch(removeLogin());
+  },
+  removeSignup: () => {
+    dispatch(removeSignup());
   },
 });
 

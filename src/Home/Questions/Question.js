@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardHeader, CardBody, CardFooter, Button } from "reactstrap";
 
-import "./Question.scss";
+import "./Question.css";
 
 export default function Question(props) {
   const [value, setValue] = React.useState();

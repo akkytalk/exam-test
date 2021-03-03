@@ -25,6 +25,7 @@ import MajorCats from "./Components/Category/MajorCats";
 import Options from "./Components/Options/Options";
 import Options2 from "./Components/Options/Options2";
 import Student from "./Home/Student/Student";
+import Signup from "./Auth/Signup";
 
 const { persistor, store } = configureStore();
 
@@ -35,6 +36,7 @@ function App() {
         <HashRouter>
           <Switch>
             <Route exact path="/login" name="Login" component={Login2} />
+            <Route exact path="/signup" name="Signup" component={Signup} />
 
             <Route path="/student" name="Users" component={Student} />
             <Route path="/level-c2" name="Users" component={C2} />
@@ -53,7 +55,7 @@ function App() {
             <Route path="/options" name="Options" component={Options2} />
             <Route path="/user" name="Users" component={Users} />
             <Route path="/marking" name="Marking" component={Marking} />
-            <Route path="/run" name="Run" component={Home} />
+            <Route path="/test" name="Run" component={Home} />
             <Route
               path="/questions"
               name="Questions"
