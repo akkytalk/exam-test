@@ -93,8 +93,6 @@ function DashboardLayout(props) {
         </div>
       </Fragment>
     );
-  } else {
-    return <div>hello</div>;
   }
 }
 

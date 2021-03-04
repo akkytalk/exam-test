@@ -80,7 +80,7 @@ export const postOptionsDataFail = () => {
 export const postOptionsData = (data, user) => {
   return (dispatch) => {
     // if (!user.name) return;
-    // console.log(data);
+
     console.log("user from postOptionsData", user);
     dispatch(postOptionsDataStart());
     axios
@@ -91,8 +91,9 @@ export const postOptionsData = (data, user) => {
           Authorization: "Bearer " + data.token,
         },
       })
-      .then(() => {
+      .then((res) => {
         console.log("swal");
+        console.log(res);
         swal("Successfully Added Options!").then(() => {
           window.location.reload();
         });
@@ -130,7 +131,7 @@ export const editOptionsRow = (
     dispatch(editOptionsRowStart());
     setEditing(true);
     axios
-      .get(baseUrl + `options/${id}`, {
+      .get(baseUrl + `questions/${id}`, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -140,12 +141,13 @@ export const editOptionsRow = (
       .then((res) => {
         console.log(res.data, "editing data res");
         setEditing(res.data);
-        setCurrentUser({
-          id: res.data.id,
-          question_id: res.data.question_id,
-          question_text: res.data.question.question_text,
-          option_text: res.data.option_text,
-        });
+        setCurrentUser(res.data)
+        // setCurrentUser({
+        //   question_id: res.data.id,
+        //   options: res.data.options,
+        //   points: res.data.question.points,
+        //   // option_text: res.data.option_text,
+        // });
       })
       .catch((error) => dispatch(failEditOptions()));
   };

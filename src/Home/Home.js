@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router";
+import { Redirect, useHistory } from "react-router";
 import { Card, CardHeader, Button, CardBody, CardFooter } from "reactstrap";
 import { removeLogin } from "../reduxStore/actions/LoginCreators";
 import { withRouter } from "react-router-dom";
@@ -63,7 +63,7 @@ var result = new Array();
 function Home(props) {
   const [page, setPage] = useState(0);
 
-  const [progress, setProgress] = React.useState(0);
+  const [progress, setProgress] = React.useState(100);
 
   React.useEffect(() => {
     const timer = setInterval(() => {
@@ -114,6 +114,10 @@ function Home(props) {
       .then((res) => {
         console.log("questions response data", res.data);
         setQuestion(res.data);
+        if (res) {
+
+          setProgress(100);
+        }
       })
       .catch((err) => console.log(err));
   }, []);
@@ -125,7 +129,7 @@ function Home(props) {
         console.log("options response data", res.data);
         setOption(res.data);
         if (res) {
-          setCounter(10);
+
           setProgress(100);
         }
       })
@@ -174,6 +178,7 @@ function Home(props) {
 
   const answer = () => {
     console.log(value);
+    console.log(question?.data[page]?.id);
     var obj = {};
     obj[question?.data[page]?.id] = value;
     console.log(obj);
@@ -181,6 +186,8 @@ function Home(props) {
 
     console.log(result);
   };
+
+  const history = useHistory()
 
   const handleSubmit = (values) => {
     let data = {
@@ -192,6 +199,7 @@ function Home(props) {
       .then((res) => {
         console.log(res);
         console.log("intial value is submited to results");
+        history.push("/thankyou")
       })
       .catch((err) => console.log(err));
   };
@@ -271,7 +279,7 @@ function Home(props) {
                   </CardHeader>
                   <CardBody style={{ textTransform: "uppercase" }}>
                     <div className="mb-2">
-                      <h6>{question?.data[page]?.question_text} ?</h6>
+                      <h6>{question?.data[page]?.question_text} </h6>
 
                       {option?.data?.map((opt, ind) => {
                         if (question?.data[page]?.id == opt.question_id)
@@ -302,15 +310,15 @@ function Home(props) {
                         Submit
                       </Button>
                     ) : (
-                      <Button
-                        block
-                        className="btn-warning text-white mt-2 question-card ml-auto mr-auto"
-                        onClick={nextPage}
-                        id="myButtonId"
-                      >
-                        Next
-                      </Button>
-                    )}
+                        <Button
+                          block
+                          className="btn-warning text-white mt-2 question-card ml-auto mr-auto"
+                          onClick={nextPage}
+                          id="myButtonId"
+                        >
+                          Next
+                        </Button>
+                      )}
                   </CardFooter>
                 </Card>
               ) : null}

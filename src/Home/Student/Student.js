@@ -16,8 +16,10 @@ function Student(props) {
       <Fragment>
         <div className="main-field">
           <Card className="question-card mt-2">
-            <CardHeader>
-              Welocome Student
+            <CardHeader >
+              <div style={{ display: "flex" }}>
+                Welocome Student  <h5 className="ml-4">{props.login?.login?.user_name}</h5>
+              </div>
               <Button
                 className="float-right btn-danger"
                 onClick={() => handleLogout()}
@@ -26,20 +28,34 @@ function Student(props) {
               </Button>
             </CardHeader>
             <CardBody>
-              instructions: Lorem Ipsum is simply dummy text of the printing and
-              typesetting industry. Lorem Ipsum has been the industry's standard
-              dummy text ever since the 1500s, when an unknown printer took a
-              galley of type and scrambled it to make a type specimen book. It
-              has survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
+              <span> Welcome to on-line assessment centre. This assessment centre will help you in tracking your
+              progress for your interview preparedness, while completing the course.
+              During your course with us, we will assess you on following aspects:
+              <br />
+              1. Competence on English Language
+              <br />
+              2. Soft Skills &amp; Self-Introduction
+              <br />
+
+              3. Quality of Bio-data
+              <br />
+
+              4. Technical knowledge
+              <br />
+
+              5. Interview Skills
+              <br />
+              This assessment centre will help you in knowing your areas of development, so that you can work
+              upon them &amp; be successful in the interview.
+              </span>
             </CardBody>
+
             <CardFooter>
-              <Link to="test">
-                <Button className="btn-success">Start Test</Button>
+              <span>
+                WE WISH YOU BEST OF LUCK FOR A VERY SUCCESSFUL CAREER
+              </span>
+              <Link to="/student2">
+                <Button className="btn-success float-right">Next </Button>
               </Link>
             </CardFooter>
           </Card>

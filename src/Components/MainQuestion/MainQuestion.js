@@ -504,7 +504,7 @@ function MainQuestion(props) {
                         <th scope="col">Actions</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody style={{ textTransform: "uppercase" }}>
                       {props.questions?.data?.length > 0 ? (
                         props.questions?.data?.map((user, index) => (
                           <tr key={user.id}>

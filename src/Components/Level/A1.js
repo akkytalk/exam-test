@@ -398,7 +398,7 @@ function A1(props) {
                         <th scope="col">Actions</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody style={{ textTransform: "uppercase" }}>
                       {props.questions?.data?.length > 0 ? (
                         props.questions?.data?.map((user) => {
                           if (user.category_id == 1)
