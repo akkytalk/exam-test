@@ -7,6 +7,8 @@ import {
   InputGroupAddon,
   InputGroupText,
   CardBody,
+  Row,
+  Col,
 } from "reactstrap";
 
 import { Formik, Form, Field } from "formik";
@@ -33,8 +35,12 @@ const mapDispatchToProps = (dispatch) => ({
 function Signup(props) {
   const handleSubmit = (values, setSubmitting) => {
     let data = {
-      name: values.name,
+      first_name: values.first_name,
+      middle_name: values.middle_name,
+      last_name: values.last_name,
       email: values.email,
+      mobile: values.mobile,
+      city: values.city,
       password: values.password,
       password_confirmation: values.password_confirmation,
     };
@@ -85,7 +91,7 @@ function Signup(props) {
   return (
     <Fragment>
       <div
-        className="col-xs-12 col-sm-12 col-md-5 col-lg-4"
+        className="col-xs-12 col-sm-12 col-md-10 col-lg-10"
         style={{
           position: "absolute",
           left: "50%",
@@ -100,114 +106,207 @@ function Signup(props) {
 
           <Formik
             initialValues={{
-              name: "",
+              first_name: "",
+              middle_name: "",
+              last_name: "",
               email: "",
+              mobile: "",
+              city: "",
               password: "",
               password_confirmation: "",
             }}
             onSubmit={handleSubmit}
           >
             {(formProps) => (
-              <Form className="p-4">
-                <FormGroup>
-                  <InputGroup size="lg">
-                    <InputGroupAddon addonType="prepend">
-                      <InputGroupText>
-                        <FA name={"user-circle"} />
-                      </InputGroupText>
-                    </InputGroupAddon>
-                    <Field
-                      component={CustomInput}
-                      type="name"
-                      name="name"
-                      id="name"
-                      placeholder="Enter Name"
-                    />
-                  </InputGroup>
-                </FormGroup>
-
-                <FormGroup>
-                  <InputGroup size="lg">
-                    <InputGroupAddon addonType="prepend">
-                      <InputGroupText>
-                        <FA name={"user-circle"} />
-                      </InputGroupText>
-                    </InputGroupAddon>
-                    <Field
-                      component={CustomInput}
-                      type="email"
-                      name="email"
-                      id="email"
-                      placeholder="Enter Email"
-                    />
-                  </InputGroup>
-                </FormGroup>
-
-                <FormGroup>
-                  <InputGroup size="lg">
-                    <InputGroupAddon addonType="prepend">
-                      <InputGroupText>
-                        <FA name={"unlock-alt"} />
-                      </InputGroupText>
-                    </InputGroupAddon>
-                    <Field
-                      component={CustomInput}
-                      type="password"
-                      name="password"
-                      id="password"
-                      placeholder="Enter Password"
-                    />
-                  </InputGroup>
-                </FormGroup>
-
-                <FormGroup>
-                  <InputGroup size="lg">
-                    <InputGroupAddon addonType="prepend">
-                      <InputGroupText>
-                        <FA name={"unlock-alt"} />
-                      </InputGroupText>
-                    </InputGroupAddon>
-                    <Field
-                      component={CustomInput}
-                      type="password"
-                      name="password_confirmation"
-                      id="password_confirmation"
-                      placeholder="Enter same Password as above"
-                    />
-                  </InputGroup>
-                </FormGroup>
-
-                <FormGroup>
-                  <Button
-                    color="primary"
-                    type="submit"
-                    size="lg"
-                    block
-                    disabled={formProps.isSubmitting}
+              <Form>
+                <div className="p-4  d-flex flex-column ">
+                  <Col
+                    style={{ display: "flex", justifyContent: "space-around" }}
                   >
-                    Sign Up
-                  </Button>
-                  <span className="text-danger pt-3 text-center">
-                    {props.signup?.errMess
-                      ? props.signup?.errMess?.message ===
-                        "Error:401 Unauthorized"
-                        ? "Wrong Signup credentials"
-                        : props.signup?.errMess?.message
-                      : null}
-                  </span>
+                    <FormGroup>
+                      <InputGroup size="lg">
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <FA name={"user-circle"} />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Field
+                          component={CustomInput}
+                          type="name"
+                          name="first_name"
+                          id="first_name"
+                          placeholder="Enter First Name"
+                        />
+                      </InputGroup>
+                    </FormGroup>
+                    <FormGroup>
+                      <InputGroup size="lg">
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <FA name={"user-circle"} />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Field
+                          component={CustomInput}
+                          type="name"
+                          name="middle_name"
+                          id="middle_name"
+                          placeholder="Enter Middle Name"
+                        />
+                      </InputGroup>
+                    </FormGroup>
+                    <FormGroup>
+                      <InputGroup size="lg">
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <FA name={"user-circle"} />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Field
+                          component={CustomInput}
+                          type="name"
+                          name="last_name"
+                          id="last_name"
+                          placeholder="Enter Last Name"
+                        />
+                      </InputGroup>
+                    </FormGroup>
+                  </Col>
+                  <Col
+                    style={{ display: "flex", justifyContent: "space-around" }}
+                  >
+                    <FormGroup>
+                      <InputGroup size="lg">
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <FA name={"envelope-square"} />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Field
+                          component={CustomInput}
+                          type="email"
+                          name="email"
+                          id="email"
+                          placeholder="Enter Email"
+                        />
+                      </InputGroup>
+                    </FormGroup>
 
-                  <Link to="/login">
+                    <FormGroup>
+                      <InputGroup size="lg">
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <FA name={"phone-volume"} />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Field
+                          component={CustomInput}
+                          type="number"
+                          name="mobile"
+                          id="mobile"
+                          placeholder="Enter Mobile Number"
+                        />
+                      </InputGroup>
+                    </FormGroup>
+
+                    <FormGroup>
+                      <InputGroup size="lg">
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <FA name={"building"} />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Field
+                          component={CustomInput}
+                          type="text"
+                          name="city"
+                          id="city"
+                          placeholder="Enter City Name"
+                        />
+                      </InputGroup>
+                    </FormGroup>
+                  </Col>
+                  <Col
+                    style={{ display: "flex", justifyContent: "space-evenly" }}
+                  >
+                    <FormGroup>
+                      <InputGroup size="lg">
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <FA name={"unlock-alt"} />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Field
+                          component={CustomInput}
+                          type="password"
+                          name="password"
+                          id="password"
+                          placeholder="Enter Password"
+                        />
+                      </InputGroup>
+                    </FormGroup>
+
+                    <FormGroup>
+                      <InputGroup size="lg">
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <FA name={"unlock-alt"} />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Field
+                          component={CustomInput}
+                          type="password"
+                          name="password_confirmation"
+                          id="password_confirmation"
+                          placeholder="Confirm Password"
+                        />
+                      </InputGroup>
+                    </FormGroup>
+                  </Col>
+                </div>
+                <Col
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    paddingLeft: "300px",
+                    paddingRight: "300px",
+                  }}
+                >
+                  <FormGroup>
+                    <span className="text-danger pt-3 text-center">
+                      {props.signup?.errMess
+                        ? props.signup?.errMess?.message ===
+                          "Error:401 Unauthorized"
+                          ? "Wrong Signup credentials"
+                          : props.signup?.errMess?.message
+                        : null}
+                    </span>
                     <Button
-                      className="btn-warning mt-4"
-                      type="button"
+                      color="primary"
+                      className=""
+                      type="submit"
                       size="lg"
                       block
-                      // disabled={formProps.isSubmitting}
+                      disabled={formProps.isSubmitting}
                     >
-                      Login
+                      Sign Up
                     </Button>
-                  </Link>
-                </FormGroup>
+                  </FormGroup>
+                  <FormGroup>
+                    <Link to="/login">
+                      <Button
+                        className="btn-warning "
+                        type="button"
+                        size="lg"
+                        block
+                        // disabled={formProps.isSubmitting}
+                      >
+                        Login
+                      </Button>
+                    </Link>
+                  </FormGroup>
+                </Col>
               </Form>
             )}
           </Formik>

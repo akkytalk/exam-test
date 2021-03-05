@@ -164,7 +164,7 @@ function Login2(props) {
                   </span>
 
                   <Link to="/signup">
-                    {/* <Button
+                    <Button
                       className="btn-warning mt-4"
                       type="button"
                       size="lg"
@@ -173,7 +173,7 @@ function Login2(props) {
                       // disabled={formProps.isSubmitting}
                     >
                       Sign Up
-                    </Button> */}
+                    </Button>
                   </Link>
                 </FormGroup>
               </Form>
