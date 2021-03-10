@@ -2,6 +2,7 @@ import * as actionType from "../actions/ActionTypes";
 
 const initialState = {
   questions: [],
+  isLoading: false,
   error: false,
 };
 
@@ -12,18 +13,19 @@ const reducer = (state = initialState, action) => {
         ...state,
         questions: action.questions,
         error: false,
+        isLoading: false,
       };
 
     case actionType.QUESTIONS_FAIL_DATA:
       return {
         ...state,
-        error: true,
+        error: action.payload,
       };
 
     case actionType.POST_QUESTIONS_DATA_FAIL:
       return {
         ...state,
-        error: true,
+        error: action.payload,
       };
 
     case actionType.EDIT_QUESTIONS_ROW_START:

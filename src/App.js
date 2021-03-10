@@ -28,6 +28,7 @@ import Student from "./Home/Student/Student";
 import Signup from "./Auth/Signup";
 import Thankyou from "./Home/Thankyou/Thankyou";
 import student2 from "./Home/Student/student2";
+import ExamAppeared from "./Home/examAppeared/ExamAppeared";
 
 const { persistor, store } = configureStore();
 
@@ -40,6 +41,11 @@ function App() {
             <Route exact path="/login" name="Login" component={Login2} />
             <Route exact path="/signup" name="Signup" component={Signup} />
 
+            <Route
+              path="/exam-appeared"
+              name="ExamAppeared"
+              component={ExamAppeared}
+            />
             <Route path="/thankyou" name="thankyou" component={Thankyou} />
             <Route path="/student2" name="student" component={student2} />
             <Route path="/student" name="student" component={Student} />

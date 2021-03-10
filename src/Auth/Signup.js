@@ -11,7 +11,7 @@ import {
   Col,
 } from "reactstrap";
 
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, yupToFormErrors } from "formik";
 
 import CustomInput from "../views/Custom/CustomInput";
 import FA from "react-fontawesome";
@@ -35,12 +35,14 @@ const mapDispatchToProps = (dispatch) => ({
 function Signup(props) {
   const handleSubmit = (values, setSubmitting) => {
     let data = {
+      reg_no: values.reg_no,
       first_name: values.first_name,
       middle_name: values.middle_name,
       last_name: values.last_name,
       email: values.email,
       mobile: values.mobile,
       city: values.city,
+      centre: values.centre,
       password: values.password,
       password_confirmation: values.password_confirmation,
     };
@@ -51,6 +53,7 @@ function Signup(props) {
   };
 
   console.log("signup data", props.signup?.signup);
+  console.log("error message", props.signup?.errMess);
 
   if (props.signup?.signup.length !== 0) {
     return <Redirect to={"/student"} />;
@@ -91,7 +94,7 @@ function Signup(props) {
   return (
     <Fragment>
       <div
-        className="col-xs-12 col-sm-12 col-md-10 col-lg-10"
+        className="col-xs-12 col-sm-12 col-md-8 col-lg-8"
         style={{
           position: "absolute",
           left: "50%",
@@ -106,12 +109,14 @@ function Signup(props) {
 
           <Formik
             initialValues={{
+              reg_no: "",
               first_name: "",
               middle_name: "",
               last_name: "",
               email: "",
               mobile: "",
               city: "",
+              centre: "",
               password: "",
               password_confirmation: "",
             }}
@@ -121,8 +126,29 @@ function Signup(props) {
               <Form>
                 <div className="p-4  d-flex flex-column ">
                   <Col
-                    style={{ display: "flex", justifyContent: "space-around" }}
+                    style={{ display: "flex", justifyContent: "space-evenly" }}
                   >
+                    <FormGroup>
+                      <InputGroup size="lg">
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <FA name={"registered"} />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Field
+                          component={CustomInput}
+                          type="name"
+                          name="reg_no"
+                          id="reg_no"
+                          placeholder="Enter Registration No"
+                        />
+                      </InputGroup>
+                      <span className="text-danger pt-3 text-center">
+                        {props.signup?.errMess
+                          ? props.signup?.errMess?.reg_no
+                          : null}
+                      </span>
+                    </FormGroup>
                     <FormGroup>
                       <InputGroup size="lg">
                         <InputGroupAddon addonType="prepend">
@@ -139,6 +165,10 @@ function Signup(props) {
                         />
                       </InputGroup>
                     </FormGroup>
+                  </Col>
+                  <Col
+                    style={{ display: "flex", justifyContent: "space-evenly" }}
+                  >
                     <FormGroup>
                       <InputGroup size="lg">
                         <InputGroupAddon addonType="prepend">
@@ -173,7 +203,7 @@ function Signup(props) {
                     </FormGroup>
                   </Col>
                   <Col
-                    style={{ display: "flex", justifyContent: "space-around" }}
+                    style={{ display: "flex", justifyContent: "space-evenly" }}
                   >
                     <FormGroup>
                       <InputGroup size="lg">
@@ -190,6 +220,11 @@ function Signup(props) {
                           placeholder="Enter Email"
                         />
                       </InputGroup>
+                      <span className="text-danger pt-3 text-center">
+                        {props.signup?.errMess
+                          ? props.signup?.errMess?.email
+                          : null}
+                      </span>
                     </FormGroup>
 
                     <FormGroup>
@@ -207,8 +242,19 @@ function Signup(props) {
                           placeholder="Enter Mobile Number"
                         />
                       </InputGroup>
+                      <span className="text-danger pt-3 text-center">
+                        {props.signup?.errMess
+                          ? props.signup?.errMess?.mobile
+                            ? "The mobile must be 10 digits."
+                            : null
+                          : null}
+                      </span>
                     </FormGroup>
-
+                    {}
+                  </Col>
+                  <Col
+                    style={{ display: "flex", justifyContent: "space-evenly" }}
+                  >
                     <FormGroup>
                       <InputGroup size="lg">
                         <InputGroupAddon addonType="prepend">
@@ -222,6 +268,22 @@ function Signup(props) {
                           name="city"
                           id="city"
                           placeholder="Enter City Name"
+                        />
+                      </InputGroup>
+                    </FormGroup>
+                    <FormGroup>
+                      <InputGroup size="lg">
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <FA name={"building"} />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Field
+                          component={CustomInput}
+                          type="text"
+                          name="centre"
+                          id="centre"
+                          placeholder="Enter Centre"
                         />
                       </InputGroup>
                     </FormGroup>
@@ -269,15 +331,14 @@ function Signup(props) {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
-                    paddingLeft: "300px",
-                    paddingRight: "300px",
+                    paddingLeft: "100px",
+                    paddingRight: "100px",
                   }}
                 >
                   <FormGroup>
                     <span className="text-danger pt-3 text-center">
                       {props.signup?.errMess
-                        ? props.signup?.errMess?.message ===
-                          "Error:401 Unauthorized"
+                        ? props.signup?.errMess?.message === "401"
                           ? "Wrong Signup credentials"
                           : props.signup?.errMess?.message
                         : null}

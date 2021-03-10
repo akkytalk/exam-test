@@ -66,9 +66,9 @@ function Options(props) {
   const [editing, setEditing] = useState(false);
 
   const initialFormState = {
-
     question_id: "",
-    options: [],
+    question_text: "",
+    question_options: [],
     points: "",
   };
 
@@ -83,27 +83,33 @@ function Options(props) {
     setUser({ ...user, [name]: value });
   };
 
-  const handleOptionChange = index => event => {
+  const handleOptionChange = (index) => (event) => {
     // const { name, value } = event.target;
     // setUser({ ...user.options, [name]: value });
-    let array = [...user.options]
-    array[index] = event.target.value
-    user.options = array
-    console.log('tryopt', user.options);
+    let array = [...user.options];
+    array[index] = event.target.value;
+    user.options = array;
+    console.log("tryopt", user.options);
     //
   };
 
-  const handleOptionCurrentUserChange = index => event => {
+  let array2 = new Array();
+
+  useEffect(() => {
+    console.log("current user from useefect", currentUser);
+  }, [currentUser]);
+
+  const handleOptionCurrentUserChange = (index, opt) => (event) => {
     // const { name, value } = event.target;
     // setUser({ ...user.options, [name]: value });
-    let array = [...currentUser.options]
-    array[index] = event.target.value
-    currentUser.options = array
-    console.log('tryopt', currentUser.options);
+    console.log("opt", opt);
+    let array = [...array2];
+    console.log("array 1", array);
+    array[index] = event.target.value;
+    currentUser.question_options = array;
+    console.log("tryopt", currentUser.question_options);
     //
   };
-
-
 
   const [modal, setModal] = useState(false);
   const [modal2, setModal2] = useState(false);
@@ -119,6 +125,7 @@ function Options(props) {
   };
   console.log("user from main question page", user);
   console.log("Currentuser from main question page", currentUser);
+  console.log("Currentuser from main question page", currentUser.question_text);
 
   // let data2 = {
   //   question_id: user.question_id,
@@ -212,12 +219,8 @@ function Options(props) {
                                   className="form-control"
                                   id="inputPassword4"
                                   name="question_id"
-
                                   value={user.question_id}
-                                  onChange={
-
-                                    handleInputChange
-                                  }
+                                  onChange={handleInputChange}
                                 >
                                   <option>select</option> &&
                                   {props.questions?.data?.map((quest) => {
@@ -241,35 +244,30 @@ function Options(props) {
                                     }}
                                   >
                                     {values.options &&
-                                      values.options.length > 0 ? (
-                                        values.options.map((option, index) => (
-                                          <div
-                                            key={index}
-                                            className="form-group col-md-10"
-                                          >
-                                            <label htmlFor="inputPassword4">
-                                              {" "}
-                                              {`options ${index + 1} `}
-                                            </label>
-                                            <input
-                                              type="text"
-                                              className="form-control"
-                                              id="inputPassword4"
-                                              placeholder=""
-                                              value={
-                                                option.option_text
-                                              }
-                                              name={`options${index}`}
-                                              onChange={
-
-                                                handleOptionChange(index)
-                                              }
-                                            />
-                                          </div>
-                                        ))
-                                      ) : (
-                                        <div></div>
-                                      )}
+                                    values.options.length > 0 ? (
+                                      values.options.map((option, index) => (
+                                        <div
+                                          key={index}
+                                          className="form-group col-md-10"
+                                        >
+                                          <label htmlFor="inputPassword4">
+                                            {" "}
+                                            {`options ${index + 1} `}
+                                          </label>
+                                          <input
+                                            type="text"
+                                            className="form-control"
+                                            id="inputPassword4"
+                                            placeholder=""
+                                            value={option.option_text}
+                                            name={`options${index}`}
+                                            onChange={handleOptionChange(index)}
+                                          />
+                                        </div>
+                                      ))
+                                    ) : (
+                                      <div></div>
+                                    )}
                                   </div>
                                 )}
                               />
@@ -282,11 +280,7 @@ function Options(props) {
                                   className="form-control"
                                   id="inputPassword4"
                                   name="points"
-
-                                  onChange={
-
-                                    handleInputChange
-                                  }
+                                  onChange={handleInputChange}
                                 >
                                   <option>select correct option</option>
                                   <option value={0}>option 1</option>
@@ -297,7 +291,6 @@ function Options(props) {
                               </div>
 
                               <div className="form-group col-md-12 mt-4">
-
                                 <Row style={{ justifyContent: "center" }}>
                                   <Col md={4}>
                                     <Button type="reset" color="danger" block>
@@ -305,16 +298,11 @@ function Options(props) {
                                     </Button>
                                   </Col>
                                   <Col md={4}>
-                                    <Button
-                                      type="submit"
-                                      color="primary"
-                                      block
-                                    >
+                                    <Button type="submit" color="primary" block>
                                       Submit
-                                      </Button>
+                                    </Button>
                                   </Col>
                                 </Row>
-
                               </div>
                             </div>
                           </Form>
@@ -322,7 +310,6 @@ function Options(props) {
                       />
                     </ModalBody>
                   </Modal>
-
 
                   <Modal
                     className="modal-info modal-lg"
@@ -334,12 +321,12 @@ function Options(props) {
                       <Formik
                         initialValues={{
                           question_id: "",
-                          options: ["option1", "option2", "option3", "option4"],
+                          // options: ["option1", "option2", "option3", "option4"],
                           points: "",
                         }}
                         onSubmit={(values) => {
                           console.log("value", user);
-                          props.onPostOptionsData(data, user);
+                          // props.onPostOptionsData(data, currentUser);
                         }}
                         render={({ values }) => (
                           <Form>
@@ -347,42 +334,52 @@ function Options(props) {
                               className="form-row"
                               style={{ fontSize: "12px" }}
                             >
-                              <div className="form-group col-md-10">
+                              <div className="form-group col-md-12">
                                 <label htmlFor="inputPassword4">Question</label>
-                                <select
+                                <input
                                   type="text"
                                   className="form-control"
                                   id="inputPassword4"
                                   name="question_id"
-
-                                  value={currentUser.id}
+                                  value={currentUser.question_text}
                                   onChange={currentUserInputChange}
                                   disabled
-                                >
-                                  <option>select</option> &&
-                                  {props.questions?.data?.map((quest) => {
-                                    return (
-                                      <option key={quest.id} value={quest.id}>
-                                        {quest.question_text}
-                                      </option>
-                                    );
-                                  })}
-                                </select>
+                                />
                               </div>
-                              {currentUser?.question_options?.map((opt, index) => (
-                                <div className="form-group col-md-10">
-                                  <label htmlFor="inputPassword4"> Option {index + 1}</label>
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    id="inputPassword4"
-                                    placeholder=""
-                                    value={opt.option_text}
-                                    //  name="option1?.option_text"
-                                    onChange={handleOptionCurrentUserChange(index)}
-                                  />
-                                </div>
-                              )
+                              {currentUser?.question_options?.map(
+                                (opt, index) => {
+                                  // array2 = [...array2];
+                                  // array2[index] = opt?.option_text;
+
+                                  //array2.push(opt.option_text);
+
+                                  console.log("array2", array2);
+                                  return (
+                                    <div className="form-group col-md-10">
+                                      <label htmlFor="inputPassword4">
+                                        {" "}
+                                        Option {index + 1}
+                                      </label>
+                                      <Field
+                                        type="text"
+                                        className="form-control"
+                                        id="inputPassword4"
+                                        placeholder=""
+                                        value={opt?.option_text}
+                                        name={`options${index}`}
+                                        onChange={handleOptionCurrentUserChange(
+                                          index,
+                                          opt.option_text
+                                        )}
+                                      />
+                                      <label>
+                                        {opt.points == 1
+                                          ? "correct"
+                                          : "incorrect"}
+                                      </label>
+                                    </div>
+                                  );
+                                }
                               )}
                               {/* <FieldArray
                                 name="options"
@@ -437,10 +434,7 @@ function Options(props) {
                                   id="inputPassword4"
                                   name="points"
                                   value={currentUser.points}
-                                  onChange={
-
-                                    currentUserInputChange
-                                  }
+                                  onChange={currentUserInputChange}
                                 >
                                   <option>select correct option</option>
                                   <option value={0}>option 1</option>
@@ -451,7 +445,6 @@ function Options(props) {
                               </div>
 
                               <div className="form-group col-md-12 mt-4">
-
                                 <div className="d-flex">
                                   <button
                                     className="btn btn-success"
@@ -470,19 +463,18 @@ function Options(props) {
                                     }}
                                   >
                                     Update
-                                    </button>
+                                  </button>
                                   <button
                                     className="btn btn-primary ml-3"
                                     type="button"
                                     onClick={() => {
                                       setEditing(false);
-                                      toggle();
+                                      toggle2();
                                     }}
                                   >
                                     Cancel
-                                    </button>
+                                  </button>
                                 </div>
-
                               </div>
                             </div>
                           </Form>
@@ -523,7 +515,7 @@ function Options(props) {
                             {/* <td>{user?.instructions}</td> */}
 
                             <td className="d-flex">
-                              {/* <Button
+                              <Button
                                 className="btn-warning p-1"
                                 onClick={() => {
                                   props.onEditOptionsRow(
@@ -541,7 +533,7 @@ function Options(props) {
                                   className="fa fa-edit"
                                   aria-hidden="true"
                                 ></i>
-                              </Button> */}
+                              </Button>
 
                               {/* <Button
                                 className="btn-danger ml-3 p-1"
@@ -564,10 +556,10 @@ function Options(props) {
                           </tr>
                         ))
                       ) : (
-                          <tr>
-                            <td colSpan={3}>No users</td>
-                          </tr>
-                        )}
+                        <tr>
+                          <td colSpan={3}>No users</td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </CardBody>

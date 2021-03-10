@@ -90,6 +90,7 @@ function MainQuestion(props) {
 
   console.log("user from main question page", user);
   console.log("Currentuser from main question page", currentUser);
+  console.log("subcats", props.subcats);
 
   // let Currentdata = JSON.stringify({
   //   id: currentUser.id,
@@ -101,8 +102,6 @@ function MainQuestion(props) {
   // });
 
   // console.log("currentdata", Currentdata);
-
-
 
   return (
     <React.Fragment>
@@ -240,26 +239,29 @@ function MainQuestion(props) {
                                   : handleInputChange
                               }
                             >
-                              <option>select</option> &&
+                              <option>select</option>
                               {props.subcats?.map((sub) => {
                                 if (
                                   user.major_category_name ===
-                                  sub.major_category?.name ||
+                                    sub.major_category?.name ||
                                   currentUser.major_category_name ===
-                                  sub.major_category?.name
+                                    sub.major_category?.name
                                 ) {
                                   // console.log(
                                   //   "Sub Category",
                                   //   user.major_category_name
                                   // );
-
                                   return (
                                     <option key={sub.id} value={sub.name}>
                                       {sub.name}
                                     </option>
                                   );
                                 }
-                                return <div></div>;
+                                return (
+                                  <option key={sub.id} value={sub.name}>
+                                    {sub.name}
+                                  </option>
+                                );
                               })}
                             </select>
                           </div>
@@ -447,37 +449,37 @@ function MainQuestion(props) {
                                 </Col>
                               </Row>
                             ) : (
-                                <div className="d-flex">
-                                  <button
-                                    className="btn btn-success"
-                                    type="button"
-                                    onClick={() => {
-                                      props.onUpdateQuestionsData(
-                                        data,
-                                        currentUser.id,
-                                        editing,
-                                        setEditing,
-                                        currentUser,
-                                        setCurrentUser
-                                      );
-                                      // setEditing(false);
-                                      toggle();
-                                    }}
-                                  >
-                                    Update
+                              <div className="d-flex">
+                                <button
+                                  className="btn btn-success"
+                                  type="button"
+                                  onClick={() => {
+                                    props.onUpdateQuestionsData(
+                                      data,
+                                      currentUser.id,
+                                      editing,
+                                      setEditing,
+                                      currentUser,
+                                      setCurrentUser
+                                    );
+                                    // setEditing(false);
+                                    toggle();
+                                  }}
+                                >
+                                  Update
                                 </button>
-                                  <button
-                                    className="btn btn-primary ml-3"
-                                    type="button"
-                                    onClick={() => {
-                                      setEditing(false);
-                                      toggle();
-                                    }}
-                                  >
-                                    Cancel
+                                <button
+                                  className="btn btn-primary ml-3"
+                                  type="button"
+                                  onClick={() => {
+                                    setEditing(false);
+                                    toggle();
+                                  }}
+                                >
+                                  Cancel
                                 </button>
-                                </div>
-                              )}
+                              </div>
+                            )}
                           </div>
                         </div>
                       </form>
@@ -510,13 +512,21 @@ function MainQuestion(props) {
                           <tr key={user.id}>
                             <td>{index + 1}</td>
                             <td>{user.id}</td>
-                            <td>{user.question_text ? user.question_text : "Question is not available"}</td>
+                            <td>
+                              {user.question_text
+                                ? user.question_text
+                                : "Question is not available"}
+                            </td>
                             {user?.question_options.length > 0
                               ? user?.question_options?.map((opt) => (
-                                <td key={opt.id}>{opt.option_text}</td>
-                              ))
+                                  <td key={opt.id}>{opt.option_text}</td>
+                                ))
                               : "options are not added yet"}
-                            <td>{user?.instructions ? user?.instructions : "Instructions are not available"}</td>
+                            <td>
+                              {user?.instructions
+                                ? user?.instructions
+                                : "Instructions are not available"}
+                            </td>
 
                             <td className="d-flex">
                               <Button
@@ -560,10 +570,10 @@ function MainQuestion(props) {
                           </tr>
                         ))
                       ) : (
-                          <tr>
-                            <td colSpan={3}>No users</td>
-                          </tr>
-                        )}
+                        <tr>
+                          <td colSpan={3}>No users</td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </CardBody>

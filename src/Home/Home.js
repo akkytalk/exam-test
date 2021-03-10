@@ -88,6 +88,8 @@ function Home(props) {
 
   const classes = useStyles();
 
+  const [loading, setLoading] = useState(true);
+
   const accessToken = `${props.login?.login?.data?.token}`;
 
   const authAxios = axios.create({
@@ -115,8 +117,8 @@ function Home(props) {
         console.log("questions response data", res.data);
         setQuestion(res.data);
         if (res) {
-
           setProgress(100);
+          setLoading(false);
         }
       })
       .catch((err) => console.log(err));
@@ -129,7 +131,6 @@ function Home(props) {
         console.log("options response data", res.data);
         setOption(res.data);
         if (res) {
-
           setProgress(100);
         }
       })
@@ -187,7 +188,7 @@ function Home(props) {
     console.log(result);
   };
 
-  const history = useHistory()
+  const history = useHistory();
 
   const handleSubmit = (values) => {
     let data = {
@@ -199,7 +200,7 @@ function Home(props) {
       .then((res) => {
         console.log(res);
         console.log("intial value is submited to results");
-        history.push("/thankyou")
+        history.push("/thankyou");
       })
       .catch((err) => console.log(err));
   };
@@ -220,7 +221,19 @@ function Home(props) {
     return (
       <Fragment>
         {/* {renderRedirect()} */}
+
         <div className="main-field">
+          {loading ? (
+            <CircularProgress
+              style={{
+                position: "absolute",
+                top: "30%",
+                left: "45%",
+                width: "100px",
+                height: "100px",
+              }}
+            />
+          ) : null}
           <Card className="question-card mt-2">
             <CardHeader>
               <Button
@@ -261,9 +274,7 @@ function Home(props) {
                       Question No.{"  "}
                       {page + 1}
                     </h6>
-                    <div className="float-right">
-                      {/* <CircularProgressWithLabel value={progress} /> */}
-                    </div>
+                    <div className="float-right"></div>
                   </CardHeader>
                   <CardHeader
                     style={{
@@ -310,15 +321,15 @@ function Home(props) {
                         Submit
                       </Button>
                     ) : (
-                        <Button
-                          block
-                          className="btn-warning text-white mt-2 question-card ml-auto mr-auto"
-                          onClick={nextPage}
-                          id="myButtonId"
-                        >
-                          Next
-                        </Button>
-                      )}
+                      <Button
+                        block
+                        className="btn-warning text-white mt-2 question-card ml-auto mr-auto"
+                        onClick={nextPage}
+                        id="myButtonId"
+                      >
+                        Next
+                      </Button>
+                    )}
                   </CardFooter>
                 </Card>
               ) : null}

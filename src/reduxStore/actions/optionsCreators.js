@@ -141,13 +141,14 @@ export const editOptionsRow = (
       .then((res) => {
         console.log(res.data, "editing data res");
         setEditing(res.data);
-        setCurrentUser(res.data)
-        // setCurrentUser({
-        //   question_id: res.data.id,
-        //   options: res.data.options,
-        //   points: res.data.question.points,
-        //   // option_text: res.data.option_text,
-        // });
+        //setCurrentUser(res.data);
+        setCurrentUser({
+          question_id: res.data.id,
+          question_text: res.data.question_text,
+          question_options: [...res.data.question_options],
+          // points: res.data.question.points,
+          // option_text: res.data.option_text,
+        });
       })
       .catch((error) => dispatch(failEditOptions()));
   };
@@ -170,9 +171,16 @@ export const updateOptionsData = (
   return (dispatch) => {
     dispatch(updateOptionsDataStart());
     setEditing(false);
+    console.log("current user from redux", currentUser);
+    let user = {
+      question_id: currentUser.id,
+      options: [...currentUser.question_options],
+      points: currentUser.points,
+    };
+    console.log("user", user);
 
     axios
-      .put(baseUrl + `options/${id}`, currentUser, {
+      .put(baseUrl + `options/${id}`, user, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",

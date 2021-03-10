@@ -10,7 +10,7 @@ class Top extends Component {
   render() {
     return (
       <div className="row">
-        <div className="col-sm-12 col-md-4 col-lg-4">
+        {/* <div className="col-sm-12 col-md-4 col-lg-4">
           <Card outline color="success">
             <CardHeader className="bg-warning text-white">
               <h6 className="mb-0">Students</h6>
@@ -22,7 +22,7 @@ class Top extends Component {
               <h6>Total number of students</h6>
             </CardFooter>
           </Card>
-        </div>
+        </div> */}
         <div className="col-sm-12 col-md-4 col-lg-4">
           <Card>
             <CardHeader className="bg-danger text-white">
@@ -36,7 +36,7 @@ class Top extends Component {
             </CardFooter>
           </Card>
         </div>
-        <div className="col-sm-12 col-md-4 col-lg-4">
+        {/* <div className="col-sm-12 col-md-4 col-lg-4">
           <Card>
             <CardHeader className="bg-info text-white">
               <h6 className="mb-0">Students</h6>
@@ -48,7 +48,7 @@ class Top extends Component {
               <h6>Total number of students</h6>
             </CardFooter>
           </Card>
-        </div>
+        </div> */}
         {/* <div className="col-sm-12 col-md-3 col-lg-3">
           <Card>
             <CardHeader className="bg-success text-white">
