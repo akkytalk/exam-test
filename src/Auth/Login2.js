@@ -172,7 +172,7 @@ function Login2(props) {
                       onClick={() => props.removeSignup()}
                       // disabled={formProps.isSubmitting}
                     >
-                      Sign Up
+                      New User ? Register Now
                     </Button>
                   </Link>
                 </FormGroup>

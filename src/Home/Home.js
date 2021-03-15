@@ -62,14 +62,25 @@ var result = new Array();
 
 function Home(props) {
   const [page, setPage] = useState(0);
+  const [redirect, setRedirect] = useState(false);
+  const [question, setQuestion] = useState([]);
+  const [option, setOption] = useState([]);
+  const [category, setCategory] = useState([]);
+  const [user, setUser] = useState([]);
+
+  const [value, setValue] = React.useState();
+  const [counter, setCounter] = React.useState(0);
 
   const [progress, setProgress] = React.useState(100);
+
+  let questionLength;
 
   React.useEffect(() => {
     const timer = setInterval(() => {
       setProgress((prevProgress) => {
         if (prevProgress <= 0) {
-          setPage((page) => page + 1);
+          setPage(page + 1);
+          //nextPage();
           // setValue();
           // answer();
           return 100;
@@ -100,15 +111,6 @@ function Home(props) {
       Authorization: `Bearer ${accessToken}`,
     },
   });
-
-  const [redirect, setRedirect] = useState(false);
-  const [question, setQuestion] = useState([]);
-  const [option, setOption] = useState([]);
-  const [category, setCategory] = useState([]);
-  const [user, setUser] = useState([]);
-
-  const [value, setValue] = React.useState();
-  const [counter, setCounter] = React.useState(0);
 
   useEffect(() => {
     authAxios
@@ -205,6 +207,9 @@ function Home(props) {
       .catch((err) => console.log(err));
   };
 
+  questionLength = question?.data?.length;
+  //console.log("question length", questionLength);
+
   // React.useEffect(() => {
 
   //   const timer = setInterval(() => {
@@ -214,6 +219,10 @@ function Home(props) {
   //     clearInterval(timer);
   //   };
   // }, [page]);
+
+  if (page === questionLength - 1 && progress === 20) {
+    handleSubmit();
+  }
 
   if (props.login?.login.length === 0) {
     return <Redirect to={"/login"} />;
@@ -254,7 +263,7 @@ function Home(props) {
         >
           {(formProps) => (
             <Form>
-              {question.length !== 0 ? (
+              {question?.length !== 0 ? (
                 <Card className="question">
                   <CardHeader>
                     <div className={classes.root}>

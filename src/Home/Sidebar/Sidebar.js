@@ -168,7 +168,7 @@ function Sidebar() {
 
               <li className="nav-item">
                 <Link to="/user" className="nav-link">
-                  <p>User</p>
+                  <p>Student</p>
                 </Link>
               </li>
 

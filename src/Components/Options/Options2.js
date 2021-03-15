@@ -1,13 +1,12 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable array-callback-return */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import * as actions from "../../reduxStore/actions/index";
 import { connect } from "react-redux";
 import {
   Card,
   CardBody,
-  FormGroup,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
   Button,
   CardHeader,
   Modal,
@@ -15,6 +14,7 @@ import {
   ModalBody,
   Row,
   Col,
+  Input,
 } from "reactstrap";
 import { Formik, Form, Field, FieldArray } from "formik";
 
@@ -24,7 +24,6 @@ import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import Link from "@material-ui/core/Link";
 import Sidebar from "../../Home/Sidebar/Sidebar";
-import CustomSelect from "../../views/Custom/CustomSelect";
 
 function Options(props) {
   const accessToken = `${props.login?.login?.data?.token}`;
@@ -68,7 +67,7 @@ function Options(props) {
   const initialFormState = {
     question_id: "",
     question_text: "",
-    question_options: [],
+    options: [],
     points: "",
   };
 
@@ -93,19 +92,36 @@ function Options(props) {
     //
   };
 
+  let array = new Array();
   let array2 = new Array();
 
   useEffect(() => {
     console.log("current user from useefect", currentUser);
   }, [currentUser]);
 
-  const handleOptionCurrentUserChange = (index, opt) => (event) => {
-    // const { name, value } = event.target;
-    // setUser({ ...user.options, [name]: value });
-    console.log("opt", opt);
-    let array = [...array2];
-    console.log("array 1", array);
-    array[index] = event.target.value;
+  // useEffect(() => {
+  //   currentUser?.question_options?.map((opt, index) => {
+  //     array2 = [...array2];
+  //     array2[index] = opt.option_text;
+  //     //currentUser.question_options = array2;
+
+  //     console.log("array 2 line 108 ", array2);
+  //   });
+  // }, [currentUser?.question_options]);
+
+  const handleOptionCurrentUserChange = (index) => (event) => {
+    currentUser?.options?.map((opt, index) => {
+      array2 = [...array2];
+      array2[index] = opt.option_text;
+      //currentUser.question_options = array2;
+
+      console.log("array 2 line 108 ", array2);
+    });
+    //console.log("array 2 line 113 ", array2);
+
+    array = [...array2];
+    // console.log("array 1", array);
+    array[index] = event.target.value; //0,1,2 array[0]
     currentUser.question_options = array;
     console.log("tryopt", currentUser.question_options);
     //
@@ -346,41 +362,29 @@ function Options(props) {
                                   disabled
                                 />
                               </div>
-                              {currentUser?.question_options?.map(
-                                (opt, index) => {
-                                  // array2 = [...array2];
-                                  // array2[index] = opt?.option_text;
-
-                                  //array2.push(opt.option_text);
-
-                                  console.log("array2", array2);
-                                  return (
-                                    <div className="form-group col-md-10">
-                                      <label htmlFor="inputPassword4">
-                                        {" "}
-                                        Option {index + 1}
-                                      </label>
-                                      <Field
-                                        type="text"
-                                        className="form-control"
-                                        id="inputPassword4"
-                                        placeholder=""
-                                        value={opt?.option_text}
-                                        name={`options${index}`}
-                                        onChange={handleOptionCurrentUserChange(
-                                          index,
-                                          opt.option_text
-                                        )}
-                                      />
-                                      <label>
-                                        {opt.points == 1
-                                          ? "correct"
-                                          : "incorrect"}
-                                      </label>
-                                    </div>
-                                  );
-                                }
-                              )}
+                              {currentUser?.options?.map((opt, index) => {
+                                return (
+                                  <div className="form-group col-md-10">
+                                    <label> Option {index + 1}</label>
+                                    <Field
+                                      type="text"
+                                      className="form-control"
+                                      id="inputPassword4"
+                                      placeholder={opt?.option_text}
+                                      // value={opt?.option_text}
+                                      name={`options${index}`}
+                                      onChange={handleOptionCurrentUserChange(
+                                        index
+                                      )}
+                                    />
+                                    <label>
+                                      {opt.points == 1
+                                        ? "correct"
+                                        : "incorrect"}
+                                    </label>
+                                  </div>
+                                );
+                              })}
                               {/* <FieldArray
                                 name="options"
                                 render={(arrayHelper) => (
@@ -452,7 +456,7 @@ function Options(props) {
                                     onClick={() => {
                                       props.onUpdateOptionsData(
                                         data,
-                                        currentUser.id,
+                                        currentUser.question_id,
                                         editing,
                                         setEditing,
                                         currentUser,

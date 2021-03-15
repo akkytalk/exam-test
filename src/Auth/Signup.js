@@ -104,7 +104,7 @@ function Signup(props) {
       >
         <Card>
           <h3 style={{ fontSize: "4em", textAlign: "center" }} className="p-2">
-            Sign Up
+            Register
           </h3>
 
           <Formik
@@ -351,7 +351,7 @@ function Signup(props) {
                       block
                       disabled={formProps.isSubmitting}
                     >
-                      Sign Up
+                      Register Now
                     </Button>
                   </FormGroup>
                   <FormGroup>
@@ -363,7 +363,7 @@ function Signup(props) {
                         block
                         // disabled={formProps.isSubmitting}
                       >
-                        Login
+                        Already User? Login Here
                       </Button>
                     </Link>
                   </FormGroup>

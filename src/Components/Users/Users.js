@@ -102,7 +102,7 @@ function Users(props) {
                 </Link>
                 {/* <Link color="inherit">Master</Link> */}
 
-                <Typography color="textPrimary">Users</Typography>
+                <Typography color="textPrimary">Students</Typography>
               </Breadcrumbs>
             </li>
           </ul>
@@ -117,16 +117,16 @@ function Users(props) {
             <div className="container-fluid">
               <Card>
                 <CardHeader className="bg-warning text-white">
-                  <strong>Users</strong>
+                  <strong>Students</strong>
                   <Button className="btn-success  float-right" onClick={toggle}>
-                    Add User
+                    Add Student
                   </Button>
                   <Modal
                     className="modal-info modal-lg"
                     isOpen={modal}
                     toggle={toggle}
                   >
-                    <ModalHeader toggle={toggle}>Add New User</ModalHeader>
+                    <ModalHeader toggle={toggle}>Add New Student</ModalHeader>
                     <ModalBody>
                       <form
                         onSubmit={(event) => {
@@ -301,36 +301,36 @@ function Users(props) {
                                 </Col>
                               </Row>
                             ) : (
-                                <div className="d-flex">
-                                  <button
-                                    className="btn btn-success"
-                                    type="button"
-                                    onClick={() => {
-                                      props.onUpdateUsersData(
-                                        data,
-                                        currentUser.id,
-                                        editing,
-                                        setEditing,
-                                        currentUser,
-                                        setCurrentUser
-                                      );
-                                      toggle();
-                                    }}
-                                  >
-                                    Update
+                              <div className="d-flex">
+                                <button
+                                  className="btn btn-success"
+                                  type="button"
+                                  onClick={() => {
+                                    props.onUpdateUsersData(
+                                      data,
+                                      currentUser.id,
+                                      editing,
+                                      setEditing,
+                                      currentUser,
+                                      setCurrentUser
+                                    );
+                                    toggle();
+                                  }}
+                                >
+                                  Update
                                 </button>
-                                  <button
-                                    className="btn btn-primary ml-3"
-                                    type="button"
-                                    onClick={() => {
-                                      setEditing(false);
-                                      toggle();
-                                    }}
-                                  >
-                                    Cancel
+                                <button
+                                  className="btn btn-primary ml-3"
+                                  type="button"
+                                  onClick={() => {
+                                    setEditing(false);
+                                    toggle();
+                                  }}
+                                >
+                                  Cancel
                                 </button>
-                                </div>
-                              )}
+                              </div>
+                            )}
                           </div>
                         </div>
                       </form>
@@ -405,10 +405,10 @@ function Users(props) {
                           </tr>
                         ))
                       ) : (
-                          <tr>
-                            <td colSpan={3}>No users</td>
-                          </tr>
-                        )}
+                        <tr>
+                          <td colSpan={3}>No users</td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </CardBody>

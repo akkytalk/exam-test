@@ -71,9 +71,10 @@ export const postOptionsDataStart = () => {
   };
 };
 
-export const postOptionsDataFail = () => {
+export const postOptionsDataFail = (error) => {
   return {
     type: actionType.POST_OPTIONS_DATA_FAIL,
+    error: error,
   };
 };
 
@@ -100,7 +101,7 @@ export const postOptionsData = (data, user) => {
       })
       .catch((error) => {
         console.log(error.response);
-        dispatch(postOptionsDataFail());
+        dispatch(postOptionsDataFail(error));
       });
     // props.addUser(user);
     // setUser(initialFormState);
@@ -113,9 +114,10 @@ export const editOptionsRowStart = () => {
   };
 };
 
-export const failEditOptions = () => {
+export const failEditOptions = (error) => {
   return {
     type: actionType.FAIL_EDIT_OPTIONS,
+    error: error,
   };
 };
 
@@ -145,12 +147,12 @@ export const editOptionsRow = (
         setCurrentUser({
           question_id: res.data.id,
           question_text: res.data.question_text,
-          question_options: [...res.data.question_options],
+          options: [...res.data.question_options],
           // points: res.data.question.points,
           // option_text: res.data.option_text,
         });
       })
-      .catch((error) => dispatch(failEditOptions()));
+      .catch((error) => dispatch(failEditOptions(error)));
   };
 };
 
@@ -173,11 +175,12 @@ export const updateOptionsData = (
     setEditing(false);
     console.log("current user from redux", currentUser);
     let user = {
-      question_id: currentUser.id,
+      //question_id: currentUser.id,
       options: [...currentUser.question_options],
       points: currentUser.points,
     };
-    console.log("user", user);
+    console.log("aditya options", user);
+    console.log("aditya id", id);
 
     axios
       .put(baseUrl + `options/${id}`, user, {
@@ -189,7 +192,7 @@ export const updateOptionsData = (
       })
       .then(() => {
         console.log("swal");
-        swal("Successfully Updated question!").then(() => {
+        swal("Successfully Updated Options!").then(() => {
           window.location.reload();
         });
       })

@@ -1,3 +1,6 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable eqeqeq */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import * as actions from "../../reduxStore/actions/index";
 import { connect } from "react-redux";
@@ -241,27 +244,27 @@ function MainQuestion(props) {
                             >
                               <option>select</option>
                               {props.subcats?.map((sub) => {
+                                // console.log(
+                                //   "Sub Category",
+                                //   sub.major_category?.name
+                                // );
                                 if (
-                                  user.major_category_name ===
+                                  user.major_category_name ==
                                     sub.major_category?.name ||
-                                  currentUser.major_category_name ===
+                                  currentUser.major_category_name ==
                                     sub.major_category?.name
                                 ) {
-                                  // console.log(
-                                  //   "Sub Category",
-                                  //   user.major_category_name
-                                  // );
                                   return (
                                     <option key={sub.id} value={sub.name}>
                                       {sub.name}
                                     </option>
                                   );
                                 }
-                                return (
-                                  <option key={sub.id} value={sub.name}>
-                                    {sub.name}
-                                  </option>
-                                );
+                                // return (
+                                //   <option key={sub.id} value={sub.name}>
+                                //     {sub.name}
+                                //   </option>
+                                // );
                               })}
                             </select>
                           </div>
