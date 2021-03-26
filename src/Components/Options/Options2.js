@@ -36,6 +36,7 @@ function Options(props) {
 
   useEffect(() => {
     //console.log("currentUser data from redux ", currentUser);
+    props.onQuestionsGetData(data);
     props.onOptionsGetData(data);
   }, []);
 

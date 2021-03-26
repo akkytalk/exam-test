@@ -140,7 +140,7 @@ function Signup(props) {
                           type="name"
                           name="reg_no"
                           id="reg_no"
-                          placeholder="Enter Registration No"
+                          placeholder="Enter Enrollment No"
                         />
                       </InputGroup>
                       <span className="text-danger pt-3 text-center">

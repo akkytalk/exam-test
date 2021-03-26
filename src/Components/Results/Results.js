@@ -103,9 +103,14 @@ function Results(props) {
 
   const [testResult, setTestResult] = useState([]);
 
-  const userid = props.markings.user_id;
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [searchResults, setSearchResults] = React.useState([]);
 
-  console.log("props.markings.user_id", props.markings.user_id);
+  const handleChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  //console.log("props.markings.user_id", props.markings.user_id);
 
   async function ViewandleId(id) {
     console.log("User-id", id);
@@ -117,10 +122,21 @@ function Results(props) {
       })
       .catch((err) => console.log(err));
   }
+  const { API_KEY } = process.env;
 
-  useEffect(() => {}, []);
+  const search = () => {
+    authAxios
+      .get(`marks?api_key=${API_KEY}&prefix=${searchTerm}`)
+      .then(({ data }) => {
+        setSearchResults(data.data);
+        console.log(data.data, "search result");
+      });
+  };
 
+  console.log("process.env", process.env);
   console.log("test result", testResult);
+  console.log("result", searchTerm);
+  console.log("search result", searchResults);
 
   console.log("data from currentUser", currentUser);
   return (
@@ -169,8 +185,18 @@ function Results(props) {
                   {/* <Button className="btn-success  float-right" onClick={toggle}>
                     Add Marking
                   </Button> */}
+                  <input
+                    type="text"
+                    placeholder="Search"
+                    className="ml-5 "
+                    value={searchTerm}
+                    onChange={handleChange}
+                  />
+                  <Button className="btn-success ml-2" onClick={search}>
+                    Search
+                  </Button>
                   <Modal
-                    className="modal-info modal-lg"
+                    className="modal-info modal-lg "
                     isOpen={modal}
                     toggle={toggle}
                   >
@@ -653,6 +679,17 @@ function Results(props) {
                     </ModalBody>
                   </Modal>
                 </CardHeader>
+                {/* <CardHeader className="bg-warning text-white">
+                  <input
+                    type="text"
+                    placeholder="Search"
+                    // value={searchTerm}
+                    // onChange={handleChange}
+                  />
+                  <Button className="btn-success  float-right" onClick={toggle}>
+                    Search
+                  </Button>
+                </CardHeader> */}
                 <CardBody>
                   <table
                     className="table table-sm"
@@ -663,6 +700,7 @@ function Results(props) {
                         {/* <th>ID</th> */}
                         <th scope="col">Name</th>
                         <th scope="col">Email</th>
+                        <th scope="col">English Mark</th>
                         <th scope="col">Weekly Result </th>
                         <th scope="col">Body Language </th>
                         <th scope="col">Note on Biodata</th>
@@ -670,7 +708,7 @@ function Results(props) {
                         <th scope="col">Final Score</th>
                         <th scope="col">Exam Result </th>
 
-                        <th scope="col">Actions</th>
+                        {/* <th scope="col">Actions</th> */}
                       </tr>
                     </thead>
                     <tbody>
@@ -680,11 +718,13 @@ function Results(props) {
                             {/* <td>{user.id}</td> */}
                             <td>{user?.user?.name}</td>
                             <td>{user?.user?.email}</td>
+
+                            <td>{user?.final_result}</td>
                             <td>{user?.weekly_result}</td>
                             <td>{user?.BL}</td>
                             <td>{user?.biodata}</td>
                             <td>{user?.mock_interview}</td>
-                            <td>{user?.final_score}</td>
+                            <td>{user?.final_result}</td>
                             <td>
                               <Button
                                 className="btn-success"
@@ -697,7 +737,7 @@ function Results(props) {
                               </Button>
                             </td>
 
-                            <td className="d-flex">
+                            {/* <td className="d-flex">
                               <Button
                                 className="btn-warning p-1"
                                 onClick={() => {
@@ -716,9 +756,9 @@ function Results(props) {
                                   className="fa fa-edit"
                                   aria-hidden="true"
                                 ></i>
-                              </Button>
+                              </Button> */}
 
-                              {/* <Button
+                            {/* <Button
                                 className="btn-danger p-1 ml-3"
                                 // onClick={() => {
                                 //   if (
@@ -735,7 +775,7 @@ function Results(props) {
                                   aria-hidden="true"
                                 ></i>
                               </Button> */}
-                            </td>
+                            {/* </td> */}
                           </tr>
                         ))
                       ) : (

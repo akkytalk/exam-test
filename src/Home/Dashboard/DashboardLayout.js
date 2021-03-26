@@ -77,9 +77,9 @@ function DashboardLayout(props) {
                   </Col>
                 </Row>
                 <Row>
-                  <Col sm={6} lg={8}>
+                  {/* <Col sm={6} lg={8}>
                     <BookingSummary />
-                  </Col>
+                  </Col> */}
                 </Row>
                 <Row>
                   <Col sm={12}></Col>
