@@ -125,20 +125,27 @@ function Results(props) {
   const { API_KEY } = process.env;
 
   const search = () => {
-    authAxios
-      .get(`marks?api_key=${API_KEY}&prefix=${searchTerm}`)
-      .then(({ data }) => {
-        setSearchResults(data.data);
-        console.log(data.data, "search result");
-      });
+    const searchresult = props.markings.filter((user) => {
+      return user?.user?.name.toLowerCase().includes(searchTerm.toLowerCase());
+    });
+
+    // console.log("searchresult", searchresult);
+    setSearchResults(searchresult);
+
+    // authAxios
+    //   .get(`marks?api_key=${API_KEY}&prefix=${searchTerm}`)
+    //   .then(({ data }) => {
+    //     setSearchResults(data.data);
+    //     console.log(data.data, "search result");
+    //   });
   };
 
-  console.log("process.env", process.env);
-  console.log("test result", testResult);
+  // console.log("process.env", process.env);
+  // console.log("test result", testResult);
   console.log("result", searchTerm);
   console.log("search result", searchResults);
 
-  console.log("data from currentUser", currentUser);
+  //console.log("data from currentUser", currentUser);
   return (
     <React.Fragment>
       <div className="wrapper">
@@ -691,6 +698,7 @@ function Results(props) {
                   </Button>
                 </CardHeader> */}
                 <CardBody>
+                  {searchResults.length == 0 && "No search user available"}
                   <table
                     className="table table-sm"
                     style={{ fontSize: "12px" }}
@@ -712,7 +720,73 @@ function Results(props) {
                       </tr>
                     </thead>
                     <tbody>
-                      {props.markings?.length > 0 ? (
+                      {searchResults.length > 0 ? (
+                        searchResults.map((user) => (
+                          <tr key={user.id}>
+                            {/* <td>{user.id}</td> */}
+                            <td>{user?.user?.name}</td>
+                            <td>{user?.user?.email}</td>
+
+                            <td>{user?.final_result}</td>
+                            <td>{user?.weekly_result}</td>
+                            <td>{user?.BL}</td>
+                            <td>{user?.biodata}</td>
+                            <td>{user?.mock_interview}</td>
+                            <td>{user?.final_result}</td>
+                            <td>
+                              <Button
+                                className="btn-success"
+                                onClick={() => {
+                                  toggle2();
+                                  ViewandleId(user.user_id);
+                                }}
+                              >
+                                View
+                              </Button>
+                            </td>
+
+                            {/* <td className="d-flex">
+                              <Button
+                                className="btn-warning p-1"
+                                onClick={() => {
+                                  props.onEditMarkingsRow(
+                                    data,
+                                    user.id,
+                                    editing,
+                                    setEditing,
+                                    currentUser,
+                                    setCurrentUser
+                                  );
+                                  toggle();
+                                }}
+                              >
+                                <i
+                                  className="fa fa-edit"
+                                  aria-hidden="true"
+                                ></i>
+                              </Button> */}
+
+                            {/* <Button
+                                className="btn-danger p-1 ml-3"
+                                // onClick={() => {
+                                //   if (
+                                //     window.confirm(
+                                //       "Are you sure you wish to delete this Account Group?"
+                                //     )
+                                //   )
+                                //     props.onDeleteMarkings(data, user.id);
+                                // }}
+                              >
+                                <i
+                                  className="fa fa-trash-alt "
+                                  value={user.id}
+                                  aria-hidden="true"
+                                ></i>
+                              </Button> */}
+                            {/* </td> */}
+                          </tr>
+                        ))
+                      ) : props.markings?.length > 0 ? (
                         props.markings?.map((user) => (
                           <tr key={user.id}>
                             {/* <td>{user.id}</td> */}
