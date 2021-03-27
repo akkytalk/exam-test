@@ -29,6 +29,10 @@ import Signup from "./Auth/Signup";
 import Thankyou from "./Home/Thankyou/Thankyou";
 import student2 from "./Home/Student/student2";
 import ExamAppeared from "./Home/examAppeared/ExamAppeared";
+import WeeklyResult from "./Components/Results/WeeklyResult/WeeklyResult";
+import BodyLanguage from "./Components/Results/BodyLanguage/BodyLanguage";
+import MockInterview from "./Components/Results/MockInterview/MockInterview";
+import Biodata from "./Components/Results/Biodata/Biodata";
 
 const { persistor, store } = configureStore();
 
@@ -46,6 +50,10 @@ function App() {
               name="ExamAppeared"
               component={ExamAppeared}
             />
+            <Route path="/biodata" name="Biodata" component={Biodata} />
+            <Route path="/mock-interview" name="MockInterview" component={MockInterview} />
+            <Route path="/body-language" name="BodyLanguage" component={BodyLanguage} />
+            <Route path="/weekly-result" name="WeeklyResult" component={WeeklyResult} />
             <Route path="/thankyou" name="thankyou" component={Thankyou} />
             <Route path="/student2" name="student" component={student2} />
             <Route path="/student" name="student" component={Student} />

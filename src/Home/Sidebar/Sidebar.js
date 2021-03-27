@@ -161,9 +161,50 @@ function Sidebar() {
               </li> */}
 
               <li className="nav-item">
-                <Link to="/results" className="nav-link">
+                <Link  className="nav-link d-flex justify-content-between">
                   <p>Results</p>
+                  <ArrowDropDownIcon fontSize="small" />
                 </Link>
+                <ul className="nav nav-treeview">
+                  <li className="nav-item">
+                    <Link
+                      to="/weekly-result"
+                      className="nav-link d-flex justify-content-between"
+                    >
+                      <p>Weekly Result</p>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link
+                      to="/body-language"
+                      className="nav-link d-flex justify-content-between"
+                    >
+                      <p>Body Language</p>
+                    </Link>
+                  </li>
+
+                  <li className="nav-item">
+                    <Link to="/biodata" exact className="nav-link">
+                      <p>Note on Biodata</p>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to="/mock-interview" className="nav-link">
+                      <p>Mock Interviews</p>
+                    </Link>
+                  </li>
+
+                  <li className="nav-item">
+                    <Link to="/results" className="nav-link">
+                      <p>Final Score</p>
+                    </Link>
+                  </li>
+                  {/* <li className="nav-item">
+                    <Link to="/level-c2" className="nav-link">
+                      <p>Level C2</p>
+                    </Link>
+                  </li> */}
+                </ul>
               </li>
 
               <li className="nav-item">

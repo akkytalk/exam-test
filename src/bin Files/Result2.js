@@ -12,7 +12,6 @@ import {
   Modal,
   ModalBody,
   ModalHeader,
-  Input,
 } from "reactstrap";
 
 import Typography from "@material-ui/core/Typography";
@@ -33,7 +32,7 @@ function Results(props) {
   //console.log("data", data);
 
   useEffect(() => {
-    //   console.log("currentUser data from redux ", currentUser);
+ //   console.log("currentUser data from redux ", currentUser);
 
     props.onMarkingsGetData(data);
 
@@ -106,6 +105,7 @@ function Results(props) {
 
   const [searchTerm, setSearchTerm] = React.useState("");
   const [searchResults, setSearchResults] = React.useState([]);
+  
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -123,32 +123,31 @@ function Results(props) {
       })
       .catch((err) => console.log(err));
   }
-
-  // useEffect(() => {
-  //   authAxios
-  //   .get("marks")
-  //   .then((res) => {
-  //     console.log("marks response data", res.data);
-  //     setSearchResults(res.data);
-  //   })
-  //   .catch((err) => console.log(err));
-  // },[])
-
-  const [searchButtonClick, setSearchButtonClick] = useState(false);
+ 
+  useEffect(() => {
+    authAxios
+    .get("marks")
+    .then((res) => {
+      console.log("marks response data", res.data);
+      setSearchResults(res.data);
+    })
+    .catch((err) => console.log(err));
+  },[])
 
   const search = () => {
-    setSearchButtonClick(true);
-
-    const searchresult = props.markings?.mark?.filter((user) => {
-      return (
-        user?.user?.email?.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
-        user?.user?.name?.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
-        user?.user?.centre?.toLowerCase().includes(searchTerm.trim().toLowerCase())
-      );
+    const searchresult = props.markings?.filter((user) => {
+      return user?.user?.name.toLowerCase().includes(searchTerm.toLowerCase());
     });
 
     // console.log("searchresult", searchresult);
     setSearchResults(searchresult);
+
+    // authAxios
+    //   .get(`marks?api_key=${API_KEY}&prefix=${searchTerm}`)
+    //   .then(({ data }) => {
+    //     setSearchResults(data.data);
+    //     console.log(data.data, "search result");
+    //   });
   };
 
   // console.log("process.env", process.env);
@@ -205,7 +204,7 @@ function Results(props) {
                   </Button> */}
                   <input
                     type="text"
-                    placeholder="Search By Name and Email"
+                    placeholder="Search"
                     className="ml-5 "
                     value={searchTerm}
                     onChange={handleChange}
@@ -719,7 +718,6 @@ function Results(props) {
                         {/* <th>ID</th> */}
                         <th scope="col">Name</th>
                         <th scope="col">Email</th>
-                        <th scope="col">Centre</th>
                         <th scope="col">English Mark</th>
                         <th scope="col">Weekly Result </th>
                         <th scope="col">Body Language </th>
@@ -732,17 +730,78 @@ function Results(props) {
                       </tr>
                     </thead>
                     <tbody>
-                      {searchResults?.length > 0 && searchButtonClick ? (
-                        searchResults?.map((user) => (
+                      {searchResults.length > 0 ? (
+                        searchResults.map((user) => (
                           <tr key={user.id}>
                             {/* <td>{user.id}</td> */}
                             <td>{user?.user?.name}</td>
                             <td>{user?.user?.email}</td>
+
+                            <td>{user?.final_result}</td>
+                            <td>{user?.weekly_result}</td>
+                            <td>{user?.BL}</td>
+                            <td>{user?.biodata}</td>
+                            <td>{user?.mock_interview}</td>
+                            <td>{user?.final_result}</td>
                             <td>
-                              {user?.user?.centre !== null
-                                ? user?.user?.centre
-                                : "No Centre"}
+                              <Button
+                                className="btn-success"
+                                onClick={() => {
+                                  toggle2();
+                                  ViewandleId(user.user_id);
+                                }}
+                              >
+                                View
+                              </Button>
                             </td>
+
+                            {/* <td className="d-flex">
+                              <Button
+                                className="btn-warning p-1"
+                                onClick={() => {
+                                  props.onEditMarkingsRow(
+                                    data,
+                                    user.id,
+                                    editing,
+                                    setEditing,
+                                    currentUser,
+                                    setCurrentUser
+                                  );
+                                  toggle();
+                                }}
+                              >
+                                <i
+                                  className="fa fa-edit"
+                                  aria-hidden="true"
+                                ></i>
+                              </Button> */}
+
+                            {/* <Button
+                                className="btn-danger p-1 ml-3"
+                                // onClick={() => {
+                                //   if (
+                                //     window.confirm(
+                                //       "Are you sure you wish to delete this Account Group?"
+                                //     )
+                                //   )
+                                //     props.onDeleteMarkings(data, user.id);
+                                // }}
+                              >
+                                <i
+                                  className="fa fa-trash-alt "
+                                  value={user.id}
+                                  aria-hidden="true"
+                                ></i>
+                              </Button> */}
+                            {/* </td> */}
+                          </tr>
+                        ))
+                      ) : props.markings?.length > 0 ? (
+                        props.markings?.map((user) => (
+                          <tr key={user.id}>
+                            {/* <td>{user.id}</td> */}
+                            <td>{user?.user?.name}</td>
+                            <td>{user?.user?.email}</td>
 
                             <td>{user?.final_result}</td>
                             <td>{user?.weekly_result}</td>
@@ -804,87 +863,8 @@ function Results(props) {
                           </tr>
                         ))
                       ) : (
-                        <tr>{/* <td colSpan={3}>No users</td> */}</tr>
-                      )}
-                      {searchResults?.length == 0 && !searchButtonClick ? (
-                        props.markings?.mark?.length > 0 ? (
-                          props.markings?.mark?.map((user) => (
-                            <tr key={user.id}>
-                              {/* <td>{user.id}</td> */}
-                              <td>{user?.user?.name}</td>
-                              <td>{user?.user?.email}</td>
-                              <td>
-                                {user?.user?.centre !== null
-                                  ? user?.user?.centre
-                                  : "No Centre"}
-                              </td>
-                              <td>{user?.final_result}</td>
-                              <td>{user?.weekly_result}</td>
-                              <td>{user?.BL}</td>
-                              <td>{user?.biodata}</td>
-                              <td>{user?.mock_interview}</td>
-                              <td>{user?.final_result}</td>
-                              <td>
-                                <Button
-                                  className="btn-success"
-                                  onClick={() => {
-                                    toggle2();
-                                    ViewandleId(user.user_id);
-                                  }}
-                                >
-                                  View
-                                </Button>
-                              </td>
-
-                              {/* <td className="d-flex">
-                              <Button
-                                className="btn-warning p-1"
-                                onClick={() => {
-                                  props.onEditMarkingsRow(
-                                    data,
-                                    user.id,
-                                    editing,
-                                    setEditing,
-                                    currentUser,
-                                    setCurrentUser
-                                  );
-                                  toggle();
-                                }}
-                              >
-                                <i
-                                  className="fa fa-edit"
-                                  aria-hidden="true"
-                                ></i>
-                              </Button> */}
-
-                              {/* <Button
-                                className="btn-danger p-1 ml-3"
-                                // onClick={() => {
-                                //   if (
-                                //     window.confirm(
-                                //       "Are you sure you wish to delete this Account Group?"
-                                //     )
-                                //   )
-                                //     props.onDeleteMarkings(data, user.id);
-                                // }}
-                              >
-                                <i
-                                  className="fa fa-trash-alt "
-                                  value={user.id}
-                                  aria-hidden="true"
-                                ></i>
-                              </Button> */}
-                              {/* </td> */}
-                            </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td colSpan={3}>No users</td>
-                          </tr>
-                        )
-                      ) : (
                         <tr>
-                          <div></div>
+                          <td colSpan={3}>No users</td>
                         </tr>
                       )}
                     </tbody>
