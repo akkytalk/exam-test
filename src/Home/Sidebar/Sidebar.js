@@ -126,34 +126,28 @@ function Sidebar() {
                       <p>Sub Category</p>
                     </Link>
                   </li>
-                  {/* <li className="nav-item">
-                    <Link
-                      to="/vendor"
-                      className="nav-link d-flex justify-content-between"
-                    >
-                      <p>Vendor</p>
-                    </Link>
-                  </li>
-
-                  <li className="nav-item">
-                    <Link to="/product" exact className="nav-link">
-                      <p>Product</p>
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link to="/logistics" className="nav-link">
-                      <p>Logistics</p>
-                    </Link>
-                  </li>
-
-                  <li className="nav-item">
-                    <Link to="/lc-master" className="nav-link">
-                      <p>LC Master</p>
-                    </Link>
-                  </li> */}
                 </ul>
               </li>
 
+              <li className="nav-item">
+                <Link
+                  to="/assesement"
+                  className="nav-link d-flex justify-content-between"
+                >
+                  <p>Add Assesement</p>
+                  <ArrowDropDownIcon fontSize="small" />
+                </Link>
+                <ul className="nav nav-treeview">
+                  <li className="nav-item">
+                    <Link
+                      to="/criteria"
+                      className="nav-link d-flex justify-content-between"
+                    >
+                      <p>Add Criteria</p>
+                    </Link>
+                  </li>
+                </ul>
+              </li>
               {/* <li className="nav-item">
                 <Link to="/marking" className="nav-link">
                   <p>Marking</p>
@@ -161,7 +155,7 @@ function Sidebar() {
               </li> */}
 
               <li className="nav-item">
-                <Link  className="nav-link d-flex justify-content-between">
+                <Link className="nav-link d-flex justify-content-between">
                   <p>Results</p>
                   <ArrowDropDownIcon fontSize="small" />
                 </Link>

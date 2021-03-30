@@ -1,8 +1,5 @@
-/* eslint-disable array-callback-return */
-/* eslint-disable eqeqeq */
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import * as actions from "../../../reduxStore/actions";
+import * as actions from "../../reduxStore/actions/index";
 import { connect } from "react-redux";
 import {
   Card,
@@ -21,9 +18,9 @@ import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import Link from "@material-ui/core/Link";
-import Sidebar from "../../../Home/Sidebar/Sidebar";
+import Sidebar from "../../Home/Sidebar/Sidebar";
 
-function Biodata(props) {
+function AddCriteria(props) {
   const accessToken = `${props.login?.login?.data?.token}`;
 
   let data = {
@@ -33,18 +30,31 @@ function Biodata(props) {
   console.log("data", data);
 
   useEffect(() => {
-    props.onMarkscallGetData(data);
+    //console.log("currentUser data from redux ", currentUser);
     props.onCriteriaGetData(data);
-    props.onUsersGetData(data);
+    props.onAssesmentGetData(data);
   }, []);
 
-  console.log("markscall from main question ", props.markscall);
+  // useEffect(() => {
+  //   axios
+  //     .get(baseUrl + "criteria", {
+  //       headers: {
+  //         Accept: "application/json",
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${accessToken}`,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       setQuestion2(res.data);
+  //     })
+  //     .catch((err) => console.log(err));
+  // }, []);
+
+  console.log("criteria from main question ", props.criteria);
 
   const [user, setUser] = useState({
-    asses_name: "bio-data",
-    criteria_id: "",
-    user_name: "",
-    marks: "",
+    asses_name: "",
+    name: "",
   });
 
   const [editing, setEditing] = useState(false);
@@ -53,14 +63,11 @@ function Biodata(props) {
     id: "",
     assesement_id: "",
     asses_name: "",
-    criteria_id: "",
-    criteria_name: "",
-    user_id: "",
-    user_name: "",
-    marks: "",
+    name: "",
   };
 
   const [currentUser, setCurrentUser] = useState(initialFormState);
+
   const currentUserInputChange = (event) => {
     const { name, value } = event.target;
     setCurrentUser({ ...currentUser, [name]: value });
@@ -75,13 +82,11 @@ function Biodata(props) {
 
   const toggle = () => {
     setModal(!modal);
-    setEditing(false);
   };
 
-  console.log("user from main question page", user);
-  console.log("Currentuser from main question page", currentUser);
-  // console.log("subcats", props.subcats);
-
+  console.log("current user from criteria", currentUser);
+  console.log("major categories", props.assesment);
+  console.log("user data from criteria", user);
   return (
     <React.Fragment>
       <div className="wrapper">
@@ -107,9 +112,9 @@ function Biodata(props) {
                 <Link color="inherit" href="/">
                   Home
                 </Link>
-                {/* <Link color="inherit">Master</Link> */}
+                <Link color="inherit">Assesement</Link>
 
-                <Typography color="textPrimary">Biodata</Typography>
+                <Typography color="textPrimary">Criteria</Typography>
               </Breadcrumbs>
             </li>
           </ul>
@@ -124,35 +129,35 @@ function Biodata(props) {
             <div className="container-fluid">
               <Card>
                 <CardHeader className="bg-warning text-white">
-                  <strong>Biodata</strong>
+                  <strong>Criteria</strong>
                   <Button className="btn-success  float-right" onClick={toggle}>
-                    Add Biodata Marks
+                    Add Criteria
                   </Button>
                   <Modal
                     className="modal-info modal-lg"
                     isOpen={modal}
                     toggle={toggle}
                   >
-                    <ModalHeader toggle={toggle}>Add New Biodata</ModalHeader>
+                    <ModalHeader toggle={toggle}>Add New Criteria</ModalHeader>
                     <ModalBody>
                       <form
                         onSubmit={(event) => {
                           event.preventDefault();
-                          props.onPostMarkscallData(data, user);
+                          props.onPostCriteriaData(data, user);
                         }}
                       >
                         <div className="form-row" style={{ fontSize: "12px" }}>
                           <div className="form-group col-md-6">
-                            <label htmlFor="inputPassword4">Criteria </label>
+                            <label htmlFor="inputPassword4">Assesement </label>
                             <select
                               type="text"
                               className="form-control"
                               id="inputPassword4"
-                              name="criteria_id"
+                              name="asses_name"
                               value={
                                 editing
-                                  ? currentUser.criteria_id
-                                  : user.criteria_id
+                                  ? currentUser.asses_name
+                                  : user.asses_name
                               }
                               onChange={
                                 editing
@@ -161,53 +166,23 @@ function Biodata(props) {
                               }
                             >
                               <option>select</option> &&
-                              {props.criteria?.map((dep) => {
-                                if (dep.assesement_id == 1)
-                                  return (
-                                    <option key={dep.id} value={dep.id}>
-                                      {dep.name}
-                                    </option>
-                                  );
-                              })}
+                              {props.assesment?.map((dep) => (
+                                <option key={dep.id} value={dep.name}>
+                                  {dep.name}
+                                </option>
+                              ))}
                             </select>
                           </div>
 
                           <div className="form-group col-md-6">
-                            <label htmlFor="inputPassword4">Select User</label>
-                            <select
-                              type="text"
-                              className="form-control"
-                              id="inputPassword4"
-                              name="user_name"
-                              value={
-                                editing ? currentUser.user_name : user.user_name
-                              }
-                              onChange={
-                                editing
-                                  ? currentUserInputChange
-                                  : handleInputChange
-                              }
-                            >
-                              <option>select</option> &&
-                              {props.users?.data?.map((dep) => {
-                                return (
-                                  <option key={dep.id} value={dep.name}>
-                                    {dep.name}
-                                  </option>
-                                );
-                              })}
-                            </select>
-                          </div>
-
-                          <div className="form-group col-md-6">
-                            <label htmlFor="inputPassword4"> Marks </label>
+                            <label htmlFor="inputPassword4"> Criteria </label>
                             <input
-                              type="number"
+                              type="text"
                               className="form-control"
                               id="inputPassword4"
-                              placeholder="Enter Marks"
-                              value={!editing ? user.marks : currentUser.marks}
-                              name="marks"
+                              placeholder=""
+                              value={!editing ? user.name : currentUser.name}
+                              name="name"
                               onChange={
                                 editing
                                   ? currentUserInputChange
@@ -236,7 +211,7 @@ function Biodata(props) {
                                   className="btn btn-success"
                                   type="button"
                                   onClick={() => {
-                                    props.onUpdateMarkscallData(
+                                    props.onUpdateCriteriaData(
                                       data,
                                       currentUser.id,
                                       editing,
@@ -244,7 +219,6 @@ function Biodata(props) {
                                       currentUser,
                                       setCurrentUser
                                     );
-                                    // setEditing(false);
                                     toggle();
                                   }}
                                 >
@@ -276,70 +250,62 @@ function Biodata(props) {
                     <thead>
                       <tr>
                         {/* <th>ID</th> */}
-                        {/* <th scope="col">Sr No.</th> */}
-                        <th scope="col">user Id.</th>
-                        <th scope="col">User Name</th>
-                        <th scope="col">Criteria Name</th>
-                        <th scope="col">Marks</th>
+                        <th scope="col">sr No.</th>
+                        <th scope="col">Criteria</th>
+                        <th scope="col">Assesement</th>
 
                         <th scope="col">Actions</th>
                       </tr>
                     </thead>
-                    <tbody style={{ textTransform: "uppercase" }}>
-                      {props.markscall?.length > 0 ? (
-                        props.markscall?.map((user, index) => {
-                          if (user.assesement_id == 1)
-                            return (
-                              <tr key={user.id}>
-                                {/* <td>{index + 1}</td> */}
-                                <td>{user?.user?.id}</td>
-                                <td>{user.user?.name}</td>
+                    <tbody>
+                      {props.criteria?.length > 0 ? (
+                        props.criteria?.map((user, ind) => (
+                          <tr key={user.id}>
+                            <td>{ind + 1}</td>
+                            <td>{user.name}</td>
+                            <td>{user?.assesement?.name}</td>
 
-                                <td>{user?.criteria?.name}</td>
-                                <td>{user?.marks}</td>
+                            <td className="d-flex">
+                              <Button
+                                className="btn-warning p-1"
+                                onClick={() => {
+                                  props.onEditCriteriaRow(
+                                    data,
+                                    user.id,
+                                    editing,
+                                    setEditing,
+                                    currentUser,
+                                    setCurrentUser
+                                  );
+                                  toggle();
+                                }}
+                              >
+                                <i
+                                  className="fa fa-edit"
+                                  aria-hidden="true"
+                                ></i>
+                              </Button>
 
-                                <td className="d-flex">
-                                  <Button
-                                    className="btn-warning p-1"
-                                    onClick={() => {
-                                      props.onEditMarkscallRow(
-                                        data,
-                                        user.id,
-                                        editing,
-                                        setEditing,
-                                        currentUser,
-                                        setCurrentUser
-                                      );
-                                      toggle();
-                                    }}
-                                  >
-                                    <i
-                                      className="fa fa-edit"
-                                      aria-hidden="true"
-                                    ></i>
-                                  </Button>
-
-                                  <Button
-                                    className="btn-danger ml-3 p-1"
-                                    onClick={() => {
-                                      if (
-                                        window.confirm(
-                                          "Are you sure you wish to delete this Markscall?"
-                                        )
-                                      )
-                                        props.onDeleteMarkscall(data, user.id);
-                                    }}
-                                  >
-                                    <i
-                                      className="fa fa-trash-alt "
-                                      value={user.id}
-                                      aria-hidden="true"
-                                    ></i>
-                                  </Button>
-                                </td>
-                              </tr>
-                            );
-                        })
+                              <Button
+                                className="btn-danger ml-3 p-1"
+                                onClick={() => {
+                                  if (
+                                    window.confirm(
+                                      "Are you sure you wish to delete this Criteria?"
+                                    )
+                                  )
+                                    props.onDeleteCriteria(data, user.id);
+                                }}
+                              >
+                                <i
+                                  className="fa fa-trash-alt "
+                                  value={user.id}
+                                  aria-hidden="true"
+                                ></i>
+                              </Button>
+                            </td>
+                          </tr>
+                        ))
                       ) : (
                         <tr>
                           <td colSpan={3}>No users</td>
@@ -360,22 +326,19 @@ function Biodata(props) {
 const mapStateToProps = (state) => {
   return {
     login: state.login,
+    assesment: state.assesment.assesment,
     criteria: state.criteria.criteria,
-    users: state.users.users,
-    markscall: state.markscall.markscall,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    onAssesmentGetData: (data) => dispatch(actions.assesmentGetData(data)),
     onCriteriaGetData: (data) => dispatch(actions.criteriaGetData(data)),
-    onUsersGetData: (data) => dispatch(actions.usersGetData(data)),
-    onMarkscallGetData: (data) => dispatch(actions.markscallGetData(data)),
-    onDeleteMarkscall: (data, id) =>
-      dispatch(actions.deleteMarkscall(data, id)),
-    onPostMarkscallData: (data, user) =>
-      dispatch(actions.postMarkscallData(data, user)),
-    onUpdateMarkscallData: (
+    onDeleteCriteria: (data, id) => dispatch(actions.deleteCriteria(data, id)),
+    onPostCriteriaData: (data, user) =>
+      dispatch(actions.postCriteriaData(data, user)),
+    onUpdateCriteriaData: (
       data,
       id,
       editing,
@@ -384,7 +347,7 @@ const mapDispatchToProps = (dispatch) => {
       setCurrentUser
     ) =>
       dispatch(
-        actions.updateMarkscallData(
+        actions.updateCriteriaData(
           data,
           id,
           editing,
@@ -393,7 +356,7 @@ const mapDispatchToProps = (dispatch) => {
           setCurrentUser
         )
       ),
-    onEditMarkscallRow: (
+    onEditCriteriaRow: (
       data,
       id,
       editing,
@@ -402,7 +365,7 @@ const mapDispatchToProps = (dispatch) => {
       setCurrentUser
     ) =>
       dispatch(
-        actions.editMarkscallRow(
+        actions.editCriteriaRow(
           data,
           id,
           editing,
@@ -413,4 +376,4 @@ const mapDispatchToProps = (dispatch) => {
       ),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Biodata);
+export default connect(mapStateToProps, mapDispatchToProps)(AddCriteria);

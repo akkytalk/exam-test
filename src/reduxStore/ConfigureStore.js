@@ -12,6 +12,9 @@ import majorcatsReducer from "./reducer/RMajorcats";
 import subcatsReducer from "./reducer/RSubcats";
 import optionsReducer from "./reducer/ROptions";
 import signupReducer from "./reducer/RSignup";
+import assesementReducer from "./reducer/RAssesement";
+import criteriaReducer from "./reducer/RCriteria";
+import markscallReducer from "./reducer/RMarksCall";
 
 const config = {
   key: "exam",
@@ -31,6 +34,9 @@ export const configureStore = () => {
       majorcats: majorcatsReducer,
       subcats: subcatsReducer,
       signup: signupReducer,
+      assesment: assesementReducer,
+      criteria: criteriaReducer,
+      markscall: markscallReducer,
     }),
     applyMiddleware(thunk, logger)
   );

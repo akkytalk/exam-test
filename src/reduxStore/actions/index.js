@@ -57,3 +57,27 @@ export {
   editSubcatsRow,
   updateSubcatsData,
 } from "./SubCatsCreators";
+
+export {
+  assesmentGetData,
+  deleteAssesment,
+  postAssesmentData,
+  editAssesmentRow,
+  updateAssesmentData,
+} from "./AssesementCreators";
+
+export {
+  criteriaGetData,
+  deleteCriteria,
+  postCriteriaData,
+  editCriteriaRow,
+  updateCriteriaData,
+} from "./CriteriaCreator";
+
+export {
+  markscallGetData,
+  deleteMarkscall,
+  postMarkscallData,
+  editMarkscallRow,
+  updateMarkscallData,
+} from "./MarksCallCreators.js";

@@ -33,6 +33,8 @@ import WeeklyResult from "./Components/Results/WeeklyResult/WeeklyResult";
 import BodyLanguage from "./Components/Results/BodyLanguage/BodyLanguage";
 import MockInterview from "./Components/Results/MockInterview/MockInterview";
 import Biodata from "./Components/Results/Biodata/Biodata";
+import AddAssements from "./Components/Assesments/AddAssements";
+import AddCriteria from "./Components/Criteria/AddCriteria";
 
 const { persistor, store } = configureStore();
 
@@ -50,10 +52,28 @@ function App() {
               name="ExamAppeared"
               component={ExamAppeared}
             />
+            <Route
+              path="/assesement"
+              name="Assesement"
+              component={AddAssements}
+            />
+            <Route path="/criteria" name="Biodata" component={AddCriteria} />
             <Route path="/biodata" name="Biodata" component={Biodata} />
-            <Route path="/mock-interview" name="MockInterview" component={MockInterview} />
-            <Route path="/body-language" name="BodyLanguage" component={BodyLanguage} />
-            <Route path="/weekly-result" name="WeeklyResult" component={WeeklyResult} />
+            <Route
+              path="/mock-interview"
+              name="MockInterview"
+              component={MockInterview}
+            />
+            <Route
+              path="/body-language"
+              name="BodyLanguage"
+              component={BodyLanguage}
+            />
+            <Route
+              path="/weekly-result"
+              name="WeeklyResult"
+              component={WeeklyResult}
+            />
             <Route path="/thankyou" name="thankyou" component={Thankyou} />
             <Route path="/student2" name="student" component={student2} />
             <Route path="/student" name="student" component={Student} />
