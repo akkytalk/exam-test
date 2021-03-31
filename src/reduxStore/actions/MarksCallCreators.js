@@ -97,7 +97,8 @@ export const postMarkscallData = (data, user) => {
       .then(() => {
         console.log("swal");
         swal("Successfully Created Criteria Marks!").then(() => {
-          window.location.reload();
+          dispatch(markscallGetData(data));
+          // window.location.reload();
         });
       })
       .catch((error) => {
@@ -149,6 +150,7 @@ export const editMarkscallRow = (
           id: res.data.id,
           assesement_id: res.data.assesement_id,
           asses_name: res.data.assesement.name,
+          date: res.data.date,
           criteria_id: res.data.criteria_id,
           criteria_name: res.data.criteria.name,
           user_id: res.data.user_id,

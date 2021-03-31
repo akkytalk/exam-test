@@ -37,8 +37,6 @@ function Results(props) {
 
     props.onMarkingsGetData(data);
 
-    props.onMarkingsGetData(data);
-    props.onDeleteMarkings(data);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -120,10 +118,12 @@ function Results(props) {
       .then((res) => {
         console.log("test response data", res.data);
         setTestResult(res.data);
+        props.onMarkingsGetData(data);
       })
       .catch((err) => console.log(err));
   }
 
+  console.log("props.markings?.mark?.length", props.markings?.mark?.length - 1);
   // useEffect(() => {
   //   authAxios
   //   .get("marks")
@@ -141,9 +141,15 @@ function Results(props) {
 
     const searchresult = props.markings?.mark?.filter((user) => {
       return (
-        user?.user?.email?.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
-        user?.user?.name?.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
-        user?.user?.centre?.toLowerCase().includes(searchTerm.trim().toLowerCase())
+        user?.user?.email
+          ?.toLowerCase()
+          .includes(searchTerm.trim().toLowerCase()) ||
+        user?.user?.name
+          ?.toLowerCase()
+          .includes(searchTerm.trim().toLowerCase()) ||
+        user?.user?.centre
+          ?.toLowerCase()
+          .includes(searchTerm.trim().toLowerCase())
       );
     });
 
@@ -205,8 +211,9 @@ function Results(props) {
                   </Button> */}
                   <input
                     type="text"
-                    placeholder="Search By Name and Email"
-                    className="ml-5 "
+                    placeholder="Search By Name, Email and Centre"
+                    className="ml-5"
+                    style={{ width: "500px" }}
                     value={searchTerm}
                     onChange={handleChange}
                   />
@@ -808,35 +815,37 @@ function Results(props) {
                       )}
                       {searchResults?.length == 0 && !searchButtonClick ? (
                         props.markings?.mark?.length > 0 ? (
-                          props.markings?.mark?.map((user) => (
-                            <tr key={user.id}>
-                              {/* <td>{user.id}</td> */}
-                              <td>{user?.user?.name}</td>
-                              <td>{user?.user?.email}</td>
-                              <td>
-                                {user?.user?.centre !== null
-                                  ? user?.user?.centre
-                                  : "No Centre"}
-                              </td>
-                              <td>{user?.final_result}</td>
-                              <td>{user?.weekly_result}</td>
-                              <td>{user?.BL}</td>
-                              <td>{user?.biodata}</td>
-                              <td>{user?.mock_interview}</td>
-                              <td>{user?.final_result}</td>
-                              <td>
-                                <Button
-                                  className="btn-success"
-                                  onClick={() => {
-                                    toggle2();
-                                    ViewandleId(user.user_id);
-                                  }}
-                                >
-                                  View
-                                </Button>
-                              </td>
+                          props.markings?.mark?.map((user) => {
+                            if (user.user !== null)
+                              return (
+                                <tr key={user.id}>
+                                  {/* <td>{user.id}</td> */}
+                                  <td>{user?.user?.name}</td>
+                                  <td>{user?.user?.email}</td>
+                                  <td>
+                                    {user?.user?.centre !== null
+                                      ? user?.user?.centre
+                                      : "No Centre"}
+                                  </td>
+                                  <td>{user?.exam_result}</td>
+                                  <td>{user?.weekly_result}</td>
+                                  <td>{user?.BL}</td>
+                                  <td>{user?.biodata}</td>
+                                  <td>{user?.mock_interview}</td>
+                                  <td>{user?.exam_result}</td>
+                                  <td>
+                                    <Button
+                                      className="btn-success"
+                                      onClick={() => {
+                                        toggle2();
+                                        ViewandleId(user.user_id);
+                                      }}
+                                    >
+                                      View
+                                    </Button>
+                                  </td>
 
-                              {/* <td className="d-flex">
+                                  {/* <td className="d-flex">
                               <Button
                                 className="btn-warning p-1"
                                 onClick={() => {
@@ -857,7 +866,7 @@ function Results(props) {
                                 ></i>
                               </Button> */}
 
-                              {/* <Button
+                                  {/* <Button
                                 className="btn-danger p-1 ml-3"
                                 // onClick={() => {
                                 //   if (
@@ -874,9 +883,10 @@ function Results(props) {
                                   aria-hidden="true"
                                 ></i>
                               </Button> */}
-                              {/* </td> */}
-                            </tr>
-                          ))
+                                  {/* </td> */}
+                                </tr>
+                              );
+                          })
                         ) : (
                           <tr>
                             <td colSpan={3}>No users</td>

@@ -43,7 +43,7 @@ function Biodata(props) {
   const [user, setUser] = useState({
     asses_name: "bio-data",
     criteria_id: "",
-    user_name: "",
+    user_id: "",
     marks: "",
   });
 
@@ -178,9 +178,9 @@ function Biodata(props) {
                               type="text"
                               className="form-control"
                               id="inputPassword4"
-                              name="user_name"
+                              name="user_id"
                               value={
-                                editing ? currentUser.user_name : user.user_name
+                                editing ? currentUser.user_id : user.user_id
                               }
                               onChange={
                                 editing
@@ -191,7 +191,7 @@ function Biodata(props) {
                               <option>select</option> &&
                               {props.users?.data?.map((dep) => {
                                 return (
-                                  <option key={dep.id} value={dep.name}>
+                                  <option key={dep.id} value={dep.id}>
                                     {dep.name}
                                   </option>
                                 );

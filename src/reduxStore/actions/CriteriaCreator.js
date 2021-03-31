@@ -94,7 +94,8 @@ export const postCriteriaData = (data, user) => {
       .then(() => {
         console.log("swal");
         swal("Successfully Created sub Category!").then(() => {
-          window.location.reload();
+          dispatch(criteriaGetData(data));
+          // window.location.reload();
         });
       })
       .catch((error) => {

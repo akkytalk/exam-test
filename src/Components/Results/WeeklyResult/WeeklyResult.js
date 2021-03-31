@@ -33,31 +33,33 @@ function WeeklyResult(props) {
   console.log("data", data);
 
   useEffect(() => {
-
-    props.onQuestionsGetData(data);
+    props.onMarkscallGetData(data);
+    props.onCriteriaGetData(data);
+    props.onUsersGetData(data);
   }, []);
 
-  
-
-  console.log("questions from main question ", props.questions);
+  console.log("markscall from main question ", props.markscall);
 
   const [user, setUser] = useState({
-    major_category_name: "",
-    sub_category_name: "",
-    category_name: "",
-    question_text: "",
-    instructions: "",
+    asses_name: "Weekly Result",
+    date: "",
+    criteria_id: "",
+    user_id: "",
+    marks: "",
   });
 
   const [editing, setEditing] = useState(false);
 
   const initialFormState = {
     id: "",
-    major_category_name: "",
-    sub_category_name: "",
-    category_name: "",
-    question_text: "",
-    instructions: "",
+    assesement_id: "",
+    asses_name: "",
+    date: "",
+    criteria_id: "",
+    criteria_name: "",
+    user_id: "",
+    user_name: "",
+    marks: "",
   };
 
   const [currentUser, setCurrentUser] = useState(initialFormState);
@@ -80,18 +82,7 @@ function WeeklyResult(props) {
 
   console.log("user from main question page", user);
   console.log("Currentuser from main question page", currentUser);
-  console.log("subcats", props.subcats);
-
-  // let Currentdata = JSON.stringify({
-  //   id: currentUser.id,
-  //   major_category_name: currentUser.major_category_name,
-  //   sub_category_name: currentUser.sub_category_name,
-  //   category_name: currentUser.category_name,
-  //   question_text: currentUser.question_text,
-  //   instructions: currentUser.instructions,
-  // });
-
-  // console.log("currentdata", Currentdata);
+  // console.log("subcats", props.subcats);
 
   return (
     <React.Fragment>
@@ -120,7 +111,7 @@ function WeeklyResult(props) {
                 </Link>
                 {/* <Link color="inherit">Master</Link> */}
 
-                <Typography color="textPrimary">Weekly Results</Typography>
+                <Typography color="textPrimary">Weekly Result</Typography>
               </Breadcrumbs>
             </li>
           </ul>
@@ -137,61 +128,55 @@ function WeeklyResult(props) {
                 <CardHeader className="bg-warning text-white">
                   <strong>Weekly Result</strong>
                   <Button className="btn-success  float-right" onClick={toggle}>
-                    Add Weekly Result
+                    Add Weekly Result Marks
                   </Button>
                   <Modal
                     className="modal-info modal-lg"
                     isOpen={modal}
                     toggle={toggle}
                   >
-                    <ModalHeader toggle={toggle}>Add New Weekly Result</ModalHeader>
+                    <ModalHeader toggle={toggle}>
+                      Add New Weekly Result
+                    </ModalHeader>
                     <ModalBody>
                       <form
                         onSubmit={(event) => {
                           event.preventDefault();
-                          props.onPostQuestionsData(data, user);
+                          props.onPostMarkscallData(data, user);
+                          toggle();
                         }}
                       >
                         <div className="form-row" style={{ fontSize: "12px" }}>
                           <div className="form-group col-md-6">
-                            <label htmlFor="inputPassword4">Level </label>
-                            <select
-                              type="text"
+                            <label htmlFor="inputPassword4">
+                              {" "}
+                              Select Exam Date{" "}
+                            </label>
+                            <input
+                              type="date"
                               className="form-control"
                               id="inputPassword4"
-                              name="category_name"
-                              value={
-                                editing
-                                  ? currentUser.category_name
-                                  : user.category_name
-                              }
+                              placeholder="Select Date"
+                              value={!editing ? user.date : currentUser.date}
+                              name="date"
                               onChange={
                                 editing
                                   ? currentUserInputChange
                                   : handleInputChange
                               }
-                            >
-                              <option value="">select</option>
-                              <option value="A1">Level A1</option>
-                              <option value="A2">Level A2</option>
-                              <option value="B1">Level B1</option>
-                              <option value="B2">Level B2</option>
-                              <option value="C1">Level C1</option>
-                              <option value="C2">Level C2</option>
-                            </select>
+                            />
                           </div>
-
                           <div className="form-group col-md-6">
-                            <label htmlFor="inputPassword4">Category </label>
+                            <label htmlFor="inputPassword4">Criteria </label>
                             <select
                               type="text"
                               className="form-control"
                               id="inputPassword4"
-                              name="major_category_name"
+                              name="criteria_id"
                               value={
                                 editing
-                                  ? currentUser.major_category_name
-                                  : user.major_category_name
+                                  ? currentUser.criteria_id
+                                  : user.criteria_id
                               }
                               onChange={
                                 editing
@@ -200,202 +185,53 @@ function WeeklyResult(props) {
                               }
                             >
                               <option>select</option> &&
-                              {props.majorcats?.map((dep) => {
+                              {props.criteria?.map((dep) => {
+                                if (dep.assesement_id == 2)
+                                  return (
+                                    <option key={dep.id} value={dep.id}>
+                                      {dep.name}
+                                    </option>
+                                  );
+                              })}
+                            </select>
+                          </div>
+
+                          <div className="form-group col-md-6">
+                            <label htmlFor="inputPassword4">Select User</label>
+                            <select
+                              type="text"
+                              className="form-control"
+                              id="inputPassword4"
+                              name="user_id"
+                              value={
+                                editing ? currentUser.user_id : user.user_id
+                              }
+                              onChange={
+                                editing
+                                  ? currentUserInputChange
+                                  : handleInputChange
+                              }
+                            >
+                              <option>select</option> &&
+                              {props.users?.data?.map((dep) => {
                                 return (
-                                  <option key={dep.id} value={dep.name}>
+                                  <option key={dep.id} value={dep.id}>
                                     {dep.name}
                                   </option>
                                 );
                               })}
                             </select>
                           </div>
-                          <div className="form-group col-md-12">
-                            <label htmlFor="inputPassword4">
-                              Sub Category{" "}
-                            </label>
-                            <select
-                              type="text"
-                              className="form-control"
-                              id="inputPassword4"
-                              name="sub_category_name"
-                              value={
-                                editing
-                                  ? currentUser.sub_category_name
-                                  : user.sub_category_name
-                              }
-                              onChange={
-                                editing
-                                  ? currentUserInputChange
-                                  : handleInputChange
-                              }
-                            >
-                              <option>select</option>
-                              {props.subcats?.map((sub) => {
-                                // console.log(
-                                //   "Sub Category",
-                                //   sub.major_category?.name
-                                // );
-                                if (
-                                  user.major_category_name ==
-                                    sub.major_category?.name ||
-                                  currentUser.major_category_name ==
-                                    sub.major_category?.name
-                                ) {
-                                  return (
-                                    <option key={sub.id} value={sub.name}>
-                                      {sub.name}
-                                    </option>
-                                  );
-                                }
-                                // return (
-                                //   <option key={sub.id} value={sub.name}>
-                                //     {sub.name}
-                                //   </option>
-                                // );
-                              })}
-                            </select>
-                          </div>
-
-                          <div className="form-group col-md-12">
-                            <label htmlFor="inputPassword4"> Question </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="inputPassword4"
-                              placeholder=""
-                              value={
-                                !editing
-                                  ? user.question_text
-                                  : currentUser.question_text
-                              }
-                              name="question_text"
-                              onChange={
-                                editing
-                                  ? currentUserInputChange
-                                  : handleInputChange
-                              }
-                            />
-                          </div>
-
-                          <div className="form-group col-md-12">
-                            <label htmlFor="inputPassword4">
-                              {" "}
-                              Instructions{" "}
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="inputPassword4"
-                              placeholder=""
-                              value={
-                                !editing
-                                  ? user.instructions
-                                  : currentUser.instructions
-                              }
-                              name="instructions"
-                              onChange={
-                                editing
-                                  ? currentUserInputChange
-                                  : handleInputChange
-                              }
-                            />
-                          </div>
-
-                          {/* <div className="form-group col-md-6">
-                            <label htmlFor="inputPassword4"> Opition 1 </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="inputPassword4"
-                              placeholder=""
-                              value={
-                                !editing
-                                  ? user.question_options?.option1
-                                  : currentUser.question_options[1]
-                              }
-                              name="question_options?.option1"
-                              onChange={
-                                editing
-                                  ? currentUserInputChange
-                                  : handleInputChange
-                              }
-                            />
-                          </div>
 
                           <div className="form-group col-md-6">
-                            <label htmlFor="inputPassword4"> Opition 2</label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="inputPassword4"
-                              placeholder=""
-                              value={
-                                !editing
-                                  ? user.question_options[2]
-                                  : currentUser.question_options[2]
-                              }
-                              name="question_options[2]"
-                              onChange={
-                                editing
-                                  ? currentUserInputChange
-                                  : handleInputChange
-                              }
-                            />
-                          </div>
-
-                          <div className="form-group col-md-6">
-                            <label htmlFor="inputPassword4"> Opition 3 </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="inputPassword4"
-                              placeholder=""
-                              value={
-                                !editing
-                                  ? user.question_options[3]
-                                  : currentUser.question_options[3]
-                              }
-                              name="question_options[3]"
-                              onChange={
-                                editing
-                                  ? currentUserInputChange
-                                  : handleInputChange
-                              }
-                            />
-                          </div>
-
-                          <div className="form-group col-md-6">
-                            <label htmlFor="inputPassword4"> Opition 4 </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="inputPassword4"
-                              placeholder=""
-                              value={
-                                !editing
-                                  ? user.question_options[4]
-                                  : currentUser.question_options[4]
-                              }
-                              name="question_options[3]"
-                              onChange={
-                                editing
-                                  ? currentUserInputChange
-                                  : handleInputChange
-                              }
-                            />
-                          </div> */}
-
-                          {/* <div className="form-group col-md-6">
-                            <label htmlFor="inputPassword4"> pincode </label>
+                            <label htmlFor="inputPassword4"> Marks </label>
                             <input
                               type="number"
                               className="form-control"
                               id="inputPassword4"
-                              placeholder=""
-                              value={
-                                !editing ? user.pincode : currentUser.pincode
-                              }
-                              name="pincode"
+                              placeholder="Enter Marks"
+                              value={!editing ? user.marks : currentUser.marks}
+                              name="marks"
                               onChange={
                                 editing
                                   ? currentUserInputChange
@@ -403,26 +239,6 @@ function WeeklyResult(props) {
                               }
                             />
                           </div>
-
-                          <div className="form-group col-md-6">
-                            <label htmlFor="inputPassword4"> Status </label>
-                            <select
-                              type="text"
-                              className="form-control"
-                              id="inputPassword4"
-                              name="status"
-                              value={editing ? currentUser.status : user.status}
-                              onChange={
-                                editing
-                                  ? currentUserInputChange
-                                  : handleInputChange
-                              }
-                            >
-                              <option>select</option>
-                              <option value="1">active</option>
-                              <option value="0">inactive</option>
-                            </select>
-                          </div> */}
 
                           <div className="form-group col-md-12 mt-4">
                             {!editing ? (
@@ -444,7 +260,7 @@ function WeeklyResult(props) {
                                   className="btn btn-success"
                                   type="button"
                                   onClick={() => {
-                                    props.onUpdateQuestionsData(
+                                    props.onUpdateMarkscallData(
                                       data,
                                       currentUser.id,
                                       editing,
@@ -484,81 +300,72 @@ function WeeklyResult(props) {
                     <thead>
                       <tr>
                         {/* <th>ID</th> */}
-                        <th scope="col">Sr No.</th>
-                        <th scope="col">Q Id.</th>
-                        <th scope="col">Questions</th>
-                        <th scope="col">Option 1</th>
-                        <th scope="col">Option 2</th>
-                        <th scope="col">Option 3</th>
-                        <th scope="col">Option 4</th>
-                        <th scope="col">Instructions</th>
+                        {/* <th scope="col">Sr No.</th> */}
+                        <th scope="col">user Id.</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">User Name</th>
+                        <th scope="col">Criteria Name</th>
+                        <th scope="col">Marks</th>
 
                         <th scope="col">Actions</th>
                       </tr>
                     </thead>
                     <tbody style={{ textTransform: "uppercase" }}>
-                      {props.questions?.data?.length > 0 ? (
-                        props.questions?.data?.map((user, index) => (
-                          <tr key={user.id}>
-                            <td>{index + 1}</td>
-                            <td>{user.id}</td>
-                            <td>
-                              {user.question_text
-                                ? user.question_text
-                                : "Question is not available"}
-                            </td>
-                            {user?.question_options.length > 0
-                              ? user?.question_options?.map((opt) => (
-                                  <td key={opt.id}>{opt.option_text}</td>
-                                ))
-                              : "options are not added yet"}
-                            <td>
-                              {user?.instructions
-                                ? user?.instructions
-                                : "Instructions are not available"}
-                            </td>
+                      {props.markscall?.length > 0 ? (
+                        props.markscall?.map((user, index) => {
+                          if (user.assesement_id == 2)
+                            return (
+                              <tr key={user.id}>
+                                {/* <td>{index + 1}</td> */}
+                                <td>{user?.user?.id}</td>
+                                <td>{user.date}</td>
+                                <td>{user.user?.name}</td>
 
-                            <td className="d-flex">
-                              <Button
-                                className="btn-warning p-1"
-                                onClick={() => {
-                                  props.onEditQuestionsRow(
-                                    data,
-                                    user.id,
-                                    editing,
-                                    setEditing,
-                                    currentUser,
-                                    setCurrentUser
-                                  );
-                                  toggle();
-                                }}
-                              >
-                                <i
-                                  className="fa fa-edit"
-                                  aria-hidden="true"
-                                ></i>
-                              </Button>
+                                <td>{user?.criteria?.name}</td>
+                                <td>{user?.marks}</td>
 
-                              <Button
-                                className="btn-danger ml-3 p-1"
-                                onClick={() => {
-                                  if (
-                                    window.confirm(
-                                      "Are you sure you wish to delete this Questions?"
-                                    )
-                                  )
-                                    props.onDeleteQuestions(data, user.id);
-                                }}
-                              >
-                                <i
-                                  className="fa fa-trash-alt "
-                                  value={user.id}
-                                  aria-hidden="true"
-                                ></i>
-                              </Button>
-                            </td>
-                          </tr>
-                        ))
+                                <td className="d-flex">
+                                  <Button
+                                    className="btn-warning p-1"
+                                    onClick={() => {
+                                      props.onEditMarkscallRow(
+                                        data,
+                                        user.id,
+                                        editing,
+                                        setEditing,
+                                        currentUser,
+                                        setCurrentUser
+                                      );
+                                      toggle();
+                                    }}
+                                  >
+                                    <i
+                                      className="fa fa-edit"
+                                      aria-hidden="true"
+                                    ></i>
+                                  </Button>
+
+                                  <Button
+                                    className="btn-danger ml-3 p-1"
+                                    onClick={() => {
+                                      if (
+                                        window.confirm(
+                                          "Are you sure you wish to delete this Markscall?"
+                                        )
+                                      )
+                                        props.onDeleteMarkscall(data, user.id);
+                                    }}
+                                  >
+                                    <i
+                                      className="fa fa-trash-alt "
+                                      value={user.id}
+                                      aria-hidden="true"
+                                    ></i>
+                                  </Button>
+                                </td>
+                              </tr>
+                            );
+                        })
                       ) : (
                         <tr>
                           <td colSpan={3}>No users</td>
@@ -579,22 +386,22 @@ function WeeklyResult(props) {
 const mapStateToProps = (state) => {
   return {
     login: state.login,
-    majorcats: state.majorcats.majorcats,
-    subcats: state.subcats.subcats,
-    questions: state.questions.questions,
+    criteria: state.criteria.criteria,
+    users: state.users.users,
+    markscall: state.markscall.markscall,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onMajorcatsGetData: (data) => dispatch(actions.majorcatsGetData(data)),
-    onSubcatsGetData: (data) => dispatch(actions.subcatsGetData(data)),
-    onQuestionsGetData: (data) => dispatch(actions.questionsGetData(data)),
-    onDeleteQuestions: (data, id) =>
-      dispatch(actions.deleteQuestions(data, id)),
-    onPostQuestionsData: (data, user) =>
-      dispatch(actions.postQuestionsData(data, user)),
-    onUpdateQuestionsData: (
+    onCriteriaGetData: (data) => dispatch(actions.criteriaGetData(data)),
+    onUsersGetData: (data) => dispatch(actions.usersGetData(data)),
+    onMarkscallGetData: (data) => dispatch(actions.markscallGetData(data)),
+    onDeleteMarkscall: (data, id) =>
+      dispatch(actions.deleteMarkscall(data, id)),
+    onPostMarkscallData: (data, user) =>
+      dispatch(actions.postMarkscallData(data, user)),
+    onUpdateMarkscallData: (
       data,
       id,
       editing,
@@ -603,7 +410,7 @@ const mapDispatchToProps = (dispatch) => {
       setCurrentUser
     ) =>
       dispatch(
-        actions.updateQuestionsData(
+        actions.updateMarkscallData(
           data,
           id,
           editing,
@@ -612,7 +419,7 @@ const mapDispatchToProps = (dispatch) => {
           setCurrentUser
         )
       ),
-    onEditQuestionsRow: (
+    onEditMarkscallRow: (
       data,
       id,
       editing,
@@ -621,7 +428,7 @@ const mapDispatchToProps = (dispatch) => {
       setCurrentUser
     ) =>
       dispatch(
-        actions.editQuestionsRow(
+        actions.editMarkscallRow(
           data,
           id,
           editing,

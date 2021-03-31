@@ -7,11 +7,10 @@ import {
   InputGroupAddon,
   InputGroupText,
   CardBody,
-  Row,
   Col,
 } from "reactstrap";
 
-import { Formik, Form, Field, yupToFormErrors } from "formik";
+import { Formik, Form, Field } from "formik";
 
 import CustomInput from "../views/Custom/CustomInput";
 import FA from "react-fontawesome";
@@ -35,7 +34,7 @@ const mapDispatchToProps = (dispatch) => ({
 function Signup(props) {
   const handleSubmit = (values, setSubmitting) => {
     let data = {
-      reg_no: values.reg_no,
+      enrollenment_no: values.enrollenment_no,
       first_name: values.first_name,
       middle_name: values.middle_name,
       last_name: values.last_name,
@@ -137,15 +136,15 @@ function Signup(props) {
                         </InputGroupAddon>
                         <Field
                           component={CustomInput}
-                          type="name"
-                          name="reg_no"
-                          id="reg_no"
+                          type="number"
+                          name="enrollenment_no"
+                          id="enrollenment_no"
                           placeholder="Enter Enrollment No"
                         />
                       </InputGroup>
                       <span className="text-danger pt-3 text-center">
                         {props.signup?.errMess
-                          ? props.signup?.errMess?.reg_no
+                          ? props.signup?.errMess?.enrollenment_no
                           : null}
                       </span>
                     </FormGroup>

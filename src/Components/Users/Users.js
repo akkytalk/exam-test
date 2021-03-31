@@ -389,7 +389,7 @@ function Users(props) {
                                 onClick={() => {
                                   if (
                                     window.confirm(
-                                      "Are you sure you wish to delete this Account Group?"
+                                      "Are you sure you wish to delete this Student?"
                                     )
                                   )
                                     props.onDeleteUsers(data, user.id);
