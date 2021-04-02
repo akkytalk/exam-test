@@ -881,7 +881,7 @@ function Results(props) {
                                 : "No Centre"}
                             </td>
 
-                            <td>{user?.final_result}</td>
+                            <td>{user?.exam_result}</td>
                             <td>{user?.weekly_result}</td>
                             <td>{user?.BL}</td>
                             <td>{user?.biodata}</td>
