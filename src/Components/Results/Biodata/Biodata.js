@@ -139,6 +139,7 @@ function Biodata(props) {
                         onSubmit={(event) => {
                           event.preventDefault();
                           props.onPostMarkscallData(data, user);
+                          toggle();
                         }}
                       >
                         <div className="form-row" style={{ fontSize: "12px" }}>

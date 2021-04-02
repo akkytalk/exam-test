@@ -139,17 +139,18 @@ export const editMarkingsRow = (
       .then((res) => {
         console.log(res.data, "editing data res");
         setEditing(res.data);
-        setCurrentUser({
-          id: res.data.id,
-          user_name: res.data.user?.name,
-          email: res.data.user?.email,
-          weekly_result: res.data.weekly_result,
-          BL: res.data.BL,
-          biodata: res.data.biodata,
-          mock_interview: res.data.mock_interview,
-          final_score: res.data.final_score,
-          exam_result: res.data.exam_result,
-        });
+        setCurrentUser(res.data);
+        // setCurrentUser({
+        //   id: res.data.id,
+        //   user_name: res.data.user?.name,
+        //   email: res.data.user?.email,
+        //   weekly_result: res.data.weekly_result,
+        //   BL: res.data.BL,
+        //   biodata: res.data.biodata,
+        //   mock_interview: res.data.mock_interview,
+        //   final_score: res.data.final_score,
+        //   exam_result: res.data.exam_result,
+        // });
         console.log("res data from editMarkingsRow", res.data);
       })
       .catch((error) => dispatch(failEditMarkings()));

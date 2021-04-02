@@ -196,12 +196,13 @@ function Home(props) {
     let data = {
       result: result,
     };
-    console.log(values);
+    console.log(data);
     authAxios
       .post("/test", data)
       .then((res) => {
         console.log(res);
         console.log("intial value is submited to results");
+        result = [];
         history.push("/thankyou");
       })
       .catch((err) => console.log(err));
@@ -210,22 +211,17 @@ function Home(props) {
   questionLength = question?.data?.length;
   //console.log("question length", questionLength);
 
-  // React.useEffect(() => {
-
-  //   const timer = setInterval(() => {
-  //     setPage(page => page + 1)
-  //   }, 10000);
-  //   return () => {
-  //     clearInterval(timer);
-  //   };
-  // }, [page]);
-
   if (page === questionLength - 1 && progress === 20) {
     handleSubmit();
   }
 
   if (props.login?.login.length === 0) {
     return <Redirect to={"/login"} />;
+  } else if (
+    props.login?.login?.test !== null &&
+    props.login?.login?.user_id > 1
+  ) {
+    return <Redirect to={"/exam-appeared"} />;
   } else if (!props.login?.login.access_token) {
     return (
       <Fragment>

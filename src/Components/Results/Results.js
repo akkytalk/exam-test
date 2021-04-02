@@ -1,3 +1,5 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable eqeqeq */
 import React, { useEffect, useState } from "react";
 import * as actions from "../../reduxStore/actions";
 import { connect } from "react-redux";
@@ -12,7 +14,6 @@ import {
   Modal,
   ModalBody,
   ModalHeader,
-  Input,
 } from "reactstrap";
 
 import Typography from "@material-ui/core/Typography";
@@ -22,6 +23,8 @@ import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import Link from "@material-ui/core/Link";
 import Sidebar from "../../Home/Sidebar/Sidebar";
 import { baseUrl } from "../../shared/baseUrl";
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
 
 function Results(props) {
   const accessToken = `${props.login?.login?.data?.token}`;
@@ -81,6 +84,7 @@ function Results(props) {
 
   const [modal, setModal] = useState(false);
   const [modal2, setModal2] = useState(false);
+  const [modal3, setModal3] = useState(false);
 
   const toggle = () => {
     setModal(!modal);
@@ -88,6 +92,11 @@ function Results(props) {
 
   const toggle2 = () => {
     setModal2(!modal2);
+    // setEditing(false);
+  };
+
+  const toggle3 = () => {
+    setModal3(!modal3);
     // setEditing(false);
   };
 
@@ -109,8 +118,6 @@ function Results(props) {
     setSearchTerm(event.target.value);
   };
 
-  //console.log("props.markings.user_id", props.markings.user_id);
-
   async function ViewandleId(id) {
     console.log("User-id", id);
     authAxios
@@ -122,17 +129,6 @@ function Results(props) {
       })
       .catch((err) => console.log(err));
   }
-
-  console.log("props.markings?.mark?.length", props.markings?.mark?.length - 1);
-  // useEffect(() => {
-  //   authAxios
-  //   .get("marks")
-  //   .then((res) => {
-  //     console.log("marks response data", res.data);
-  //     setSearchResults(res.data);
-  //   })
-  //   .catch((err) => console.log(err));
-  // },[])
 
   const [searchButtonClick, setSearchButtonClick] = useState(false);
 
@@ -157,12 +153,30 @@ function Results(props) {
     setSearchResults(searchresult);
   };
 
+  async function resultPdf() {
+    const divToDisplay = document.getElementById("htmlToPdf2");
+    html2canvas(divToDisplay).then(function (canvas) {
+      console.log(canvas);
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({
+        orientation: "Potrait",
+      });
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      console.log(pdfHeight, pdfWidth);
+      pdf.addImage(imgData, "PNG", 1, 1, pdfWidth, pdfHeight);
+      pdf.save("download.pdf");
+    });
+  }
+
   // console.log("process.env", process.env);
   // console.log("test result", testResult);
-  console.log("result", searchTerm);
-  console.log("search result", searchResults);
+  // console.log("result", searchTerm);
+  //  console.log("search result", searchResults);
+  console.log("marks call", props.markscall);
 
-  //console.log("data from currentUser", currentUser);
+  console.log("data from currentUser", currentUser);
   return (
     <React.Fragment>
       <div className="wrapper">
@@ -703,18 +717,133 @@ function Results(props) {
                       </form>
                     </ModalBody>
                   </Modal>
+
+                  <Modal
+                    className="modal-info modal-lg"
+                    isOpen={modal3}
+                    toggle={toggle3}
+                  >
+                    <ModalHeader toggle={toggle3}>Result</ModalHeader>
+                    <ModalBody id="htmlToPdf2">
+                      <div className="d-flex">
+                        <h5>Name :</h5>
+                        <h5 className="ml-2">{currentUser?.user?.name}</h5>
+                      </div>
+                      <div className="d-flex">
+                        <h5>email :</h5>
+                        <h5 className="ml-2">{currentUser?.user?.email}</h5>
+                      </div>
+                      <div className="d-flex">
+                        <h5>Enrollment No :</h5>
+                        <h5 className="ml-2">{currentUser?.user?.reg_no}</h5>
+                      </div>
+                      <div>
+                        <table className="table" style={{ fontSize: "15px" }}>
+                          <thead>
+                            <tr>
+                              {/* <th>ID</th> */}
+                              <th scope="col">Assesement</th>
+                              <th scope="col">Criteria</th>
+                              <th scope="col">Date</th>
+                              <th scope="col">Marks</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {props.markscall.map((marks, index) => {
+                              if (currentUser?.user?.id == marks?.user?.id)
+                                return (
+                                  <tr key={index}>
+                                    <td>{marks?.assesement?.name}</td>
+                                    <td>{marks?.criteria?.name}</td>
+                                    <td>
+                                      {marks?.date ? marks?.date : "No Date"}
+                                    </td>
+                                    <td>{marks?.marks}</td>
+                                  </tr>
+                                );
+                            })}
+                          </tbody>
+                        </table>
+                        <h5
+                          style={{ textAlign: "center", marginBottom: "20px" }}
+                        >
+                          English Test Marks
+                        </h5>
+                        <table className="table" style={{ fontSize: "15px" }}>
+                          <thead>
+                            <tr>
+                              {/* <th>ID</th> */}
+                              <th scope="col">Level A1 </th>
+                              <th scope="col">Level A2 </th>
+                              <th scope="col">Level B1</th>
+                              <th scope="col">Level B2</th>
+                              <th scope="col">Level C1</th>
+                              <th scope="col">Level C2</th>
+                              <th scope="col">Total</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr key={testResult?.id}>
+                              <td>{testResult?.$category_one}</td>
+                              <td>{testResult?.$category_two}</td>
+                              <td>{testResult?.$category_three}</td>
+                              <td>{testResult?.$category_four}</td>
+                              <td>{testResult?.$category_five}</td>
+                              <td>{testResult?.$category_six}</td>
+                              <td>{testResult?.total}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                        <h5
+                          style={{ textAlign: "center", marginBottom: "20px" }}
+                        >
+                          Total Marks
+                        </h5>
+                        <table className="table" style={{ fontSize: "15px" }}>
+                          <thead>
+                            <tr>
+                              <th scope="col">English Mark</th>
+                              <th scope="col">Weekly Result </th>
+                              <th scope="col">Body Language </th>
+                              <th scope="col">Note on Biodata</th>
+                              <th scope="col">Mock Interviews</th>
+                              <th scope="col">Final Score</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>{testResult?.total}</td>
+                              <td>{currentUser?.weekly_result}</td>
+                              <td>{currentUser?.BL}</td>
+                              <td>{currentUser?.biodata}</td>
+                              <td>{currentUser?.mock_interview}</td>
+                              <td>{currentUser?.final_score}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </ModalBody>
+                    <div className="modal-footer">
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        data-dismiss="modal"
+                        onClick={() => toggle3()}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={resultPdf}
+                      >
+                        save as pdf
+                      </button>
+                    </div>
+                  </Modal>
                 </CardHeader>
-                {/* <CardHeader className="bg-warning text-white">
-                  <input
-                    type="text"
-                    placeholder="Search"
-                    // value={searchTerm}
-                    // onChange={handleChange}
-                  />
-                  <Button className="btn-success  float-right" onClick={toggle}>
-                    Search
-                  </Button>
-                </CardHeader> */}
+
                 <CardBody>
                   {/* {searchResults.length == 0 && "No search user available"} */}
                   <table
@@ -734,6 +863,7 @@ function Results(props) {
                         <th scope="col">Mock Interviews</th>
                         <th scope="col">Final Score</th>
                         <th scope="col">Exam Result </th>
+                        <th scope="col">Result Pdf</th>
 
                         {/* <th scope="col">Actions</th> */}
                       </tr>
@@ -756,7 +886,7 @@ function Results(props) {
                             <td>{user?.BL}</td>
                             <td>{user?.biodata}</td>
                             <td>{user?.mock_interview}</td>
-                            <td>{user?.final_result}</td>
+                            <td>{user?.final_score}</td>
                             <td>
                               <Button
                                 className="btn-success"
@@ -766,6 +896,26 @@ function Results(props) {
                                 }}
                               >
                                 View
+                              </Button>
+                            </td>
+
+                            <td>
+                              <Button
+                                className="btn-warning"
+                                onClick={() => {
+                                  toggle3();
+                                  ViewandleId(user.user_id);
+                                  props.onEditMarkingsRow(
+                                    data,
+                                    user.id,
+                                    editing,
+                                    setEditing,
+                                    currentUser,
+                                    setCurrentUser
+                                  );
+                                }}
+                              >
+                                Result
                               </Button>
                             </td>
 
@@ -832,7 +982,7 @@ function Results(props) {
                                   <td>{user?.BL}</td>
                                   <td>{user?.biodata}</td>
                                   <td>{user?.mock_interview}</td>
-                                  <td>{user?.exam_result}</td>
+                                  <td>{user?.final_score}</td>
                                   <td>
                                     <Button
                                       className="btn-success"
@@ -842,6 +992,26 @@ function Results(props) {
                                       }}
                                     >
                                       View
+                                    </Button>
+                                  </td>
+
+                                  <td>
+                                    <Button
+                                      className="btn-warning"
+                                      onClick={() => {
+                                        toggle3();
+                                        ViewandleId(user.user_id);
+                                        props.onEditMarkingsRow(
+                                          data,
+                                          user.id,
+                                          editing,
+                                          setEditing,
+                                          currentUser,
+                                          setCurrentUser
+                                        );
+                                      }}
+                                    >
+                                      Result
                                     </Button>
                                   </td>
 
@@ -912,7 +1082,7 @@ function Results(props) {
 const mapStateToProps = (state) => {
   return {
     login: state.login,
-
+    markscall: state.markscall.markscall,
     markings: state.markings.markings,
   };
 };
@@ -920,7 +1090,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onMarkingsGetData: (data) => dispatch(actions.markingsGetData(data)),
-
+    onMarkscallGetData: (data) => dispatch(actions.markscallGetData(data)),
     onDeleteMarkings: (data, id) => dispatch(actions.deleteMarkings(data, id)),
     onPostMarkingsData: (data, user) =>
       dispatch(actions.postMarkingsData(data, user)),

@@ -83,11 +83,6 @@ export const postSubcatsData = (data, user) => {
     console.log("postSubcatsData", data);
     dispatch(postSubcatsDataStart());
 
-    const myheaders = {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + data?.token,
-    };
     axios
       .post(baseUrl + "subCats", user, {
         headers: {

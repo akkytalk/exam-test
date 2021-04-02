@@ -129,7 +129,7 @@ function Sidebar() {
                 </ul>
               </li>
 
-              {/* <li className="nav-item">
+              <li className="nav-item">
                 <Link
                   to="/assesement"
                   className="nav-link d-flex justify-content-between"
@@ -147,14 +147,9 @@ function Sidebar() {
                     </Link>
                   </li>
                 </ul>
-              </li> */}
-              {/* <li className="nav-item">
-                <Link to="/marking" className="nav-link">
-                  <p>Marking</p>
-                </Link>
-              </li> */}
+              </li>
 
-              {/* <li className="nav-item">
+              <li className="nav-item">
                 <Link className="nav-link d-flex justify-content-between">
                   <p>Results</p>
                   <ArrowDropDownIcon fontSize="small" />
@@ -193,14 +188,13 @@ function Sidebar() {
                       <p>Final Score</p>
                     </Link>
                   </li>
-                  
                 </ul>
-              </li> */}
-              <li className="nav-item">
+              </li>
+              {/* <li className="nav-item">
                 <Link to="/results" className="nav-link">
                   <p>Result</p>
                 </Link>
-              </li>
+              </li> */}
 
               <li className="nav-item">
                 <Link to="/user" className="nav-link">

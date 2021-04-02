@@ -59,7 +59,8 @@ export const deleteMarkscall = (data, id) => {
         .then(() => {
           console.log("swal");
           swal("Successfully Deleted Criteria Marks!").then(() => {
-            window.location.reload();
+            //window.location.reload();
+            dispatch(markscallGetData(data));
           });
         })
         .catch((error) => dispatch(deleteMarkscallFail(error)));

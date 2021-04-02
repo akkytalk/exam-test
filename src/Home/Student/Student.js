@@ -6,7 +6,7 @@ import { removeLogin } from "../../reduxStore/actions/LoginCreators";
 import { Link, withRouter } from "react-router-dom";
 
 function Student(props) {
-  console.log("login test", props.login?.login?.test);
+  //console.log("login test", props.login?.login?.test);
 
   const handleLogout = async () => {
     await props.removeLogin();
