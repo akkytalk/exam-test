@@ -174,7 +174,9 @@ function Results(props) {
   // console.log("test result", testResult);
   // console.log("result", searchTerm);
   //  console.log("search result", searchResults);
+
   console.log("marks call", props.markscall);
+  console.log("marks by me", props.markings?.text);
 
   console.log("data from currentUser", currentUser);
   return (

@@ -27,11 +27,12 @@ function DashboardLayout(props) {
 
   console.log("login token", props.login?.login);
 
-  if (props.login?.login.length === 0) {
+  if (props.login?.login?.length === 0) {
     return <Redirect to={"/login"} />;
-  } else if (props.login?.login.user_id > 1) {
-    return <Redirect to={"/student"} />;
-  } else if (props.login?.login.user_id === 1) {
+  } else if (
+    props.login?.login?.user?.role === "Admin" ||
+    props.login?.login?.user?.role === "faculty"
+  ) {
     return (
       <Fragment>
         {renderRedirect()}
@@ -93,6 +94,8 @@ function DashboardLayout(props) {
         </div>
       </Fragment>
     );
+  } else {
+    return <Redirect to={"/student"} />;
   }
 }
 
